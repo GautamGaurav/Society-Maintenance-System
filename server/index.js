@@ -1,6 +1,12 @@
 const express = require('express')
-const app = express()
+const bodyParser = require('body-parser')
+const cors = require('cors')
 const sql = require('mssql/msnodesqlv8')
+
+const app = express()
+app.use(cors())
+app.use(express.json())
+app.use(bodyParser.urlencoded({ extended: false }))
 
 const dbConfig = {
     server: "localhost\\SQLEXPRESS",
@@ -14,34 +20,33 @@ const dbConfig = {
 };
 
 
-/* Get All Users */
-app.get('/', function (req, resp) {
-    var conn = new sql.ConnectionPool(dbConfig)
-    var db = new sql.Request(conn);
 
-    conn.connect(function(error){
-        if(error) {
-          console.log(error)
-          return;
+/* Get All Users */
+app.post('/api/login', (request, response) => {
+    const conn = new sql.ConnectionPool(dbConfig)
+    const db = new sql.Request(conn);
+    const sqlQuery = "SELECT * from Users";
+    console.log("Request Body ===>", request.body)
+
+    conn.connect((error) => {
+        if (error) {
+            console.log(error)
+            return;
         } else {
-            db.query("SELECT * from Users", function(err, res){
-                if(error) {
+            db.query(sqlQuery, (err, result) => {
+                if (error) {
                     console.log(error)
-                    resp.status(500).send(error);
+                    response.status(500).send(error);
                     return;
-                  } else {
-                      console.log(res.recordset[0])
-                      resp.send(res.recordset[0]);
-                      conn.close()
-                  }
+                } else {
+                    console.log(result.recordset[0])
+                    response.send(result.recordset[0]);
+                    conn.close()
+                }
             })
         }
     });
 });
-
-app.get('/login', (req, res) => {
-    res.send("login")
-})
 
 app.listen(3001, () => {
     console.log('running on port 3001')
