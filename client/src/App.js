@@ -6,13 +6,12 @@ import './App.css';
 import { NotificationManager } from 'react-notifications';
 
 
-
 function App() {
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
 
     const login = () => {
-        const loginAPI = axios.post('http://localhost:3001/api/login', {
+        axios.post('http://localhost:3001/api/login', {
             userName: userName,
             password: password
         }).then((response) => {
