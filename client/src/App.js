@@ -1,7 +1,10 @@
 import react, { useState, useEffect } from 'react';
+import { Link } from 'react-router';
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css"
 import './App.css';
+import { NotificationManager } from 'react-notifications';
+
 
 
 function App() {
@@ -9,62 +12,78 @@ function App() {
     const [password, setPassword] = useState("");
 
     const login = () => {
-        debugger
-        axios.post('http://localhost:3001/api/login', {
+        const loginAPI = axios.post('http://localhost:3001/api/login', {
             userName: userName,
             password: password
-        }).then((response, error) => {
-            console.log("response == >", response)
-            console.log("error == >", error)
+        }).then((response) => {
+            const userData = response.data[0];
+            console.log("user ===> ", userData)
+            NotificationManager.success("Login Successfull!");
+        }).catch(error => {
+            console.log("error ===> ", error)
+            NotificationManager.error(error.response.data.message);
         })
     }
 
-
-
     return (
-        <div>
-            <div className="sidenav">
-                <div className="login-main-text">
-                    <h2>Society Maintenance System Login Page</h2>
-                    <p>Login or register from here to access.</p>
-                </div>
-            </div>
-            <div className="main">
-                <div className="col-md-6 col-sm-12">
-                    <div className="login-form">
-                        <div className="form-group">
-                            <label>User Name</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                placeholder="User Name"
-                                onChange={(e) => {
-                                    setUserName(e.target.value)
-                                }} />
-                        </div>
-                        <div className="form-group">
-                            <label>Password</label>
-                            <input
-                                type="password"
-                                className="form-control"
-                                placeholder="Password"
-                                onChange={(e) => {
-                                    setPassword(e.target.value)
-                                }}
-                            />
-                        </div>
-                        <div className="form-group btn-group">
-                            <button
-                                className="btn btn-black"
-                                onSubmit={login}
-                            >
-                                Login
-                            </button>
-                            <button
-                                className="btn btn-secondary"
-                            >
-                                Register
-                            </button>
+        <div class="animsition">
+            <div class="page-wrapper">
+                <div class="page-content--bge5">
+                    <div class="container">
+                        <div class="login-wrap">
+                            <div class="login-content">
+                                <div class="login-logo">
+                                    <img
+                                        src={process.env.PUBLIC_URL + '/sai_sparsh_logo.jpg'}
+                                        className="mainLogo"
+                                    />
+                                </div>
+                                <div class="login-form">
+                                    <div class="form-group">
+                                        <label>Email Address</label>
+                                        <input
+                                            type="email"
+                                            name="email"
+                                            className="au-input au-input--full"
+                                            placeholder="Email"
+                                            onChange={(e) => {
+                                                setUserName(e.target.value)
+                                            }} />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Password</label>
+                                        <input
+                                            type="password"
+                                            name="password"
+                                            className="au-input au-input--full"
+                                            placeholder="Password"
+                                            onChange={(e) => {
+                                                setPassword(e.target.value)
+                                            }}
+                                        />
+                                    </div>
+                                    <div className="mt-2"></div>
+                                    <div class="login-checkbox">
+                                        <label>
+                                            <a href="#">Forgotten Password?</a>
+                                        </label>
+                                    </div>
+                                    <div className="mt-4"></div>
+                                    <button
+                                        className="au-btn au-btn--block au-btn--green m-b-20"
+                                        onClick={login}
+                                    >
+                                        Sign in
+                                    </button>
+
+                                    <div class="register-link">
+                                        <p>
+                                            Don't you have account?
+                                            <a href="#" className="ms-1">Sign Up Here</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

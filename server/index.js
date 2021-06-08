@@ -1,51 +1,71 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
-const sql = require('mssql/msnodesqlv8')
+const mysql = require("mysql")
 
 const app = express()
 app.use(cors())
 app.use(express.json())
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: true }))
 
-const dbConfig = {
-    server: "localhost\\SQLEXPRESS",
+const db = mysql.createPool({
+    host: "localhost",
     database: "sms_db",
-    port: 1433,
-    driver: 'msnodesqlv8',
-    options: {
-        encrypt: false,
-        trustedConnection: true
-    }
-};
-
+    port: 3306,
+    user: 'root',
+    password: "password"
+});
 
 
 /* Get All Users */
 app.post('/api/login', (request, response) => {
-    const conn = new sql.ConnectionPool(dbConfig)
-    const db = new sql.Request(conn);
-    const sqlQuery = "SELECT * from Users";
-    console.log("Request Body ===>", request.body)
-
-    conn.connect((error) => {
-        if (error) {
-            console.log(error)
-            return;
+    const sqlSelect = "SELECT * FROM users WHERE email = ? AND password = ?";
+    const userName = request.body.userName;
+    const password = request.body.password;
+    console.log("request ===> ", request.body)
+    db.query(sqlSelect, [userName, password], (err, result) => {
+        if(err) {
+            console.log("err ===> ", err)
+            response.status(400).send({
+                message: 'This is an error!'
+             });
+        } else if (result && result.length > 0) {
+            response.send(result);
         } else {
-            db.query(sqlQuery, (err, result) => {
-                if (error) {
-                    console.log(error)
-                    response.status(500).send(error);
-                    return;
-                } else {
-                    console.log(result.recordset[0])
-                    response.send(result.recordset[0]);
-                    conn.close()
-                }
-            })
+            response.status(404 ).send({
+                message: 'User not found!'
+             });        
         }
-    });
+    })    
+});
+
+app.get('/api/owner', (request, response) => {
+    const siteId = request.body.siteId;
+    const sqlSelect = "SELECT * FROM owners WHERE siteId = ?";
+    db.query(sqlSelect, [siteId], (err, result) => {
+        if(err) {
+            console.log("err ===> ", err)
+            return response.status(400).send({
+                message: 'This is an error!'
+             });
+        } else {
+            console.log("result ===> ", result)
+            response.send(result);
+        }
+    })    
+});
+
+app.post('/api/owners', (request, response) => {
+    const sqlSelect = "SELECT * FROM owners WHERE email = ?";
+    db.query(sqlSelect, ["gaurav.gautam17@gmail.com"], (err, result) => {
+        if(err) {
+            console.log("err ===> ", err)
+            
+        } else {
+            console.log("result ===> ", result)
+            response.send(result);
+        }
+    })    
 });
 
 app.listen(3001, () => {
