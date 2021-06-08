@@ -5,8 +5,10 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import './App.css';
 
 
-import Login  from './components/Login/Login';
-import Home  from './components/Home/Home';
+import Login from './components/Login/Login';
+import Home from './components/Home/Home';
+import Owners from './components/Owners/Owners';
+import MainContent from './components/Layout/MainContent/MainContent';
 
 
 
@@ -15,18 +17,21 @@ function App() {
 
     return (
         <Router>
-            <div className="App">
-                <div className="content">
-                    <Switch>
-                        <Route exact path="/">
-                            <Login />
-                        </Route>
+            <Switch>
+                <Route exact path="/">
+                    <Login />
+                </Route>
+                <MainContent>
                         <Route exact path="/home">
                             <Home />
                         </Route>
-                    </Switch>
-                </div>
-            </div>
+                        <Route exact path="/Owners">
+                            <Owners />
+                        </Route>
+                </MainContent>
+
+            </Switch>
+
         </Router>
     )
 }
