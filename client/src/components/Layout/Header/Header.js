@@ -1,11 +1,5 @@
 import react from 'react';
 import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faSearch,
-    faBell,
-    faChevronDown
-} from '@fortawesome/free-solid-svg-icons';
 import './Header.css';
 
 function Header() {
@@ -17,13 +11,13 @@ function Header() {
                         <form class="form-header" action="" method="POST">
                             <input class="au-input au-input--xl" type="text" name="search" placeholder="Search for datas &amp; reports..." />
                             <button class="au-btn--submit" type="submit">
-                                <FontAwesomeIcon icon={faSearch} className="icon white-font" />
+                            <i className="fa fa-search fa-lg"></i>
                             </button>
                         </form>
                         <div class="header-button">
                             <div class="noti-wrap">
                                 <div class="noti__item js-item-menu">
-                                    <FontAwesomeIcon icon={faBell} className="fa-icon black-font" />
+                                <i className="fa fa-bell-o fa-lg"></i>
                                     <span class="quantity">1</span>
                                     <div class="mess-dropdown js-dropdown">
                                         <div class="mess__title">

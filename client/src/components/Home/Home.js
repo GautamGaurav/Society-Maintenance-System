@@ -1,5 +1,5 @@
 import react, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import axios from "axios";
 import './Home.css';
 import { NotificationManager } from 'react-notifications';
@@ -13,55 +13,141 @@ function Home() {
     }, []);
 
     return (
-        <div className="card">
-            <div className="card-header">Credit Card</div>
-            <div className="card-body">
-                <div className="card-title">
-                    <h3 className="text-center title-2">Pay Invoice</h3>
-                </div>
-                <hr />
-                <div className="form-group">
-                    <label for="cc-payment" className="control-label mb-1">Payment amount</label>
-                    <input id="cc-pament" name="cc-payment" type="text" className="form-control" aria-required="true" aria-invalid="false" value="100.00" />
-                </div>
-                <div className="form-group has-success">
-                    <label for="cc-name" className="control-label mb-1">Name on card</label>
-                    <input id="cc-name" name="cc-name" type="text" className="form-control cc-name valid" data-val="true" data-val-required="Please enter the name on card"
-                        aria-required="true" aria-invalid="false" aria-describedby="cc-name-error" />
-                    <span className="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
-                </div>
-                <div className="form-group">
-                    <label for="cc-number" className="control-label mb-1">Card number</label>
-                    <input id="cc-number" name="cc-number" type="tel" className="form-control cc-number identified visa" value="" data-val="true"
-                        data-val-required="Please enter the card number" data-val-cc-number="Please enter a valid card number"
-                         />
-                    <span className="help-block" data-valmsg-for="cc-number" data-valmsg-replace="true"></span>
-                </div>
-                <div className="row">
-                    <div className="col-6">
-                        <div className="form-group">
-                            <label for="cc-exp" className="control-label mb-1">Expiration</label>
-                            <input id="cc-exp" name="cc-exp" type="tel" className="form-control cc-exp" value="" data-val="true" data-val-required="Please enter the card expiration"
-                                data-val-cc-exp="Please enter a valid month and year" placeholder="MM / YY"
-                                 />
-                            <span className="help-block" data-valmsg-for="cc-exp" data-valmsg-replace="true"></span>
-                        </div>
-                    </div>
-                    <div className="col-6">
-                        <label for="x_card_code" className="control-label mb-1">Security code</label>
-                        <div className="input-group">
-                            <input id="x_card_code" name="x_card_code" type="tel" className="form-control cc-cvc" value="" data-val="true" data-val-required="Please enter the security code"
-                                data-val-cc-cvc="Please enter a valid security code" />
-
+        <div>
+            <div class="row m-t-25">
+                <div class="col-sm-6 col-lg-3">
+                    <div class="overview-item overview-item--c1">
+                        <div class="overview__inner">
+                            <div class="overview-box clearfix">
+                                <div class="icon">
+                                    <i class="zmdi zmdi-account-o"></i>
+                                </div>
+                                <div class="text">
+                                    <h2>Rs 47300</h2>
+                                    <span>Total Collection</span>
+                                    <div className="mt-4"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div className="mt-3"></div>
-                <div>
-                    <button id="payment-button" type="submit" className="btn btn-lg btn-info btn-block">
-                        <i className="fa fa-lock fa-lg"></i>&nbsp;
-                        <span id="payment-button-amount">Save</span>
-                    </button>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="overview-item overview-item--c2">
+                        <div class="overview__inner">
+                            <div class="overview-box clearfix">
+                                <div class="icon">
+                                    <i class="zmdi zmdi-shopping-cart"></i>
+                                </div>
+                                <div class="text">
+                                    <h2>7000</h2>
+                                    <span>Total Amount Spent</span>
+                                    <div className="mt-4"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="overview-item overview-item--c3">
+                        <div class="overview__inner">
+                            <div class="overview-box clearfix">
+                                <div class="icon">
+                                    <i class="zmdi zmdi-calendar-note"></i>
+                                </div>
+                                <div class="text">
+                                    <h2>1,086</h2>
+                                    <span>This week Collection</span>
+                                    <div className="mt-4"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="overview-item overview-item--c4">
+                        <div class="overview__inner">
+                            <div class="overview-box clearfix">
+                                <div class="icon">
+                                    <i class="zmdi zmdi-money"></i>
+                                </div>
+                                <div class="text">
+                                    <h2>3,20,000</h2>
+                                    <span>Expected Collection</span>
+                                    <div className="mt-4"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="au-card au-card--no-shadow au-card--no-pad m-b-40">
+                    <div class="au-card-title">
+                        <div class="bg-overlay bg-overlay--blue"></div>
+                        <h3>
+                            <i class="zmdi zmdi-account-calendar"></i>Current Month Details</h3>
+                        <button class="au-btn-plus">
+                            <i class="zmdi zmdi-plus"></i>
+                        </button>
+                    </div>
+                    <div class="au-task js-list-load">
+                        <div class="au-task__title">
+                            <p>26 April, 2018</p>
+                        </div>
+                        <div class="au-task-list js-scrollbar3">
+                            <div class="au-task__item au-task__item--danger">
+                                <div class="au-task__item-inner">
+                                    <h5 class="task">
+                                        <a href="#">Meeting about plan for Admin Template 2018</a>
+                                    </h5>
+                                    <span class="time">10:00 AM</span>
+                                </div>
+                            </div>
+                            <div class="au-task__item au-task__item--warning">
+                                <div class="au-task__item-inner">
+                                    <h5 class="task">
+                                        <a href="#">Create new task for Dashboard</a>
+                                    </h5>
+                                    <span class="time">11:00 AM</span>
+                                </div>
+                            </div>
+                            <div class="au-task__item au-task__item--primary">
+                                <div class="au-task__item-inner">
+                                    <h5 class="task">
+                                        <a href="#">Meeting about plan for Admin Template 2018</a>
+                                    </h5>
+                                    <span class="time">02:00 PM</span>
+                                </div>
+                            </div>
+                            <div class="au-task__item au-task__item--success">
+                                <div class="au-task__item-inner">
+                                    <h5 class="task">
+                                        <a href="#">Create new task for Dashboard</a>
+                                    </h5>
+                                    <span class="time">03:30 PM</span>
+                                </div>
+                            </div>
+                            <div class="au-task__item au-task__item--danger js-load-item">
+                                <div class="au-task__item-inner">
+                                    <h5 class="task">
+                                        <a href="#">Meeting about plan for Admin Template 2018</a>
+                                    </h5>
+                                    <span class="time">10:00 AM</span>
+                                </div>
+                            </div>
+                            <div class="au-task__item au-task__item--warning js-load-item">
+                                <div class="au-task__item-inner">
+                                    <h5 class="task">
+                                        <a href="#">Create new task for Dashboard</a>
+                                    </h5>
+                                    <span class="time">11:00 AM</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="au-task__footer">
+                            <button class="au-btn au-btn-load js-load-btn">load more</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

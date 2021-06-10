@@ -1,14 +1,5 @@
 import react from 'react';
 import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faBuilding,
-    faUserLock,
-    faHome,
-    faChalkboardTeacher,
-    faTools,
-    faDesktop
-} from '@fortawesome/free-solid-svg-icons';
 import './Sidebar.css';
 
 
@@ -31,54 +22,53 @@ function Sidebar() {
                                 className="link"
                                 to={`/home`}
                             >
-                                <FontAwesomeIcon icon={faDesktop} className="icon" />
-                                <span className="ms-3">Home</span>
+                                <i className="fa fa-home fa-md"></i>
+                                <span className="ms-1">Home</span>
                             </Link>
                         </li>
-                        <li>
+                        {/* <li>
                             <Link
                                 className="link"
                                 to={`/Builders`}
                             >
-                                <FontAwesomeIcon icon={faChalkboardTeacher} className="icon" />
+                                 <i className="fa fa-lock fa-md"></i>
                                 <span className="ms-3">Builders</span>
                             </Link>
-                        </li>
-                        <li class="has-sub">
+                        </li> */}
+                        <li>
                             <Link
                                 className="link"
                                 to={`/sites`}
                             >
-                                <FontAwesomeIcon icon={faBuilding} className="icon" />
-                                <span className="ms-3">Sites</span>
+                                <i className="fa fa-building fa-md"></i>
+                                <span className="ms-1">Sites</span>
                             </Link>
                         </li>
-                        <li class="has-sub">
+                        {/* <li class="has-sub">
                             <Link
                                 className="link"
                                 to={`/siteunits`}
                             >
-                                <FontAwesomeIcon icon={faHome} className="icon" />
+                                 <i className="fa fa-lock fa-md"></i>
                                 <span className="ms-3">Site Units</span>
                             </Link>
-                        </li>
+                        </li> */}
                         <li>
                             <Link
                                 className="link"
                                 to={`/owners`}
                             >
-                                <FontAwesomeIcon icon={faUserLock} className="icon" />
-                                <span className="ms-3">Owners</span>
+                                 <i className="fa fa-users fa-md"></i>
+                                <span className="ms-1">Owners</span>
                             </Link>
                         </li>
-
                         <li>
                             <Link
                                 className="link"
                                 to={`/maintenance`}
                             >
-                                <FontAwesomeIcon icon={faTools} className="icon" />
-                                <span className="ms-3">Maintenance</span>
+                                 <i className="fa fa-wrench fa-md"></i>
+                                <span className="ms-1">Maintenance</span>
                             </Link>
                         </li>
                     </ul>

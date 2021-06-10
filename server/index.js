@@ -24,19 +24,19 @@ app.post('/api/login', (request, response) => {
     const password = request.body.password;
     console.log("request ===> ", request.body)
     db.query(sqlSelect, [userName, password], (err, result) => {
-        if(err) {
+        if (err) {
             console.log("err ===> ", err)
             response.status(400).send({
                 message: 'This is an error!'
-             });
+            });
         } else if (result && result.length > 0) {
             response.send(result);
         } else {
-            response.status(404 ).send({
+            response.status(404).send({
                 message: 'User not found!'
-             });        
+            });
         }
-    })    
+    })
 });
 
 /* ------- Owner --------- */
@@ -44,29 +44,29 @@ app.get('/api/owner', (request, response) => {
     const siteId = request.body.siteId;
     const sqlSelect = "SELECT * FROM owners WHERE siteId = ?";
     db.query(sqlSelect, [siteId], (err, result) => {
-        if(err) {
+        if (err) {
             console.log("err ===> ", err)
             return response.status(400).send({
                 message: 'This is an error!'
-             });
+            });
         } else {
             console.log("result ===> ", result)
             response.send(result);
         }
-    })    
+    })
 });
 
 app.post('/api/owners', (request, response) => {
     const sqlSelect = "SELECT * FROM owners WHERE email = ?";
     db.query(sqlSelect, ["gaurav.gautam17@gmail.com"], (err, result) => {
-        if(err) {
+        if (err) {
             console.log("err ===> ", err)
-            
+
         } else {
             console.log("result ===> ", result)
             response.send(result);
         }
-    })    
+    })
 });
 
 
@@ -74,13 +74,55 @@ app.post('/api/owners', (request, response) => {
 app.get('/api/builders', (request, response) => {
     const sqlSelect = "SELECT * FROM builders";
     db.query(sqlSelect, (err, result) => {
-        if(err) {
-            console.log("err ===> ", err)            
+        if (err) {
+            console.log("err ===> ", err)
         } else {
             console.log("result ===> ", result)
             response.send(result);
         }
-    })    
+    })
+});
+
+
+/* ------- Sites --------- */
+app.get('/api/sites', (request, response) => {
+    const sqlSelect = "SELECT * FROM sites";
+    db.query(sqlSelect, (err, result) => {
+        if (err) {
+            console.log("err ===> ", err)
+        } else {
+            console.log("result ===> ", result)
+            response.send(result);
+        }
+    })
+    
+    db.on('end', () => {
+        console.log("Data received!")
+   });
+});
+
+app.post('/api/site', (request, response) => {
+    const siteName = request.body.siteName;
+    const address = request.body.address;
+    const societyPresidentName = request.body.societyPresidentName;
+    const builderName = request.body.builderName;
+    const city = request.body.city;
+    const state = request.body.state;
+    const pincode = request.body.pincode;
+    const sqlInsert = "INSERT INTO sites (name, address, society_president_name, builder_name, city, state, pincode) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    db.query(sqlInsert, [siteName, address, societyPresidentName, builderName, city, state, pincode], (err, result) => {
+        if (err) {
+            console.log("err ===> ", err)
+            response.status(404).send({
+                message: 'Error Processing Data!'
+            });
+        } else {
+            response.status(200).send({
+                message: siteName + ' inserted successfully!'
+            });
+            response.send(result);
+        }
+    })
 });
 
 app.listen(3001, () => {
