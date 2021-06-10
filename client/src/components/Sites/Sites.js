@@ -1,14 +1,14 @@
 import react, { useState, useEffect } from 'react';
 import { Link, browerHistory } from 'react-router';
 import axios from "axios";
-import './Owners.css';
+import './Sites.css';
 import { NotificationManager } from 'react-notifications';
 
 
-function Owners() { 
+function Sites() { 
     return ( 
-        <h1>Owners</h1>
+        <h1>Sites</h1>
     )
 }
 
-export default Owners;
+export default Sites;

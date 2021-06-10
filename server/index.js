@@ -17,7 +17,7 @@ const db = mysql.createPool({
 });
 
 
-/* Get All Users */
+/* ------- Users --------- */
 app.post('/api/login', (request, response) => {
     const sqlSelect = "SELECT * FROM users WHERE email = ? AND password = ?";
     const userName = request.body.userName;
@@ -39,6 +39,7 @@ app.post('/api/login', (request, response) => {
     })    
 });
 
+/* ------- Owner --------- */
 app.get('/api/owner', (request, response) => {
     const siteId = request.body.siteId;
     const sqlSelect = "SELECT * FROM owners WHERE siteId = ?";
@@ -61,6 +62,20 @@ app.post('/api/owners', (request, response) => {
         if(err) {
             console.log("err ===> ", err)
             
+        } else {
+            console.log("result ===> ", result)
+            response.send(result);
+        }
+    })    
+});
+
+
+/* ------- Builders --------- */
+app.get('/api/builders', (request, response) => {
+    const sqlSelect = "SELECT * FROM builders";
+    db.query(sqlSelect, (err, result) => {
+        if(err) {
+            console.log("err ===> ", err)            
         } else {
             console.log("result ===> ", result)
             response.send(result);

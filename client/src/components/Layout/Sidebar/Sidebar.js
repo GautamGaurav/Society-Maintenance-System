@@ -1,13 +1,13 @@
 import react from 'react';
-import { Link, browerHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-    faCoffee,
     faBuilding,
     faUserLock,
     faHome,
     faChalkboardTeacher,
-    faTools
+    faTools,
+    faDesktop
 } from '@fortawesome/free-solid-svg-icons';
 import './Sidebar.css';
 
@@ -27,34 +27,58 @@ function Sidebar() {
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li>
-                            <Link className="link" >
-                                <FontAwesomeIcon icon={faChalkboardTeacher} className="icon" />
-                                <span className="ms-1">Builders</span>
-                            </Link>
-                        </li>
-                        <li class="has-sub">
-                            <Link>
-                                <FontAwesomeIcon icon={faBuilding} className="icon" />
-                                <span className="ms-1">Sites</span>
-                            </Link>
-                        </li>
-                        <li class="has-sub">
-                            <Link>
-                                <FontAwesomeIcon icon={faHome} className="icon" />
-                                <span className="ms-1">Site Units</span>
+                            <Link
+                                className="link"
+                                to={`/home`}
+                            >
+                                <FontAwesomeIcon icon={faDesktop} className="icon" />
+                                <span className="ms-3">Home</span>
                             </Link>
                         </li>
                         <li>
-                            <Link>
+                            <Link
+                                className="link"
+                                to={`/Builders`}
+                            >
+                                <FontAwesomeIcon icon={faChalkboardTeacher} className="icon" />
+                                <span className="ms-3">Builders</span>
+                            </Link>
+                        </li>
+                        <li class="has-sub">
+                            <Link
+                                className="link"
+                                to={`/sites`}
+                            >
+                                <FontAwesomeIcon icon={faBuilding} className="icon" />
+                                <span className="ms-3">Sites</span>
+                            </Link>
+                        </li>
+                        <li class="has-sub">
+                            <Link
+                                className="link"
+                                to={`/siteunits`}
+                            >
+                                <FontAwesomeIcon icon={faHome} className="icon" />
+                                <span className="ms-3">Site Units</span>
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                className="link"
+                                to={`/owners`}
+                            >
                                 <FontAwesomeIcon icon={faUserLock} className="icon" />
-                                <span className="ms-1">Owners</span>
+                                <span className="ms-3">Owners</span>
                             </Link>
                         </li>
 
                         <li>
-                            <Link>
+                            <Link
+                                className="link"
+                                to={`/maintenance`}
+                            >
                                 <FontAwesomeIcon icon={faTools} className="icon" />
-                                <span className="ms-1">Maintenance</span>
+                                <span className="ms-3">Maintenance</span>
                             </Link>
                         </li>
                     </ul>

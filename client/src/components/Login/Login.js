@@ -1,5 +1,5 @@
 import react, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Link, Switch, Route} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import axios from "axios";
 import './Login.css';
 import { NotificationManager } from 'react-notifications';
@@ -8,6 +8,7 @@ import { NotificationManager } from 'react-notifications';
 function Login() {
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
+    const history = useHistory(); 
 
     const login = () => {
         axios.post('http://localhost:3001/api/login', {
@@ -15,13 +16,24 @@ function Login() {
             password: password
         }).then((response) => {
             const userData = response.data[0];
-            console.log("user ===> ", userData)
             NotificationManager.success("Login Successfull!");
+            history.push({
+                pathname: '/home',
+                // search: '?update=true',  // query string
+                state: {  // location state
+                  user: userData, 
+                },
+              }); 
         }).catch(error => {
             console.log("error ===> ", error)
             NotificationManager.error(error.response.data.message);
         })
     }
+
+    // useEffect(() => {
+    //     console.log(this);
+    //     debugger
+    // }, []);
 
     return (
         <div class="animsition">

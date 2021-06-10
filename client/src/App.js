@@ -8,13 +8,16 @@ import './App.css';
 import Login from './components/Login/Login';
 import Home from './components/Home/Home';
 import Owners from './components/Owners/Owners';
+import Builders from './components/Builders/Builders';
+import MaintenanceDetails from './components/MaintenanceDetails/MaintenanceDetails';
 import MainContent from './components/Layout/MainContent/MainContent';
+import Sites from './components/Sites/Sites';
+import SiteUnits from './components/SiteUnits/SiteUnits';
 
 
 
 
 function App() {
-
     return (
         <Router>
             <Switch>
@@ -25,13 +28,23 @@ function App() {
                         <Route exact path="/home">
                             <Home />
                         </Route>
-                        <Route exact path="/Owners">
+                        <Route exact path="/owners">
                             <Owners />
                         </Route>
+                        <Route exact path="/builders">
+                            <Builders />
+                        </Route>
+                        <Route exact path="/maintenance">
+                            <MaintenanceDetails />
+                        </Route>
+                        <Route exact path="/sites">
+                            <Sites />
+                        </Route>
+                        <Route exact path="/siteunits">
+                            <SiteUnits />
+                        </Route>
                 </MainContent>
-
             </Switch>
-
         </Router>
     )
 }

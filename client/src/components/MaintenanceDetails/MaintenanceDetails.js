@@ -1,14 +1,14 @@
 import react, { useState, useEffect } from 'react';
 import { Link, browerHistory } from 'react-router';
 import axios from "axios";
-import './Home.css';
+import './MaintenanceDetails.css';
 import { NotificationManager } from 'react-notifications';
 
 
-function Home() { 
+function MaintenanceDetails() { 
     return ( 
-        <h1>Home</h1>
+        <h1>Maintenance Details</h1>
     )
 }
 
-export default Home;
+export default MaintenanceDetails;

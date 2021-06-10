@@ -7,7 +7,7 @@ import { NotificationManager } from 'react-notifications';
 
 function SiteUnits() { 
     return ( 
-        <h1>SiteUnits</h1>
+        <h1>Site Units</h1>
     )
 }
 
