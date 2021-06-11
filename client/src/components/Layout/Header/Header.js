@@ -17,7 +17,7 @@ function Header() {
                         <div class="header-button">
                             <div class="noti-wrap">
                                 <div class="noti__item js-item-menu">
-                                <i className="fa fa-bell-o fa-lg"></i>
+                                    <i class="fa fa-bell fa-lg black-font" aria-hidden="true"></i>
                                     <span class="quantity">1</span>
                                     <div class="mess-dropdown js-dropdown">
                                         <div class="mess__title">

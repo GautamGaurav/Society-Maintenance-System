@@ -50,6 +50,7 @@ function Sites() {
     }
 
     const AddNewSite = () => setAddingNewSite(true);
+    const Cancel = () => setAddingNewSite(false);
 
     return (
         <div>
@@ -217,6 +218,7 @@ function Sites() {
                         </button>
                         <button
                             type="submit"
+                            onClick={Cancel}
                             className="btn btn-md btn-danger ml-15">
                             <i className="fa fa-lock fa-lg"></i>&nbsp;
                             <span id="payment-button-amount">Cancel</span>

@@ -20,10 +20,9 @@ function Home() {
                         <div class="overview__inner">
                             <div class="overview-box clearfix">
                                 <div class="icon">
-                                    <i class="zmdi zmdi-account-o"></i>
                                 </div>
                                 <div class="text">
-                                    <h2>Rs 47300</h2>
+                                    <h2><i class="fa fa-inr" aria-hidden="true"></i> 47300</h2>
                                     <span>Total Collection</span>
                                     <div className="mt-4"></div>
                                 </div>
@@ -36,10 +35,9 @@ function Home() {
                         <div class="overview__inner">
                             <div class="overview-box clearfix">
                                 <div class="icon">
-                                    <i class="zmdi zmdi-shopping-cart"></i>
                                 </div>
                                 <div class="text">
-                                    <h2>7000</h2>
+                                    <h2><i class="fa fa-inr" aria-hidden="true"></i> 7000</h2>
                                     <span>Total Amount Spent</span>
                                     <div className="mt-4"></div>
                                 </div>
@@ -52,10 +50,9 @@ function Home() {
                         <div class="overview__inner">
                             <div class="overview-box clearfix">
                                 <div class="icon">
-                                    <i class="zmdi zmdi-calendar-note"></i>
                                 </div>
                                 <div class="text">
-                                    <h2>1,086</h2>
+                                    <h2><i class="fa fa-inr" aria-hidden="true"></i> 1,086</h2>
                                     <span>This week Collection</span>
                                     <div className="mt-4"></div>
                                 </div>
@@ -68,10 +65,9 @@ function Home() {
                         <div class="overview__inner">
                             <div class="overview-box clearfix">
                                 <div class="icon">
-                                    <i class="zmdi zmdi-money"></i>
                                 </div>
                                 <div class="text">
-                                    <h2>3,20,000</h2>
+                                    <h2><i class="fa fa-inr" aria-hidden="true"></i> 3,20,000</h2>
                                     <span>Expected Collection</span>
                                     <div className="mt-4"></div>
                                 </div>
@@ -85,9 +81,9 @@ function Home() {
                     <div class="au-card-title">
                         <div class="bg-overlay bg-overlay--blue"></div>
                         <h3>
-                            <i class="zmdi zmdi-account-calendar"></i>Current Month Details</h3>
+                            <i className="fa fa-calendar fa-md"></i>Current Month Summary</h3>
                         <button class="au-btn-plus">
-                            <i class="zmdi zmdi-plus"></i>
+                            <i className="fa fa-plus fa-md"></i>
                         </button>
                     </div>
                     <div class="au-task js-list-load">

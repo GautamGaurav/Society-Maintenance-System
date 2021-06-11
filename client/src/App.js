@@ -31,6 +31,12 @@ function App() {
                         <Route exact path="/owners">
                             <Owners />
                         </Route>
+                        <Route exact path="/owner/details/:id">
+                            <Owners />
+                        </Route>
+                        <Route exact path="/owner/new">
+                            <Owners />
+                        </Route>
                         <Route exact path="/builders">
                             <Builders />
                         </Route>

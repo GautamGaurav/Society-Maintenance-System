@@ -10,6 +10,14 @@
     color: black !important;
 }
 
+.green-font {
+    color: green !important;
+}
+
+.blue-font {
+    color: blue !important;
+}
+
 .ml-15 {
     margin-left: 15px !important;
 }
