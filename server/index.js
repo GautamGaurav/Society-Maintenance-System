@@ -72,7 +72,7 @@ app.post(apiPath.getOwnerByEmail, (request, response) => {
 
 
 /* ------- Builders --------- */
-app.get(apiPath.getBuilder, (request, response) => {
+app.get(apiPath.getBuilders, (request, response) => {
     const sqlSelect = "SELECT * FROM builders";
     db.query(sqlSelect, (err, result) => {
         if (err) {
