@@ -13,6 +13,7 @@ import MaintenanceDetails from './components/MaintenanceDetails/MaintenanceDetai
 import MainContent from './components/Layout/MainContent/MainContent';
 import Sites from './components/Sites/Sites';
 import SiteUnits from './components/SiteUnits/SiteUnits';
+import Society from './components/Society/Society';
 
 
 
@@ -24,9 +25,15 @@ function App() {
                 <Route exact path="/">
                     <Login />
                 </Route>
+                <Route exact path="/login">
+                    <Login />
+                </Route>
                 <MainContent>
                         <Route exact path="/home">
                             <Home />
+                        </Route>
+                        <Route exact path="/society">
+                            <Society />
                         </Route>
                         <Route exact path="/owners">
                             <Owners />

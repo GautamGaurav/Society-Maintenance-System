@@ -1,7 +1,8 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const cors = require('cors')
-const mysql = require("mysql")
+import express from 'express'
+import bodyParser from 'body-parser'
+import cors from 'cors'
+import mysql from 'mysql'
+import apiPath from './config.js'
 
 const app = express()
 app.use(cors())
@@ -18,7 +19,7 @@ const db = mysql.createPool({
 
 
 /* ------- Users --------- */
-app.post('/api/login', (request, response) => {
+app.post(apiPath.login, (request, response) => {
     const sqlSelect = "SELECT * FROM users WHERE email = ? AND password = ?";
     const userName = request.body.userName;
     const password = request.body.password;
@@ -40,9 +41,9 @@ app.post('/api/login', (request, response) => {
 });
 
 /* ------- Owner --------- */
-app.get('/api/owner', (request, response) => {
+app.get(apiPath.getOwners, (request, response) => {
     const siteId = request.body.siteId;
-    const sqlSelect = "SELECT * FROM owners WHERE siteId = ?";
+    const sqlSelect = "SELECT * FROM owners";
     db.query(sqlSelect, [siteId], (err, result) => {
         if (err) {
             console.log("err ===> ", err)
@@ -56,7 +57,7 @@ app.get('/api/owner', (request, response) => {
     })
 });
 
-app.post('/api/owners', (request, response) => {
+app.post(apiPath.getOwnerByEmail, (request, response) => {
     const sqlSelect = "SELECT * FROM owners WHERE email = ?";
     db.query(sqlSelect, ["gaurav.gautam17@gmail.com"], (err, result) => {
         if (err) {
@@ -71,7 +72,7 @@ app.post('/api/owners', (request, response) => {
 
 
 /* ------- Builders --------- */
-app.get('/api/builders', (request, response) => {
+app.get(apiPath.getBuilder, (request, response) => {
     const sqlSelect = "SELECT * FROM builders";
     db.query(sqlSelect, (err, result) => {
         if (err) {
@@ -85,7 +86,7 @@ app.get('/api/builders', (request, response) => {
 
 
 /* ------- Sites --------- */
-app.get('/api/sites', (request, response) => {
+app.get(apiPath.getSites, (request, response) => {
     const sqlSelect = "SELECT * FROM sites";
     db.query(sqlSelect, (err, result) => {
         if (err) {
@@ -101,7 +102,7 @@ app.get('/api/sites', (request, response) => {
    });
 });
 
-app.post('/api/site', (request, response) => {
+app.post(apiPath.addSite, (request, response) => {
     const siteName = request.body.siteName;
     const address = request.body.address;
     const societyPresidentName = request.body.societyPresidentName;
@@ -120,6 +121,21 @@ app.post('/api/site', (request, response) => {
             response.status(200).send({
                 message: siteName + ' inserted successfully!'
             });
+            response.send(result);
+        }
+    })
+});
+
+
+/* ------- Owner --------- */
+
+app.get(apiPath.getSociety, (request, response) => {
+    const sqlSelect = "SELECT * FROM society";
+    db.query(sqlSelect, (err, result) => {
+        if (err) {
+            console.log("err ===> ", err)
+        } else {
+            console.log("result ===> ", result)
             response.send(result);
         }
     })
