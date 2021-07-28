@@ -43,14 +43,35 @@ function App() {
                             <Builders />
                         </Route>
 
+                        <Route exact path="/sites">
+                            <Sites />
+                        </Route>
+                        <Route exact path="/site/details/:id">
+                            <Sites />
+                        </Route>
+                        <Route exact path="/site/new">
+                            <Sites />
+                        </Route>
+
+                        <Route exact path="/siteunits">
+                            <SiteUnits />
+                        </Route>
+                        <Route exact path="/siteunit/details/:id">
+                            <SiteUnits />
+                        </Route>
+                        <Route exact path="/siteunit/new">
+                            <SiteUnits />
+                        </Route>
+
+
                         <Route exact path="/society">
                             <Society />
                         </Route>
                         <Route exact path="/society/details/:id">
-                            <Builders />
+                            <Society />
                         </Route>
                         <Route exact path="/society/new">
-                            <Builders />
+                            <Society />
                         </Route>
                         
                         <Route exact path="/owners">
@@ -65,12 +86,6 @@ function App() {
                         
                         <Route exact path="/maintenance">
                             <MaintenanceDetails />
-                        </Route>
-                        <Route exact path="/sites">
-                            <Sites />
-                        </Route>
-                        <Route exact path="/siteunits">
-                            <SiteUnits />
                         </Route>
                 </MainContent>
             </Switch>

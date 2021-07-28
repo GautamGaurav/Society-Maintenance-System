@@ -1,11 +1,14 @@
 import react, { useState, useEffect } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import { NotificationManager } from "react-notifications";
 import axios from "axios";
 import "./Sites.css";
 import PageContainer from "../Utils/PageContainer/PageContainer";
 
 function Sites() {
-  const [isAddingNewSite, setAddingNewSite] = useState(false);
+  const history = useHistory();
+  const location = useLocation();
+  const [isNew, setIsNew] = useState(false);
   const [siteName, setSiteName] = useState("");
   const [societyPresidentName, setSocietyPresidentName] = useState("");
   const [builderName, setBuilderName] = useState("");
@@ -16,10 +19,11 @@ function Sites() {
   const [siteList, setSiteList] = useState([]);
 
   useEffect(() => {
-    GetAllSites();
+    getAllSites();
+    setIsNew(location.pathname.includes("new"));
   }, []);
 
-  const GetAllSites = () => {
+  const getAllSites = () => {
     axios
       .get("http://localhost:3001/api/sites")
       .then((response) => {
@@ -30,7 +34,8 @@ function Sites() {
         //NotificationManager.error(error.response.data.message);
       });
   };
-  const AddSite = () => {
+
+  const addSite = () => {
     axios
       .post("http://localhost:3001/api/site", {
         siteName: siteName,
@@ -47,30 +52,26 @@ function Sites() {
       })
       .catch((error) => {
         console.log("error ===> ", error);
-        //NotificationManager.error(error.response.data.message);
+        NotificationManager.error(error.response.data.message);
       });
   };
 
-  const AddNewSite = () => setAddingNewSite(true);
-  const Cancel = () => setAddingNewSite(false);
+  const Cancel = () => history.push({ pathname: "/sites" });
 
   return (
     <div>
-      <div>
-        {siteList && siteList.length && siteList.length > 0 ? (
-          <PageContainer
-            heading={"Society List"}
-            dataList={siteList}
-            nevigateTo="/site/new"
-            nevigateButtonText="Add New site"
-          ></PageContainer>
+      {!isNew ? (
+        siteList && siteList.length && siteList.length > 0 ? (
+            <PageContainer
+              heading={"Society List"}
+              dataList={siteList}
+              nevigateTo="/site/new"
+              nevigateButtonText="Add New site"
+            ></PageContainer>
+          ) : (
+            "No Data Found"
+          ) 
         ) : (
-          "No Data Found"
-        )}
-      </div>
-
-      {/* ----------Add New Site----------------- */}
-      {isAddingNewSite ? (
         <div className="card">
           <div className="card-header">Add New Site</div>
           <div className="card-body">
@@ -192,7 +193,7 @@ function Sites() {
               <button
                 type="submit"
                 className="btn btn-md btn-info"
-                onClick={AddSite}
+                onClick={addSite}
               >
                 <i className="fa fa-lock fa-lg"></i>&nbsp;
                 <span id="payment-button-amount">Save</span>
@@ -208,7 +209,7 @@ function Sites() {
             </div>
           </div>
         </div>
-      ) : null}
+      )}
     </div>
   );
 }

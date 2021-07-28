@@ -1,14 +1,10 @@
-import react, { useState, useEffect, useCallback, useRef } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import react, { useState, useEffect } from "react";
 import axios from "axios";
-//import { NotificationManager } from 'react-notifications';
-import ListView from "../Utils/ListView/ListView";
+import { NotificationManager } from 'react-notifications';
 import "./Builders.css";
 import PageContainer from "../Utils/PageContainer/PageContainer";
 
 function Builders() {
-  const location = useLocation();
-  const history = useHistory();
   const [builderList, setBuilderList] = useState([]);
 
   useEffect(() => {
@@ -23,13 +19,9 @@ function Builders() {
       })
       .catch((error) => {
         console.log("error ===> ", error);
-        //NotificationManager.error(error.response.data.message);
+        NotificationManager.error(error.response.data.message);
       });
   };
-
-  const Nevigate = (to) => {
-      history.push({ pathname: to });
-    };
 
   return (
     <div>
