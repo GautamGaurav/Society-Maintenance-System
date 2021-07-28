@@ -9,6 +9,7 @@ function Sites() {
   const history = useHistory();
   const location = useLocation();
   const [isNew, setIsNew] = useState(false);
+  const [isUpdate, setIsUpdate] = useState(false);
   const [siteName, setSiteName] = useState("");
   const [societyPresidentName, setSocietyPresidentName] = useState("");
   const [builderName, setBuilderName] = useState("");
@@ -21,6 +22,7 @@ function Sites() {
   useEffect(() => {
     getAllSites();
     setIsNew(location.pathname.includes("new"));
+    setIsUpdate(location.pathname.includes("details"));
   }, []);
 
   const getAllSites = () => {
@@ -31,7 +33,7 @@ function Sites() {
       })
       .catch((error) => {
         console.log("error ===> ", error);
-        //NotificationManager.error(error.response.data.message);
+        NotificationManager.error(error.response.data.message);
       });
   };
 
@@ -56,22 +58,33 @@ function Sites() {
       });
   };
 
-  const Cancel = () => history.push({ pathname: "/sites" });
+
+  const updateSite = () => {
+    axios
+      .post("http://localhost:3001/api/site", {
+        siteName: siteName,
+        societyPresidentName: societyPresidentName,
+        builderName: builderName,
+        address: address,
+        city: city,
+        state: state,
+        pincode: pincode,
+      })
+      .then((response) => {
+        console.log("response =======>", response.data);
+        NotificationManager.success(response.data.message);
+      })
+      .catch((error) => {
+        console.log("error ===> ", error);
+        NotificationManager.error(error.response.data.message);
+      });
+  };
+
+  const cancel = () => history.push({ pathname: "/sites" });
 
   return (
     <div>
-      {!isNew ? (
-        siteList && siteList.length && siteList.length > 0 ? (
-            <PageContainer
-              heading={"Society List"}
-              dataList={siteList}
-              nevigateTo="/site/new"
-              nevigateButtonText="Add New site"
-            ></PageContainer>
-          ) : (
-            "No Data Found"
-          ) 
-        ) : (
+      {isNew || isUpdate ? (
         <div className="card">
           <div className="card-header">Add New Site</div>
           <div className="card-body">
@@ -196,11 +209,11 @@ function Sites() {
                 onClick={addSite}
               >
                 <i className="fa fa-lock fa-lg"></i>&nbsp;
-                <span id="payment-button-amount">Save</span>
+                <span id="payment-button-amount">{ isUpdate ? "Update" : "Save"}</span>
               </button>
               <button
                 type="submit"
-                onClick={Cancel}
+                onClick={cancel}
                 className="btn btn-md btn-danger ml-15"
               >
                 <i className="fa fa-lock fa-lg"></i>&nbsp;
@@ -209,7 +222,19 @@ function Sites() {
             </div>
           </div>
         </div>
-      )}
+      ) : (
+        siteList && siteList.length && siteList.length > 0 ? (
+            <PageContainer
+              heading={"Society List"}
+              dataList={siteList}
+              nevigateTo="/site/new"
+              nevigateButtonText="Add New site"
+            ></PageContainer>
+          ) : (
+            "No Data Found"
+          ) 
+        )
+      }
     </div>
   );
 }
