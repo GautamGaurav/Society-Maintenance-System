@@ -22,6 +22,7 @@ function Owners() {
   const [ownerList, setOwnerList] = useState([]);
 
   const [ownerInfo, setOwnerInfo] = useState({
+    ownerId : "",
     ownerName: "",
     societyPresidentName: "",
     builderName: "",
@@ -83,7 +84,7 @@ function Owners() {
   const UpdateOwner = () => {
     axios
       .post("http://localhost:3001/api/owner", {
-        ownerId: ownerId,
+        ownerId: ownerInfo.ownerId,
         ownerName: ownerName,
         societyPresidentName: societyPresidentName,
         builderName: builderName,
