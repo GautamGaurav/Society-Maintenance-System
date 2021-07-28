@@ -1,8 +1,5 @@
-import react, { useState, useEffect } from 'react';
-import { Link, browerHistory } from 'react-router';
-import axios from "axios";
+import react from 'react';
 import './SiteUnits.css';
-import { NotificationManager } from 'react-notifications';
 
 
 function SiteUnits() { 

@@ -1,5 +1,5 @@
 import react, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import axios from "axios";
 import './Home.css';
 import { NotificationManager } from 'react-notifications';
@@ -14,15 +14,15 @@ function Home() {
 
     return (
         <div>
-            <div class="row m-t-25">
-                <div class="col-sm-6 col-lg-3">
-                    <div class="overview-item overview-item--c1">
-                        <div class="overview__inner">
-                            <div class="overview-box clearfix">
-                                <div class="icon">
+            <div className="row m-t-25">
+                <div className="col-sm-6 col-lg-3">
+                    <div className="overview-item overview-item--c1">
+                        <div className="overview__inner">
+                            <div className="overview-box clearfix">
+                                <div className="icon">
                                 </div>
-                                <div class="text">
-                                    <h2><i class="fa fa-inr" aria-hidden="true"></i> 47300</h2>
+                                <div className="text">
+                                    <h2><i className="fa fa-inr" aria-hidden="true"></i> 47300</h2>
                                     <span>Total Collection</span>
                                     <div className="mt-4"></div>
                                 </div>
@@ -30,14 +30,14 @@ function Home() {
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-lg-3">
-                    <div class="overview-item overview-item--c2">
-                        <div class="overview__inner">
-                            <div class="overview-box clearfix">
-                                <div class="icon">
+                <div className="col-sm-6 col-lg-3">
+                    <div className="overview-item overview-item--c2">
+                        <div className="overview__inner">
+                            <div className="overview-box clearfix">
+                                <div className="icon">
                                 </div>
-                                <div class="text">
-                                    <h2><i class="fa fa-inr" aria-hidden="true"></i> 7000</h2>
+                                <div className="text">
+                                    <h2><i className="fa fa-inr" aria-hidden="true"></i> 7000</h2>
                                     <span>Total Amount Spent</span>
                                     <div className="mt-4"></div>
                                 </div>
@@ -45,14 +45,14 @@ function Home() {
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-lg-3">
-                    <div class="overview-item overview-item--c3">
-                        <div class="overview__inner">
-                            <div class="overview-box clearfix">
-                                <div class="icon">
+                <div className="col-sm-6 col-lg-3">
+                    <div className="overview-item overview-item--c3">
+                        <div className="overview__inner">
+                            <div className="overview-box clearfix">
+                                <div className="icon">
                                 </div>
-                                <div class="text">
-                                    <h2><i class="fa fa-inr" aria-hidden="true"></i> 1,086</h2>
+                                <div className="text">
+                                    <h2><i className="fa fa-inr" aria-hidden="true"></i> 1,086</h2>
                                     <span>This week Collection</span>
                                     <div className="mt-4"></div>
                                 </div>
@@ -60,14 +60,14 @@ function Home() {
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-lg-3">
-                    <div class="overview-item overview-item--c4">
-                        <div class="overview__inner">
-                            <div class="overview-box clearfix">
-                                <div class="icon">
+                <div className="col-sm-6 col-lg-3">
+                    <div className="overview-item overview-item--c4">
+                        <div className="overview__inner">
+                            <div className="overview-box clearfix">
+                                <div className="icon">
                                 </div>
-                                <div class="text">
-                                    <h2><i class="fa fa-inr" aria-hidden="true"></i> 3,20,000</h2>
+                                <div className="text">
+                                    <h2><i className="fa fa-inr" aria-hidden="true"></i> 3,20,000</h2>
                                     <span>Expected Collection</span>
                                     <div className="mt-4"></div>
                                 </div>
@@ -76,49 +76,49 @@ function Home() {
                     </div>
                 </div>
             </div>
-            <div class="col-lg-12">
-                <div class="au-card au-card--no-shadow au-card--no-pad m-b-40">
-                    <div class="au-card-title">
-                        <div class="bg-overlay bg-overlay--blue"></div>
+            <div className="col-lg-12">
+                <div className="au-card au-card--no-shadow au-card--no-pad m-b-40">
+                    <div className="au-card-title">
+                        <div className="bg-overlay bg-overlay--blue"></div>
                         <h3>
                             <i className="fa fa-calendar fa-md"></i>Current Month Summary</h3>
-                        <button class="au-btn-plus">
+                        <button className="au-btn-plus">
                             <i className="fa fa-plus fa-md"></i>
                         </button>
                     </div>
-                    <div class="au-task js-list-load">
-                        <div class="au-task__title">
+                    <div className="au-task js-list-load">
+                        <div className="au-task__title">
                             <p>26 April, 2018</p>
                         </div>
-                        <div class="au-task-list js-scrollbar3">
-                            <div class="au-task__item au-task__item--danger">
-                                <div class="au-task__item-inner">
-                                    <h5 class="task">
+                        <div className="au-task-list js-scrollbar3">
+                            <div className="au-task__item au-task__item--danger">
+                                <div className="au-task__item-inner">
+                                    <h5 className="task">
                                         <a href="#">Meeting about Society Wellfare</a>
                                     </h5>
-                                    <span class="time">10:00 AM</span>
+                                    <span className="time">10:00 AM</span>
                                 </div>
                             </div>
-                            <div class="au-task__item au-task__item--warning">
-                                <div class="au-task__item-inner">
-                                    <h5 class="task">
+                            <div className="au-task__item au-task__item--warning">
+                                <div className="au-task__item-inner">
+                                    <h5 className="task">
                                         <a href="#">Sanjay Jariya Paid 3000 RS</a>
                                     </h5>
-                                    <span class="time">11:00 AM</span>
+                                    <span className="time">11:00 AM</span>
                                 </div>
                             </div>
-                            <div class="au-task__item au-task__item--primary">
-                                <div class="au-task__item-inner">
-                                    <h5 class="task">
+                            <div className="au-task__item au-task__item--primary">
+                                <div className="au-task__item-inner">
+                                    <h5 className="task">
                                         <a href="#">Cleaning Work done!</a>
                                     </h5>
-                                    <span class="time">02:00 PM</span>
+                                    <span className="time">02:00 PM</span>
                                 </div>
                             </div>
                             
                         </div>
-                        <div class="au-task__footer">
-                            <button class="au-btn au-btn-load js-load-btn">load more</button>
+                        <div className="au-task__footer">
+                            <button className="au-btn au-btn-load js-load-btn">load more</button>
                         </div>
                     </div>
                 </div>

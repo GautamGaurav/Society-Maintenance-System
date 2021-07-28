@@ -26,7 +26,7 @@ function Login() {
               }); 
         }).catch(error => {
             console.log("error ===> ", error)
-            NotificationManager.error(error.response.data.message);
+            //NotificationManager.error(error.response.data.message);
         })
     }
 
@@ -36,20 +36,20 @@ function Login() {
     // }, []);
 
     return (
-        <div class="animsition">
-            <div class="page-wrapper">
-                <div class="page-content--bge5">
-                    <div class="container">
-                        <div class="login-wrap">
-                            <div class="login-content">
-                                <div class="login-logo">
+        <div className="animsition">
+            <div className="page-wrapper">
+                <div className="page-content--bge5">
+                    <div className="container">
+                        <div className="login-wrap">
+                            <div className="login-content">
+                                <div className="login-logo">
                                     <img
                                         src={process.env.PUBLIC_URL + '/sai_sparsh_logo.jpg'}
                                         className="mainLogo"
                                     />
                                 </div>
-                                <div class="login-form">
-                                    <div class="form-group">
+                                <div className="login-form">
+                                    <div className="form-group">
                                         <label>Email Address</label>
                                         <input
                                             type="email"
@@ -61,7 +61,7 @@ function Login() {
                                             }} />
                                     </div>
                                     <div className="mt-2"></div>
-                                    <div class="form-group">
+                                    <div className="form-group">
                                         <label>Password</label>
                                         <input
                                             type="password"
@@ -74,7 +74,7 @@ function Login() {
                                         />
                                     </div>
                                     <div className="mt-2"></div>
-                                    <div class="login-checkbox">
+                                    <div className="login-checkbox">
                                         <label>
                                             <a href="#">Forgotten Password?</a>
                                         </label>
@@ -87,7 +87,7 @@ function Login() {
                                         Sign in
                                     </button>
 
-                                    <div class="register-link">
+                                    <div className="register-link">
                                         <p>
                                             Don't you have account?
                                             <a href="#" className="ms-1">Sign Up Here</a>

@@ -1,5 +1,5 @@
-import react, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Link, Switch, Route } from 'react-router-dom';
+import react from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { NotificationManager } from 'react-notifications';
 import "bootstrap/dist/css/bootstrap.min.css"
 import './App.css';
@@ -32,9 +32,27 @@ function App() {
                         <Route exact path="/home">
                             <Home />
                         </Route>
+
+                        <Route exact path="/builders">
+                            <Builders />
+                        </Route>
+                        <Route exact path="/builder/details/:id">
+                            <Builders />
+                        </Route>
+                        <Route exact path="/builder/new">
+                            <Builders />
+                        </Route>
+
                         <Route exact path="/society">
                             <Society />
                         </Route>
+                        <Route exact path="/society/details/:id">
+                            <Builders />
+                        </Route>
+                        <Route exact path="/society/new">
+                            <Builders />
+                        </Route>
+                        
                         <Route exact path="/owners">
                             <Owners />
                         </Route>
@@ -44,9 +62,7 @@ function App() {
                         <Route exact path="/owner/new">
                             <Owners />
                         </Route>
-                        <Route exact path="/builders">
-                            <Builders />
-                        </Route>
+                        
                         <Route exact path="/maintenance">
                             <MaintenanceDetails />
                         </Route>

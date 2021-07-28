@@ -3,6 +3,7 @@ import { Link, useHistory, useLocation } from "react-router-dom";
 import { NotificationManager } from "react-notifications";
 import axios from "axios";
 import "./Owners.css";
+import PageContainer from "../Utils/PageContainer/PageContainer";
 
 function Owners() {
   const location = useLocation();
@@ -11,7 +12,6 @@ function Owners() {
   const isUpdate = location.pathname.includes("owner/details");
   const isView = location.pathname.includes("owners");
 
-  const [ownerId, setOwnerId] = useState("");
   const [ownerName, setOwnerName] = useState("");
   const [societyPresidentName, setSocietyPresidentName] = useState("");
   const [builderName, setBuilderName] = useState("");
@@ -20,6 +20,7 @@ function Owners() {
   const [state, setState] = useState("");
   const [pincode, setPincode] = useState("");
   const [ownerList, setOwnerList] = useState([]);
+
   const [ownerInfo, setOwnerInfo] = useState({
     ownerName: "",
     societyPresidentName: "",
@@ -102,67 +103,23 @@ function Owners() {
   };
 
   const Nevigate = (to) => {
-    console.log(to);
-    debugger;
     history.push({ pathname: to });
   };
 
   return (
     <div>
       {isView ? (
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="table-data__tool-right text-right">
-                <button
-                  class="au-btn au-btn-icon au-btn--green au-btn--small float-right"
-                  onClick={() => Nevigate("/owner/new")}
-                >
-                  <i class="zmdi zmdi-plus"></i>
-                  Add New Owner
-                </button>
-              </div>
-              <div className="mt-3"></div>
-              <div class="table-responsive table--no-card m-b-30">
-                <table class="table table-borderless table-striped table-earning">
-                  <thead>
-                    <tr>
-                      <th class="text-right">Sr. No.</th>
-                      <th class="text-right">Name</th>
-                      <th class="text-right">Site Name</th>
-                      <th class="text-right">Unit</th>
-                      <th class="text-right">Email</th>
-                      <th class="text-right">Contact No</th>
-                      <th class="text-right">Address</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {ownerList.map((owner) => {
-                      return (
-                        <tr>
-                          <td class="text-right">{owner.id}</td>
-                          <td class="text-right">{owner.name}</td>
-                          <td class="text-right">{owner.site_name}</td>
-                          <td class="text-right">{owner.unit}</td>
-                          <td class="text-right">{owner.emailId}</td>
-                          <td class="text-right">{owner.contactNumber}</td>
-                          <td class="text-right">
-                            {owner.address} {owner.city} {owner.state},{" "}
-                            {owner.pincode}{" "}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      ) : null}
-
-      {/* ----------Add New Owner----------------- */}
-      {isNew ? (
+        ownerList && ownerList.length  && ownerList.length > 0 ? (
+          <PageContainer
+            heading={"Owner List"}
+            dataList={ownerList}
+            nevigateTo="/owner/new"
+            nevigateButtonText="Add New Owner"
+          ></PageContainer>
+        ) : (
+          "No Data Found"
+        )
+      ) : (
         <div className="card">
           <div className="card-header">Add New Owner</div>
           <div className="card-body">
@@ -304,7 +261,7 @@ function Owners() {
             </div>
           </div>
         </div>
-      ) : null}
+      )}
     </div>
   );
 }
