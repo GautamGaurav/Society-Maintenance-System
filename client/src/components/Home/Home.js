@@ -1,12 +1,8 @@
-import react, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import axios from "axios";
+import { useEffect } from 'react';
 import './Home.css';
-import { NotificationManager } from 'react-notifications';
 
 
 function Home() {
-    const location = useLocation();
 
     useEffect(() => {
         //console.log(location.state.user)

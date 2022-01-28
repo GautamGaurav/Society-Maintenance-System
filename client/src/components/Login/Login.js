@@ -1,4 +1,4 @@
-import react, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from "axios";
 import './Login.css';

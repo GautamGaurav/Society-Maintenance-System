@@ -8,8 +8,8 @@ import PageContainer from "../Utils/PageContainer/PageContainer";
 function Owners() {
   const location = useLocation();
   const history = useHistory();
-  const isNew = location.pathname.includes("/owner/new");
-  const isUpdate = location.pathname.includes("owner/details");
+  // const isNew = location.pathname.includes("/owner/new");
+  // const isUpdate = location.pathname.includes("owner/details");
   const isView = location.pathname.includes("owners");
 
   const [ownerName, setOwnerName] = useState("");
@@ -21,16 +21,7 @@ function Owners() {
   const [pincode, setPincode] = useState("");
   const [ownerList, setOwnerList] = useState([]);
 
-  const [ownerInfo, setOwnerInfo] = useState({
-    ownerId : "",
-    ownerName: "",
-    societyPresidentName: "",
-    builderName: "",
-    address: "",
-    city: "",
-    state: "",
-    pincode: "",
-  });
+  const [ownerInfo, setOwnerInfo] = useState({});
 
   useEffect(() => {
     GetAllOwners();
@@ -62,7 +53,8 @@ function Owners() {
 
   const AddOwner = () => {
     axios
-      .post("http://localhost:3001/api/owner", {
+      .post("http://localhost:3001/api/owner", 
+      {
         ownerName: ownerName,
         societyPresidentName: societyPresidentName,
         builderName: builderName,

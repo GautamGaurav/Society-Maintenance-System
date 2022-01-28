@@ -10,7 +10,7 @@ function Sites() {
   const location = useLocation();
   const [isNew, setIsNew] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
-  const [siteName, setSiteName] = useState("");
+  const [name, setName] = useState("");
   const [societyPresidentName, setSocietyPresidentName] = useState("");
   const [builderName, setBuilderName] = useState("");
   const [address, setAddress] = useState("");
@@ -40,7 +40,7 @@ function Sites() {
   const addSite = () => {
     axios
       .post("http://localhost:3001/api/site", {
-        siteName: siteName,
+        siteName: name,
         societyPresidentName: societyPresidentName,
         builderName: builderName,
         address: address,
@@ -54,7 +54,7 @@ function Sites() {
       })
       .catch((error) => {
         console.log("error ===> ", error);
-        NotificationManager.error(error.response.data.message);
+        //NotificationManager.error(error.response.data.message);
       });
   };
 
@@ -62,7 +62,7 @@ function Sites() {
   const updateSite = () => {
     axios
       .post("http://localhost:3001/api/site", {
-        siteName: siteName,
+        name: name,
         societyPresidentName: societyPresidentName,
         builderName: builderName,
         address: address,
@@ -76,7 +76,7 @@ function Sites() {
       })
       .catch((error) => {
         console.log("error ===> ", error);
-        NotificationManager.error(error.response.data.message);
+        //NotificationManager.error(error.response.data.message);
       });
   };
 
@@ -86,7 +86,7 @@ function Sites() {
     <div>
       {isNew || isUpdate ? (
         <div className="card">
-          <div className="card-header">Add New Site</div>
+          <div className="card-header">{isNew ? "Add New Site" : "Update Site"}</div>
           <div className="card-body">
             <div className="card-title">
               <h3 className="text-center title-2">Site Details</h3>
@@ -100,7 +100,7 @@ function Sites() {
                   className="form-control"
                   placeholder="Enter Site Name"
                   onChange={(e) => {
-                    setSiteName(e.target.value);
+                    setName(e.target.value);
                   }}
                 />
               </div>
@@ -206,7 +206,7 @@ function Sites() {
               <button
                 type="submit"
                 className="btn btn-md btn-info"
-                onClick={addSite}
+                onClick={ isUpdate ? updateSite : addSite}
               >
                 <i className="fa fa-lock fa-lg"></i>&nbsp;
                 <span id="payment-button-amount">{ isUpdate ? "Update" : "Save"}</span>
