@@ -5,7 +5,7 @@ import axios from "axios";
 import "./Builders.css";
 import PageContainer from "../Utils/PageContainer/PageContainer";
 
-function Builders() {
+const Builders = () => {
   const history = useHistory();
   const location = useLocation();
   const [isNew, setIsNew] = useState(false);
@@ -20,6 +20,8 @@ function Builders() {
   const [pincode, setPincode] = useState("");
 
   useEffect(() => {
+    console.log("REACT_API_PATH =======>", process.env.REACT_APP_API_KEY)
+    debugger
     GetAllBuilders();
     setIsNew(location.pathname.includes("new"));
     setIsUpdate(location.pathname.includes("details"));
@@ -84,6 +86,7 @@ function Builders() {
 
   return (
     <div>
+      <span>ENV : {process.env.REACT_API_PATH}</span>
       {isNew || isUpdate ? (
         <div className="card">
           <div className="card-header">

@@ -14,7 +14,9 @@ const apiPath = {
   addSite : '/api/site',
 
   getSociety : '/api/society',
-  addSociety : '/api/society'
+  addSociety : '/api/society',
+
+  getSiteUnits : '/api/siteUnits',
 };
 
 export default apiPath;
