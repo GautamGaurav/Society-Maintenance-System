@@ -1,13 +1,10 @@
 import react, { useState, useEffect } from "react";
-import { useHistory, useLocation } from "react-router-dom";
 import { NotificationManager } from "react-notifications";
 import axios from "axios";
 import "./Sites.css";
 import ListContainer from "../Utils/ListContainer/ListContainer";
 
 function Sites() {
-  const history = useHistory();
-  const location = useLocation();
   const [isNew, setIsNew] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [name, setName] = useState("");
@@ -21,8 +18,6 @@ function Sites() {
 
   useEffect(() => {
     getAllSites();
-    setIsNew(location.pathname.includes("new"));
-    setIsUpdate(location.pathname.includes("details"));
   }, []);
 
   const getAllSites = () => {
@@ -79,155 +74,152 @@ function Sites() {
       });
   };
 
-  const cancel = () => history.push({ pathname: "/sites" });
+  const cancel = () => {};
 
   return (
     <div>
-      {isNew || isUpdate ? (
-        <div className="card">
-          <div className="card-header">
-            {isNew ? "Add New Site" : "Update Site"}
+      <ListContainer heading={"Society List"} dataList={siteList} />
+      <div className="card">
+        <div className="card-header">
+          {isNew ? "Add New Site" : "Update Site"}
+        </div>
+        <div className="card-body">
+          <div className="card-title">
+            <h3 className="text-center title-2">Site Details</h3>
           </div>
-          <div className="card-body">
-            <div className="card-title">
-              <h3 className="text-center title-2">Site Details</h3>
+          <hr />
+          <div className="form-group">
+            <label className="control-label mb-1">Site Name</label>
+            <div className="input-group">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Enter Site Name"
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
+              />
             </div>
-            <hr />
-            <div className="form-group">
-              <label className="control-label mb-1">Site Name</label>
-              <div className="input-group">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Enter Site Name"
-                  onChange={(e) => {
-                    setName(e.target.value);
-                  }}
-                />
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-6">
-                <div className="form-group">
-                  <label className="control-label mb-1">Site President</label>
-                  <div className="input-group">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Enter Site President Name"
-                      onChange={(e) => {
-                        setSocietyPresidentName(e.target.value);
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="col-6">
-                <div className="form-group">
-                  <label className="control-label mb-1">Builder</label>
-                  <div className="input-group">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Enter Builder Name"
-                      onChange={(e) => {
-                        setBuilderName(e.target.value);
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="form-group has-success">
+          </div>
+          <div className="row">
+            <div className="col-6">
               <div className="form-group">
-                <label className="control-label mb-1">Address</label>
+                <label className="control-label mb-1">Site President</label>
                 <div className="input-group">
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="Enter Address"
+                    placeholder="Enter Site President Name"
                     onChange={(e) => {
-                      setAddress(e.target.value);
+                      setSocietyPresidentName(e.target.value);
                     }}
                   />
                 </div>
               </div>
             </div>
-            <div className="row">
-              <div className="col-6">
-                <div className="form-group">
-                  <label className="control-label mb-1">City</label>
-                  <div className="input-group">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Enter City"
-                      onChange={(e) => {
-                        setCity(e.target.value);
-                      }}
-                    />
-                  </div>
+            <div className="col-6">
+              <div className="form-group">
+                <label className="control-label mb-1">Builder</label>
+                <div className="input-group">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter Builder Name"
+                    onChange={(e) => {
+                      setBuilderName(e.target.value);
+                    }}
+                  />
                 </div>
               </div>
-              <div className="col-6">
-                <div className="form-group">
-                  <label className="control-label mb-1">State</label>
-                  <div className="input-group">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Enter State"
-                      onChange={(e) => {
-                        setState(e.target.value);
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="form-group">
-              <div className="col-6">
-                <div className="form-group">
-                  <label className="control-label mb-1">Pin Code</label>
-                  <div className="input-group">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Enter Pin Code"
-                      onChange={(e) => {
-                        setPincode(e.target.value);
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="mt-3"></div>
-            <div>
-              <button
-                type="submit"
-                className="btn btn-md btn-info"
-                onClick={isUpdate ? updateSite : addSite}
-              >
-                <i className="fa fa-lock fa-lg"></i>&nbsp;
-                <span id="payment-button-amount">
-                  {isUpdate ? "Update" : "Save"}
-                </span>
-              </button>
-              <button
-                type="submit"
-                onClick={cancel}
-                className="btn btn-md btn-danger ml-15"
-              >
-                <i className="fa fa-lock fa-lg"></i>&nbsp;
-                <span id="payment-button-amount">Cancel</span>
-              </button>
             </div>
           </div>
+          <div className="form-group has-success">
+            <div className="form-group">
+              <label className="control-label mb-1">Address</label>
+              <div className="input-group">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter Address"
+                  onChange={(e) => {
+                    setAddress(e.target.value);
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-6">
+              <div className="form-group">
+                <label className="control-label mb-1">City</label>
+                <div className="input-group">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter City"
+                    onChange={(e) => {
+                      setCity(e.target.value);
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="col-6">
+              <div className="form-group">
+                <label className="control-label mb-1">State</label>
+                <div className="input-group">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter State"
+                    onChange={(e) => {
+                      setState(e.target.value);
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="form-group">
+            <div className="col-6">
+              <div className="form-group">
+                <label className="control-label mb-1">Pin Code</label>
+                <div className="input-group">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter Pin Code"
+                    onChange={(e) => {
+                      setPincode(e.target.value);
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="mt-3"></div>
+          <div>
+            <button
+              type="submit"
+              className="btn btn-md btn-info"
+              onClick={isUpdate ? updateSite : addSite}
+            >
+              <i className="fa fa-lock fa-lg"></i>&nbsp;
+              <span id="payment-button-amount">
+                {isUpdate ? "Update" : "Save"}
+              </span>
+            </button>
+            <button
+              type="submit"
+              onClick={cancel}
+              className="btn btn-md btn-danger ml-15"
+            >
+              <i className="fa fa-lock fa-lg"></i>&nbsp;
+              <span id="payment-button-amount">Cancel</span>
+            </button>
+          </div>
         </div>
-      ) : (
-        <ListContainer heading={"Society List"} dataList={siteList} />
-      )}
+      </div>
     </div>
   );
 }
