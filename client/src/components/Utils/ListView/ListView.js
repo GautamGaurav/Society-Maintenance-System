@@ -9,12 +9,8 @@ function ListView({ dataList, heading }) {
   };
 
   return (
-    <div class="card">
-      {/* <div class="card-header">{heading}</div> */}
-      <div class="card-body no-padding">
-        {/* <div class="card-title">
-          <h3 class="text-center title-2">{heading}</h3>
-        </div> */}
+    <div className="card">
+      <div className="card-body no-padding">
         <div className="ag-theme-alpine" style={{ height: 500 }}>
           <AgGridReact rowData={dataList} defaultColDef={defaultColDef}>
             {dataList && dataList.length
@@ -22,8 +18,8 @@ function ListView({ dataList, heading }) {
                   return (
                     <AgGridColumn
                       field={key}
-                      minWidth={key === "id" ? 70 : 300}
-                      maxWidth={key === "id" ? 70 : 300}
+                      minWidth={key === "id" ? 70 : 250}
+                      maxWidth={key === "id" ? 70 : 250}
                     ></AgGridColumn>
                   );
                 })

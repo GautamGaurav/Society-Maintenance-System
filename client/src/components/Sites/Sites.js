@@ -3,7 +3,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import { NotificationManager } from "react-notifications";
 import axios from "axios";
 import "./Sites.css";
-import PageContainer from "../Utils/PageContainer/PageContainer";
+import ListContainer from "../Utils/ListContainer/ListContainer";
 
 function Sites() {
   const history = useHistory();
@@ -58,7 +58,6 @@ function Sites() {
       });
   };
 
-
   const updateSite = () => {
     axios
       .post("http://localhost:3001/api/site", {
@@ -86,7 +85,9 @@ function Sites() {
     <div>
       {isNew || isUpdate ? (
         <div className="card">
-          <div className="card-header">{isNew ? "Add New Site" : "Update Site"}</div>
+          <div className="card-header">
+            {isNew ? "Add New Site" : "Update Site"}
+          </div>
           <div className="card-body">
             <div className="card-title">
               <h3 className="text-center title-2">Site Details</h3>
@@ -206,10 +207,12 @@ function Sites() {
               <button
                 type="submit"
                 className="btn btn-md btn-info"
-                onClick={ isUpdate ? updateSite : addSite}
+                onClick={isUpdate ? updateSite : addSite}
               >
                 <i className="fa fa-lock fa-lg"></i>&nbsp;
-                <span id="payment-button-amount">{ isUpdate ? "Update" : "Save"}</span>
+                <span id="payment-button-amount">
+                  {isUpdate ? "Update" : "Save"}
+                </span>
               </button>
               <button
                 type="submit"
@@ -223,18 +226,8 @@ function Sites() {
           </div>
         </div>
       ) : (
-        siteList && siteList.length && siteList.length > 0 ? (
-            <PageContainer
-              heading={"Society List"}
-              dataList={siteList}
-              nevigateTo="/site/new"
-              nevigateButtonText="Add New site"
-            ></PageContainer>
-          ) : (
-            "No Data Found"
-          ) 
-        )
-      }
+        <ListContainer heading={"Society List"} dataList={siteList} />
+      )}
     </div>
   );
 }

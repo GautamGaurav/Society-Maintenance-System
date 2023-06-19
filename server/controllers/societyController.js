@@ -1,3 +1,5 @@
+import db from '../database/config.js'
+
 export const getSociety = async (request, response) => {
     const sqlSelect = "SELECT * FROM society";
     try {

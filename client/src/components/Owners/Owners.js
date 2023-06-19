@@ -3,7 +3,7 @@ import { Link, useHistory, useLocation } from "react-router-dom";
 import { NotificationManager } from "react-notifications";
 import axios from "axios";
 import "./Owners.css";
-import PageContainer from "../Utils/PageContainer/PageContainer";
+import ListContainer from "../Utils/ListContainer/ListContainer";
 
 function Owners() {
   const location = useLocation();
@@ -24,10 +24,10 @@ function Owners() {
   const [ownerInfo, setOwnerInfo] = useState({});
 
   useEffect(() => {
-    GetAllOwners();
+    getAllOwners();
   }, []);
 
-  const GetAllOwners = () => {
+  const getAllOwners = () => {
     axios
       .get("http://localhost:3001/api/owners")
       .then((response) => {
@@ -39,7 +39,7 @@ function Owners() {
       });
   };
 
-  const GetOwner = () => {
+  const getOwner = () => {
     axios
       .get("http://localhost:3001/api/owner/:id")
       .then((response) => {
@@ -51,10 +51,9 @@ function Owners() {
       });
   };
 
-  const AddOwner = () => {
+  const addOwner = () => {
     axios
-      .post("http://localhost:3001/api/owner", 
-      {
+      .post("http://localhost:3001/api/owner", {
         ownerName: ownerName,
         societyPresidentName: societyPresidentName,
         builderName: builderName,
@@ -73,7 +72,7 @@ function Owners() {
       });
   };
 
-  const UpdateOwner = () => {
+  const updateOwner = () => {
     axios
       .post("http://localhost:3001/api/owner", {
         ownerId: ownerInfo.ownerId,
@@ -95,23 +94,14 @@ function Owners() {
       });
   };
 
-  const Nevigate = (to) => {
+  const nevigate = (to) => {
     history.push({ pathname: to });
   };
 
   return (
     <div>
       {isView ? (
-        ownerList && ownerList.length  && ownerList.length > 0 ? (
-          <PageContainer
-            heading={"Owner List"}
-            dataList={ownerList}
-            nevigateTo="/owner/new"
-            nevigateButtonText="Add New Owner"
-          ></PageContainer>
-        ) : (
-          "No Data Found"
-        )
+        <ListContainer heading={"Owner List"} dataList={ownerList} />
       ) : (
         <div className="card">
           <div className="card-header">Add New Owner</div>
@@ -238,14 +228,14 @@ function Owners() {
               <button
                 type="submit"
                 className="btn btn-md btn-info"
-                onClick={AddOwner}
+                onClick={addOwner}
               >
                 <i className="fa fa-lock fa-lg"></i>&nbsp;
                 <span id="payment-button-amount">Save</span>
               </button>
               <button
                 type="submit"
-                onClick={() => Nevigate("/owners")}
+                onClick={() => nevigate("/owners")}
                 className="btn btn-md btn-danger ml-15"
               >
                 <i className="fa fa-lock fa-lg"></i>&nbsp;
