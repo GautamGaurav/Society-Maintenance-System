@@ -3,12 +3,12 @@ import SiteQuery from "../database/sites.js";
 
 export const getSites = (request, response) => {
   try {
-    db.query(SiteQuery.select, (err, result) => {
+    db.query(SiteQuery.GET_SITES, (err, result) => {
       if (err) {
         console.log("err ===> ", err);
       } else {
         console.log("result ===> ", result);
-        response.send(result);
+        response.send(result[0]);
       }
     });
 

@@ -29,6 +29,7 @@ function Sites() {
     axios
       .get("http://localhost:3001/api/sites")
       .then((response) => {
+        debugger;
         setSiteList(response.data);
       })
       .catch((error) => {
@@ -41,7 +42,6 @@ function Sites() {
     axios
       .post("http://localhost:3001/api/site", inputs)
       .then((response) => {
-        console.log("response =======>", response.data);
         NotificationManager.success("New Site Added Successfully!");
         setInputs({});
         setIsNew(false);
@@ -49,7 +49,9 @@ function Sites() {
       })
       .catch((error) => {
         console.log("error ===> ", error);
-        //NotificationManager.error(error.response.data.message);
+        NotificationManager.error(
+          "Some error occurred, please check console log"
+        );
       });
   };
 
@@ -103,38 +105,24 @@ function Sites() {
               </div>
             </div>
             <div className="row">
-              <div className="col-6">
-                <div className="form-group">
-                  <label className="control-label mb-1">Site President</label>
-                  <div className="input-group">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Enter Society President Name"
-                      name="societyPresidentName"
-                      value={inputs.societyPresidentName || ""}
-                      onChange={(e) => {
-                        handleChange(e);
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="col-6">
-                <div className="form-group">
-                  <label className="control-label mb-1">Builder</label>
-                  <div className="input-group">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Enter Builder Name"
-                      name="builderName"
-                      value={inputs.builderName || ""}
-                      onChange={(e) => {
-                        handleChange(e);
-                      }}
-                    />
-                  </div>
+              <div className="form-group">
+                <label className="control-label mb-1">Select Builder</label>
+                <div className="input-group">
+                  <select
+                    name="builder"
+                    id="cars"
+                    className="form-control"
+                    onChange={(e) => {
+                      handleChange(e);
+                    }}
+                  >
+                    <option value="0">--Select Builder--</option>
+                    <option value={1}>Saisparsh Construction</option>
+                    <option value={2}>Stuti Devcon</option>
+                    <option value={3}>Shilpi Construction</option>
+                    <option value={4}>Dilip Buildecon</option>
+                    <option value={5}>Bansal</option>
+                  </select>
                 </div>
               </div>
             </div>

@@ -86,10 +86,10 @@ const Society = () => {
                       className="form-control"
                       placeholder="Enter Society President Name"
                       name="name"
+                      value={inputs.name || ""}
                       onChange={(e) => {
                         handleChange(e);
                       }}
-                      value={inputs.name || ""}
                     />
                   </div>
                 </div>
