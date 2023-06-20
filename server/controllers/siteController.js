@@ -1,10 +1,9 @@
-import db from '../database/config.js'
+import db from "../database/config.js";
+import SiteQuery from "../database/sites.js";
 
 export const getSites = (request, response) => {
-  const sqlSelect = "SELECT * FROM sites";
-
   try {
-    db.query(sqlSelect, (err, result) => {
+    db.query(SiteQuery.select, (err, result) => {
       if (err) {
         console.log("err ===> ", err);
       } else {
@@ -22,41 +21,18 @@ export const getSites = (request, response) => {
 };
 
 export const addSite = (request, response) => {
+  const siteData = request.body;
   try {
-    const siteName = request.body.siteName;
-    const address = request.body.address;
-    const societyPresidentName = request.body.societyPresidentName;
-    const builderName = request.body.builderName;
-    const city = request.body.city;
-    const state = request.body.state;
-    const pincode = request.body.pincode;
-    const sqlInsert =
-      "INSERT INTO sites (name, address, societyPresidentName, builderName, city, state, pincode) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    db.query(
-      sqlInsert,
-      [
-        siteName,
-        address,
-        societyPresidentName,
-        builderName,
-        city,
-        state,
-        pincode,
-      ],
-      (err, result) => {
-        if (err) {
-          console.log("err ===> ", err);
-          response.status(404).send({
-            message: "Error Processing Data!",
-          });
-        } else {
-          response.status(200).send({
-            message: siteName + " inserted successfully!",
-          });
-          response.send(result);
-        }
+    db.query(SiteQuery.insert, siteData, (err, result) => {
+      if (err) {
+        console.log("err ===> ", err);
+        response.status(404).send({
+          message: "Error Processing Data!",
+        });
+      } else {
+        response.send(result);
       }
-    );
+    });
   } catch (error) {
     response.status(404).json({ message: error.message });
   }

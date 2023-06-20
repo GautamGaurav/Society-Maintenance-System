@@ -1,24 +1,29 @@
-import react, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { NotificationManager } from "react-notifications";
 import axios from "axios";
 import "./Sites.css";
 import ListContainer from "../Utils/ListContainer/ListContainer";
+import ModalDialog from "../Utils/ModalDialog/ModalDialog";
 
 function Sites() {
   const [isNew, setIsNew] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
-  const [name, setName] = useState("");
-  const [societyPresidentName, setSocietyPresidentName] = useState("");
-  const [builderName, setBuilderName] = useState("");
-  const [address, setAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [pincode, setPincode] = useState("");
   const [siteList, setSiteList] = useState([]);
+  const [inputs, setInputs] = useState({});
 
   useEffect(() => {
     getAllSites();
   }, []);
+
+  const handleState = (value) => {
+    setIsNew(value);
+  };
+
+  const handleChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setInputs((values) => ({ ...values, [name]: value }));
+  };
 
   const getAllSites = () => {
     axios
@@ -34,18 +39,13 @@ function Sites() {
 
   const addSite = () => {
     axios
-      .post("http://localhost:3001/api/site", {
-        siteName: name,
-        societyPresidentName: societyPresidentName,
-        builderName: builderName,
-        address: address,
-        city: city,
-        state: state,
-        pincode: pincode,
-      })
+      .post("http://localhost:3001/api/site", inputs)
       .then((response) => {
         console.log("response =======>", response.data);
-        NotificationManager.success(response.data.message);
+        NotificationManager.success("New Site Added Successfully!");
+        setInputs({});
+        setIsNew(false);
+        getAllSites();
       })
       .catch((error) => {
         console.log("error ===> ", error);
@@ -55,15 +55,7 @@ function Sites() {
 
   const updateSite = () => {
     axios
-      .post("http://localhost:3001/api/site", {
-        name: name,
-        societyPresidentName: societyPresidentName,
-        builderName: builderName,
-        address: address,
-        city: city,
-        state: state,
-        pincode: pincode,
-      })
+      .post("http://localhost:3001/api/site", inputs)
       .then((response) => {
         console.log("response =======>", response.data);
         NotificationManager.success(response.data.message);
@@ -78,148 +70,170 @@ function Sites() {
 
   return (
     <div>
-      <ListContainer heading={"Society List"} dataList={siteList} />
-      <div className="card">
-        <div className="card-header">
-          {isNew ? "Add New Site" : "Update Site"}
-        </div>
-        <div className="card-body">
-          <div className="card-title">
-            <h3 className="text-center title-2">Site Details</h3>
-          </div>
-          <hr />
-          <div className="form-group">
-            <label className="control-label mb-1">Site Name</label>
-            <div className="input-group">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Enter Site Name"
-                onChange={(e) => {
-                  setName(e.target.value);
-                }}
-              />
+      <ListContainer
+        heading={"Site List"}
+        dataList={siteList}
+        addNew={handleState}
+        btnText={"Add New Site"}
+      />
+      <ModalDialog
+        show={isNew}
+        calltoClose={handleState}
+        headerText={"Add New Site"}
+      >
+        <div className="card">
+          <div className="card-body">
+            <div className="card-title">
+              <h3 className="text-center title-2">Site Details</h3>
             </div>
-          </div>
-          <div className="row">
-            <div className="col-6">
-              <div className="form-group">
-                <label className="control-label mb-1">Site President</label>
-                <div className="input-group">
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Enter Site President Name"
-                    onChange={(e) => {
-                      setSocietyPresidentName(e.target.value);
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="col-6">
-              <div className="form-group">
-                <label className="control-label mb-1">Builder</label>
-                <div className="input-group">
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Enter Builder Name"
-                    onChange={(e) => {
-                      setBuilderName(e.target.value);
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="form-group has-success">
+            <hr />
             <div className="form-group">
-              <label className="control-label mb-1">Address</label>
+              <label className="control-label mb-1">Site Name</label>
               <div className="input-group">
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Enter Address"
+                  placeholder="Enter Site Name"
+                  name="name"
+                  value={inputs.name || ""}
                   onChange={(e) => {
-                    setAddress(e.target.value);
+                    handleChange(e);
                   }}
                 />
               </div>
             </div>
-          </div>
-          <div className="row">
-            <div className="col-6">
+            <div className="row">
+              <div className="col-6">
+                <div className="form-group">
+                  <label className="control-label mb-1">Site President</label>
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Enter Society President Name"
+                      name="societyPresidentName"
+                      value={inputs.societyPresidentName || ""}
+                      onChange={(e) => {
+                        handleChange(e);
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="col-6">
+                <div className="form-group">
+                  <label className="control-label mb-1">Builder</label>
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Enter Builder Name"
+                      name="builderName"
+                      value={inputs.builderName || ""}
+                      onChange={(e) => {
+                        handleChange(e);
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="form-group has-success">
               <div className="form-group">
-                <label className="control-label mb-1">City</label>
+                <label className="control-label mb-1">Address</label>
                 <div className="input-group">
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="Enter City"
+                    placeholder="Enter Address"
+                    name="address"
+                    value={inputs.address || ""}
                     onChange={(e) => {
-                      setCity(e.target.value);
+                      handleChange(e);
                     }}
                   />
                 </div>
               </div>
             </div>
-            <div className="col-6">
-              <div className="form-group">
-                <label className="control-label mb-1">State</label>
-                <div className="input-group">
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Enter State"
-                    onChange={(e) => {
-                      setState(e.target.value);
-                    }}
-                  />
+            <div className="row">
+              <div className="col-6">
+                <div className="form-group">
+                  <label className="control-label mb-1">City</label>
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Enter City"
+                      name="city"
+                      value={inputs.city || ""}
+                      onChange={(e) => {
+                        handleChange(e);
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="col-6">
+                <div className="form-group">
+                  <label className="control-label mb-1">State</label>
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Enter State"
+                      name="state"
+                      value={inputs.state || ""}
+                      onChange={(e) => {
+                        handleChange(e);
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="form-group">
-            <div className="col-6">
-              <div className="form-group">
-                <label className="control-label mb-1">Pin Code</label>
-                <div className="input-group">
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Enter Pin Code"
-                    onChange={(e) => {
-                      setPincode(e.target.value);
-                    }}
-                  />
+            <div className="form-group">
+              <div className="col-6">
+                <div className="form-group">
+                  <label className="control-label mb-1">Pin Code</label>
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Enter Pin Code"
+                      name="pincode"
+                      value={inputs.pincode || ""}
+                      onChange={(e) => {
+                        handleChange(e);
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="mt-3"></div>
-          <div>
-            <button
-              type="submit"
-              className="btn btn-md btn-info"
-              onClick={isUpdate ? updateSite : addSite}
-            >
-              <i className="fa fa-lock fa-lg"></i>&nbsp;
-              <span id="payment-button-amount">
-                {isUpdate ? "Update" : "Save"}
-              </span>
-            </button>
-            <button
-              type="submit"
-              onClick={cancel}
-              className="btn btn-md btn-danger ml-15"
-            >
-              <i className="fa fa-lock fa-lg"></i>&nbsp;
-              <span id="payment-button-amount">Cancel</span>
-            </button>
+            <div className="mt-3"></div>
+            <div>
+              <button
+                type="submit"
+                className="btn btn-md btn-info"
+                onClick={isUpdate ? updateSite : addSite}
+              >
+                <i className="fa fa-lock fa-lg"></i>&nbsp;
+                <span id="payment-button-amount">
+                  {isUpdate ? "Update" : "Save"}
+                </span>
+              </button>
+              <button
+                type="submit"
+                onClick={cancel}
+                className="btn btn-md btn-danger ml-15"
+              >
+                <i className="fa fa-lock fa-lg"></i>&nbsp;
+                <span id="payment-button-amount">Cancel</span>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      </ModalDialog>
     </div>
   );
 }

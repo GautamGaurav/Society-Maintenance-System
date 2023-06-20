@@ -1,31 +1,29 @@
 import { useState, useEffect } from "react";
-import { useHistory, useLocation } from "react-router-dom";
 import axios from "axios";
-//import { NotificationManager } from 'react-notifications';
+import { NotificationManager } from "react-notifications";
 import "./Builders.css";
 import ListContainer from "../Utils/ListContainer/ListContainer";
+import ModalDialog from "../Utils/ModalDialog/ModalDialog";
 
 const Builders = () => {
-  const history = useHistory();
-  const location = useLocation();
   const [isNew, setIsNew] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [builderList, setBuilderList] = useState([]);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [contactNo, setContactNo] = useState("");
-  const [address, setAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [pincode, setPincode] = useState("");
+  const [inputs, setInputs] = useState({});
 
   useEffect(() => {
-    //console.log("REACT_API_PATH =======>", process.env.REACT_APP_API_KEY)
-    debugger;
     getAllBuilders();
-    setIsNew(location.pathname.includes("new"));
-    setIsUpdate(location.pathname.includes("details"));
   }, []);
+
+  const handleChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setInputs((values) => ({ ...values, [name]: value }));
+  };
+
+  const handleState = (value) => {
+    setIsNew(value);
+  };
 
   const getAllBuilders = () => {
     axios
@@ -41,18 +39,13 @@ const Builders = () => {
 
   const addBuilder = () => {
     axios
-      .post("http://localhost:3001/api/Builder", {
-        name: name,
-        email: email,
-        contactNo: contactNo,
-        address: address,
-        city: city,
-        state: state,
-        pincode: pincode,
-      })
+      .post("http://localhost:3001/api/Builder", inputs)
       .then((response) => {
         console.log("response =======>", response.data);
-        //NotificationManager.success(response.data.message);
+        NotificationManager.success("Builder Added Successfully!");
+        setInputs({});
+        setIsNew(false);
+        getAllBuilders();
       })
       .catch((error) => {
         console.log("error ===> ", error);
@@ -62,15 +55,7 @@ const Builders = () => {
 
   const updateBuilder = () => {
     axios
-      .post("http://localhost:3001/api/Builder", {
-        name: name,
-        email: email,
-        contactNo: contactNo,
-        address: address,
-        city: city,
-        state: state,
-        pincode: pincode,
-      })
+      .post("http://localhost:3001/api/Builder", {})
       .then((response) => {
         console.log("response =======>", response.data);
         // NotificationManager.success(response.data.message);
@@ -81,153 +66,173 @@ const Builders = () => {
       });
   };
 
-  const cancel = () => history.push({ pathname: "/sites" });
+  const cancel = () => setIsNew(false);
 
   return (
     <div>
-      
-      <ListContainer heading={"Society List"} dataList={builderList} />
-      <div className="card">
-        <div className="card-header">
-          {isNew ? "Add New Builder" : "Update Builder"}
-        </div>
-        <div className="card-body">
-          <div className="card-title">
-            <h3 className="text-center title-2">Builder Details</h3>
-          </div>
-          <hr />
-          <div className="form-group">
-            <label className="control-label mb-1">Builder Name</label>
-            <div className="input-group">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Enter Builder Name"
-                onChange={(e) => {
-                  setName(e.target.value);
-                }}
-              />
+      <ListContainer
+        heading={"Builder List"}
+        dataList={builderList}
+        addNew={handleState}
+        btnText={"Add New Builder"}
+      />
+      <ModalDialog
+        show={isNew}
+        calltoClose={handleState}
+        headerText={"Add New Builder"}
+      >
+        <div className="card">
+          <div className="card-body">
+            <div className="card-title">
+              <h3 className="text-center title-2">Builder Details</h3>
             </div>
-          </div>
-          <div className="row">
-            <div className="col-6">
-              <div className="form-group">
-                <label className="control-label mb-1">Email</label>
-                <div className="input-group">
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Enter Builder Email"
-                    onChange={(e) => {
-                      setEmail(e.target.value);
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="col-6">
-              <div className="form-group">
-                <label className="control-label mb-1">Contact No</label>
-                <div className="input-group">
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Enter Builder Contact No"
-                    onChange={(e) => {
-                      setContactNo(e.target.value);
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="form-group has-success">
             <div className="form-group">
-              <label className="control-label mb-1">Address</label>
+              <label className="control-label mb-1">Builder Name</label>
               <div className="input-group">
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Enter Address"
+                  placeholder="Enter Builder Name"
+                  name="name"
                   onChange={(e) => {
-                    setAddress(e.target.value);
+                    handleChange(e);
                   }}
+                  value={inputs.name || ""}
                 />
               </div>
             </div>
-          </div>
-          <div className="row">
-            <div className="col-6">
+            <div className="row">
+              <div className="col-6">
+                <div className="form-group">
+                  <label className="control-label mb-1">Email</label>
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Enter Builder Email"
+                      name="email"
+                      onChange={(e) => {
+                        handleChange(e);
+                      }}
+                      value={inputs.email || ""}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="col-6">
+                <div className="form-group">
+                  <label className="control-label mb-1">Contact No</label>
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Enter Builder Contact No"
+                      name="contactNo"
+                      onChange={(e) => {
+                        handleChange(e);
+                      }}
+                      value={inputs.contactNo || ""}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="form-group has-success">
               <div className="form-group">
-                <label className="control-label mb-1">City</label>
+                <label className="control-label mb-1">Address</label>
                 <div className="input-group">
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="Enter City"
+                    placeholder="Enter Address"
+                    name="address"
                     onChange={(e) => {
-                      setCity(e.target.value);
+                      handleChange(e);
                     }}
+                    value={inputs.address || ""}
                   />
                 </div>
               </div>
             </div>
-            <div className="col-6">
-              <div className="form-group">
-                <label className="control-label mb-1">State</label>
-                <div className="input-group">
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Enter State"
-                    onChange={(e) => {
-                      setState(e.target.value);
-                    }}
-                  />
+            <div className="row">
+              <div className="col-6">
+                <div className="form-group">
+                  <label className="control-label mb-1">City</label>
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Enter City"
+                      name="city"
+                      onChange={(e) => {
+                        handleChange(e);
+                      }}
+                      value={inputs.city || ""}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="col-6">
+                <div className="form-group">
+                  <label className="control-label mb-1">State</label>
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Enter State"
+                      name="state"
+                      onChange={(e) => {
+                        handleChange(e);
+                      }}
+                      value={inputs.state || ""}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="form-group">
-            <div className="col-6">
-              <div className="form-group">
-                <label className="control-label mb-1">Pin Code</label>
-                <div className="input-group">
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Enter Pin Code"
-                    onChange={(e) => {
-                      setPincode(e.target.value);
-                    }}
-                  />
+            <div className="form-group">
+              <div className="col-6">
+                <div className="form-group">
+                  <label className="control-label mb-1">Pin Code</label>
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Enter Pin Code"
+                      name="pincode"
+                      onChange={(e) => {
+                        handleChange(e);
+                      }}
+                      value={inputs.pincode || ""}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="mt-3"></div>
-          <div>
-            <button
-              type="submit"
-              className="btn btn-md btn-info"
-              onClick={isUpdate ? updateBuilder : addBuilder}
-            >
-              <i className="fa fa-lock fa-lg"></i>&nbsp;
-              <span id="payment-button-amount">
-                {isUpdate ? "Update" : "Save"}
-              </span>
-            </button>
-            <button
-              type="submit"
-              onClick={cancel}
-              className="btn btn-md btn-danger ml-15"
-            >
-              <i className="fa fa-lock fa-lg"></i>&nbsp;
-              <span id="payment-button-amount">Cancel</span>
-            </button>
+            <div className="mt-3"></div>
+            <div>
+              <button
+                type="submit"
+                className="btn btn-md btn-info"
+                onClick={isUpdate ? updateBuilder : addBuilder}
+              >
+                <i className="fa fa-lock fa-lg"></i>&nbsp;
+                <span id="payment-button-amount">
+                  {isUpdate ? "Update" : "Save"}
+                </span>
+              </button>
+              <button
+                type="submit"
+                onClick={cancel}
+                className="btn btn-md btn-danger ml-15"
+              >
+                <i className="fa fa-lock fa-lg"></i>&nbsp;
+                <span id="payment-button-amount">Cancel</span>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      </ModalDialog>
     </div>
   );
 };

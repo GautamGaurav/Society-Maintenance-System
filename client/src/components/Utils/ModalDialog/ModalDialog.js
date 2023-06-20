@@ -1,27 +1,22 @@
-
-import React from 'react'
-import { Modal, Button } from 'react-bootstrap'
+import React from "react";
+import { Modal } from "react-bootstrap";
 
 const ModalDialog = (props) => {
-
-  console.log(props)
- 
+  const { show, calltoClose, children, headerText } = props;
   return (
     <>
-      <Modal show={props.isShow}>
-        <Modal.Header closeButton onClick={props.calltoClose}>
-          <Modal.Title>React Modal Popover Example</Modal.Title>
+      <Modal show={show}>
+        <Modal.Header closeButton onClick={() => calltoClose(false)}>
+          <Modal.Title>{headerText}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="danger" onClick={props.calltoClose}>
+        <Modal.Body>{children}</Modal.Body>
+        {/* <Modal.Footer>
+          <Button variant="danger" onClick={() => calltoClose(false)}>
             Close
           </Button>
-        </Modal.Footer>
+        </Modal.Footer> */}
       </Modal>
     </>
-  )
-}
+  );
+};
 export default ModalDialog;

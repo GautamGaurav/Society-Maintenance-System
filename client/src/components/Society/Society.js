@@ -3,7 +3,6 @@ import { NotificationManager } from "react-notifications";
 import axios from "axios";
 import "./Society.css";
 import ListContainer from "../Utils/ListContainer/ListContainer";
-import { Modal } from "react-bootstrap";
 import ModalDialog from "../Utils/ModalDialog/ModalDialog";
 
 const Society = () => {
@@ -15,6 +14,10 @@ const Society = () => {
   useEffect(() => {
     getAllSociety();
   }, []);
+
+  const handleState = (value) => {
+    setIsNew(value);
+  };
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -57,11 +60,16 @@ const Society = () => {
 
   return (
     <div>
-      <ListContainer heading={"Society List"} dataList={societyList} addNew={setIsNew} btnText={"Add New Society"}/>
+      <ListContainer
+        heading={"Society List"}
+        dataList={societyList}
+        addNew={handleState}
+        btnText={"Add New Society"}
+      />
       <ModalDialog
-        show={isNew || isUpdate}
-        calltoClose={setIsNew}
-        headerText={isNew ? "Add New Society" : "Update Society"}
+        show={isNew}
+        calltoClose={handleState}
+        headerText={"Add New Society"}
       >
         <div className="card">
           <div className="card-header">Society Details</div>
@@ -75,11 +83,11 @@ const Society = () => {
                   <div className="input-group">
                     <input
                       type="text"
-                      name="name"
                       className="form-control"
                       placeholder="Enter Society President Name"
+                      name="name"
                       onChange={(e) => {
-                        handleChange(e.target.value);
+                        handleChange(e);
                       }}
                       value={inputs.name || ""}
                     />
@@ -95,7 +103,7 @@ const Society = () => {
                       className="form-control"
                       placeholder="Enter Builder Name"
                       name="builder"
-                      value={inputs.name || ""}
+                      value={inputs.builder || ""}
                       onChange={(e) => {
                         handleChange(e);
                       }}
@@ -198,7 +206,6 @@ const Society = () => {
           </div>
         </div>
       </ModalDialog>
-      {/* ----------Add New Society----------------- */}
     </div>
   );
 };

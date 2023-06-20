@@ -1,9 +1,9 @@
-import db from '../database/config.js'
-import builderQuery from '../database/builder.js'
+import db from "../database/config.js";
+import BuilderQuery from "../database/builder.js";
 
 export const getBuilders = (request, response) => {
   try {
-    db.query(builderQuery.select, (err, result) => {
+    db.query(BuilderQuery.select, (err, result) => {
       if (err) {
         console.log("err ===> ", err);
       } else {
@@ -17,8 +17,9 @@ export const getBuilders = (request, response) => {
 };
 
 export const addBuilder = (request, response) => {
+  console.log("request  ====>", request.body);
   try {
-    db.query(builderQuery.insert, (err, result) => {
+    db.query(BuilderQuery.insert, request.body, (err, result) => {
       if (err) {
         console.log("err ===> ", err);
       } else {
