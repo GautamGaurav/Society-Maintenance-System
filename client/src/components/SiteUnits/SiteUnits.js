@@ -10,10 +10,24 @@ function SiteUnits() {
   const [isUpdate, setIsUpdate] = useState(false);
   const [siteUnitsList, setSiteUnitsList] = useState([]);
   const [inputs, setInputs] = useState({});
+  const [siteList, setSiteList] = useState([]);
 
   useEffect(() => {
     getAllSiteUnits();
+    getAllSites();
   }, []);
+
+  const getAllSites = () => {
+    axios
+      .get("http://localhost:3001/api/sites")
+      .then((response) => {
+        setSiteList(response.data);
+      })
+      .catch((error) => {
+        console.log("error ===> ", error);
+        NotificationManager.error(error.response.data.message);
+      });
+  };
 
   const handleState = (value) => {
     setIsNew(value);
@@ -39,7 +53,7 @@ function SiteUnits() {
 
   const addSiteUnits = () => {
     axios
-      .post("http://localhost:3001/api/siteUnits", inputs)
+      .post("http://localhost:3001/api/siteunits", inputs)
       .then((response) => {
         console.log("response =======>", response.data);
         NotificationManager.success("Site Added Successfully");
@@ -130,10 +144,30 @@ function SiteUnits() {
                       }}
                     >
                       <option value="0">--Select Site--</option>
-                      <option value={inputs.site || ""}>Volvo</option>
-                      <option value={inputs.site || ""}>Saab</option>
-                      <option value={inputs.site || ""}>Mercedes</option>
-                      <option value={inputs.site || ""}>Audi</option>
+                      {siteList.map((site) => (
+                        <option value={site.id}>{site.name}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div className="col-6">
+                <div className="form-group">
+                  <label className="control-label mb-1">Select Type</label>
+                  <div className="input-group">
+                    <select
+                      name="type"
+                      id="cars"
+                      className="form-control"
+                      onChange={(e) => {
+                        handleChange(e);
+                      }}
+                    >
+                      <option value="0">--Select Site--</option>
+                      <option value={"Flat"}>Flat</option>
+                      <option value={"Singlex"}>Singlex </option>
+                      <option value={"Duplex"}>Duplex</option>
+                      <option value={"Form House"}>Form House</option>
                     </select>
                   </div>
                 </div>

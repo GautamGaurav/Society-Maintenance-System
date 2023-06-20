@@ -1,137 +1,159 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import react, { useState, useEffect } from "react";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { NotificationManager } from "react-notifications";
-import "./Owners.css";
+import axios from "axios";
+import "./Tenant.css";
 import ListContainer from "../Utils/ListContainer/ListContainer";
-import ModalDialog from "../Utils/ModalDialog/ModalDialog";
 
-const Owners = () => {
-  const [isNew, setIsNew] = useState(false);
-  const [isUpdate, setIsUpdate] = useState(false);
-  const [ownersList, setOwnersList] = useState([]);
-  const [inputs, setInputs] = useState({});
+function Tenant() {
+  const location = useLocation();
+  const history = useHistory();
+  // const isNew = location.pathname.includes("/owner/new");
+  // const isUpdate = location.pathname.includes("owner/details");
+  const isView = location.pathname.includes("owners");
+
+  const [ownerName, setOwnerName] = useState("");
+  const [societyPresidentName, setSocietyPresidentName] = useState("");
+  const [builderName, setBuilderName] = useState("");
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [pincode, setPincode] = useState("");
+  const [ownerList, setOwnerList] = useState([]);
+
+  const [ownerInfo, setOwnerInfo] = useState({});
 
   useEffect(() => {
     getAllOwners();
   }, []);
 
-  const handleChange = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-    setInputs((values) => ({ ...values, [name]: value }));
-  };
-
-  const handleState = (value) => {
-    setIsNew(value);
-  };
-
   const getAllOwners = () => {
     axios
       .get("http://localhost:3001/api/owners")
       .then((response) => {
-        setOwnersList(response.data);
+        setOwnerList(response.data);
       })
       .catch((error) => {
         console.log("error ===> ", error);
-        //NotificationManager.error(error.response.data.message);
+        NotificationManager.error(error.response.data.message);
       });
   };
 
-  const addOwners = () => {
+  const getOwner = () => {
     axios
-      .post("http://localhost:3001/api/Owners", inputs)
+      .get("http://localhost:3001/api/owner/:id")
+      .then((response) => {
+        setOwnerList(response.data);
+      })
+      .catch((error) => {
+        console.log("error ===> ", error);
+        NotificationManager.error(error.response.data.message);
+      });
+  };
+
+  const addOwner = () => {
+    axios
+      .post("http://localhost:3001/api/owner", {
+        ownerName: ownerName,
+        societyPresidentName: societyPresidentName,
+        builderName: builderName,
+        address: address,
+        city: city,
+        state: state,
+        pincode: pincode,
+      })
       .then((response) => {
         console.log("response =======>", response.data);
-        NotificationManager.success("Owners Added Successfully!");
-        setInputs({});
-        setIsNew(false);
-        getAllOwners();
+        NotificationManager.success(response.data.message);
       })
       .catch((error) => {
         console.log("error ===> ", error);
-        //NotificationManager.error(error.response.data.message);
+        NotificationManager.error(error.response.data.message);
       });
   };
 
-  const updateOwners = () => {
+  const updateOwner = () => {
     axios
-      .post("http://localhost:3001/api/Owners", {})
+      .post("http://localhost:3001/api/owner", {
+        ownerId: ownerInfo.ownerId,
+        ownerName: ownerName,
+        societyPresidentName: societyPresidentName,
+        builderName: builderName,
+        address: address,
+        city: city,
+        state: state,
+        pincode: pincode,
+      })
       .then((response) => {
         console.log("response =======>", response.data);
-        // NotificationManager.success(response.data.message);
+        NotificationManager.success(response.data.message);
       })
       .catch((error) => {
         console.log("error ===> ", error);
-        //NotificationManager.error(error.response.data.message);
+        NotificationManager.error(error.response.data.message);
       });
   };
 
-  const cancel = () => setIsNew(false);
+  const nevigate = (to) => {
+    history.push({ pathname: to });
+  };
 
   return (
     <div>
-      <ListContainer
-        heading={"Owners List"}
-        dataList={ownersList}
-        addNew={handleState}
-        btnText={"Add New Owners"}
-      />
-      <ModalDialog
-        show={isNew}
-        calltoClose={handleState}
-        headerText={"Add New Owners"}
-      >
+      {isView ? (
+        <ListContainer heading={"Owner List"} dataList={ownerList} />
+      ) : (
         <div className="card">
+          <div className="card-header">Add New Owner</div>
           <div className="card-body">
             <div className="card-title">
-              <h3 className="text-center title-2">Owners Details</h3>
+              <h3 className="text-center title-2">Owner Details</h3>
             </div>
-            <div className="form-group">
-              <label className="control-label mb-1">Owners Name</label>
-              <div className="input-group">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Enter Owners Name"
-                  name="name"
-                  onChange={(e) => {
-                    handleChange(e);
-                  }}
-                  value={inputs.name || ""}
-                />
+            <hr />
+            <div className="row">
+              <div className="col-6">
+                <div className="form-group">
+                  <label className="control-label mb-1">Owner Name</label>
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Enter Owner Name"
+                      onChange={(e) => {
+                        setOwnerName(e.target.value);
+                      }}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
             <div className="row">
               <div className="col-6">
                 <div className="form-group">
-                  <label className="control-label mb-1">Email</label>
+                  <label className="control-label mb-1">Owner President</label>
                   <div className="input-group">
                     <input
                       type="text"
                       className="form-control"
-                      placeholder="Enter Owners Email"
-                      name="email"
+                      placeholder="Enter Owner President Name"
                       onChange={(e) => {
-                        handleChange(e);
+                        setSocietyPresidentName(e.target.value);
                       }}
-                      value={inputs.email || ""}
                     />
                   </div>
                 </div>
               </div>
               <div className="col-6">
                 <div className="form-group">
-                  <label className="control-label mb-1">Contact No</label>
+                  <label className="control-label mb-1">Builder</label>
                   <div className="input-group">
                     <input
                       type="text"
                       className="form-control"
-                      placeholder="Enter Owners Contact No"
-                      name="contactNo"
+                      placeholder="Enter Builder Name"
                       onChange={(e) => {
-                        handleChange(e);
+                        setBuilderName(e.target.value);
                       }}
-                      value={inputs.contactNo || ""}
                     />
                   </div>
                 </div>
@@ -145,11 +167,9 @@ const Owners = () => {
                     type="text"
                     className="form-control"
                     placeholder="Enter Address"
-                    name="address"
                     onChange={(e) => {
-                      handleChange(e);
+                      setAddress(e.target.value);
                     }}
-                    value={inputs.address || ""}
                   />
                 </div>
               </div>
@@ -163,11 +183,9 @@ const Owners = () => {
                       type="text"
                       className="form-control"
                       placeholder="Enter City"
-                      name="city"
                       onChange={(e) => {
-                        handleChange(e);
+                        setCity(e.target.value);
                       }}
-                      value={inputs.city || ""}
                     />
                   </div>
                 </div>
@@ -180,11 +198,9 @@ const Owners = () => {
                       type="text"
                       className="form-control"
                       placeholder="Enter State"
-                      name="state"
                       onChange={(e) => {
-                        handleChange(e);
+                        setState(e.target.value);
                       }}
-                      value={inputs.state || ""}
                     />
                   </div>
                 </div>
@@ -199,11 +215,9 @@ const Owners = () => {
                       type="text"
                       className="form-control"
                       placeholder="Enter Pin Code"
-                      name="pincode"
                       onChange={(e) => {
-                        handleChange(e);
+                        setPincode(e.target.value);
                       }}
-                      value={inputs.pincode || ""}
                     />
                   </div>
                 </div>
@@ -214,16 +228,14 @@ const Owners = () => {
               <button
                 type="submit"
                 className="btn btn-md btn-info"
-                onClick={isUpdate ? updateOwners : addOwners}
+                onClick={addOwner}
               >
                 <i className="fa fa-lock fa-lg"></i>&nbsp;
-                <span id="payment-button-amount">
-                  {isUpdate ? "Update" : "Save"}
-                </span>
+                <span id="payment-button-amount">Save</span>
               </button>
               <button
                 type="submit"
-                onClick={cancel}
+                onClick={() => nevigate("/owners")}
                 className="btn btn-md btn-danger ml-15"
               >
                 <i className="fa fa-lock fa-lg"></i>&nbsp;
@@ -232,9 +244,9 @@ const Owners = () => {
             </div>
           </div>
         </div>
-      </ModalDialog>
+      )}
     </div>
   );
-};
+}
 
-export default Owners;
+export default Tenant;

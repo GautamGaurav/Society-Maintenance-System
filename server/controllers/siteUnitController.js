@@ -14,3 +14,21 @@ export const getSiteUnits = (request, response) => {
     response.status(404).json({ message: error.message });
   }
 };
+
+export const addSiteUnit = (request, response) => {
+  const siteData = request.body;
+  try {
+    db.query(SiteUnitQuery.insert, siteData, (err, result) => {
+      if (err) {
+        console.log("err ===> ", err);
+        response.status(404).send({
+          message: "Error Processing Data!",
+        });
+      } else {
+        response.send(result);
+      }
+    });
+  } catch (error) {
+    response.status(404).json({ message: error.message });
+  }
+};

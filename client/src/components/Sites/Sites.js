@@ -10,9 +10,11 @@ function Sites() {
   const [isUpdate, setIsUpdate] = useState(false);
   const [siteList, setSiteList] = useState([]);
   const [inputs, setInputs] = useState({});
+  const [builderList, setBuilderList] = useState([]);
 
   useEffect(() => {
     getAllSites();
+    getAllBuilders();
   }, []);
 
   const handleState = (value) => {
@@ -35,6 +37,18 @@ function Sites() {
       .catch((error) => {
         console.log("error ===> ", error);
         NotificationManager.error(error.response.data.message);
+      });
+  };
+
+  const getAllBuilders = () => {
+    axios
+      .get("http://localhost:3001/api/builders")
+      .then((response) => {
+        setBuilderList(response.data);
+      })
+      .catch((error) => {
+        console.log("error ===> ", error);
+        //NotificationManager.error(error.response.data.message);
       });
   };
 
@@ -117,11 +131,9 @@ function Sites() {
                     }}
                   >
                     <option value="0">--Select Builder--</option>
-                    <option value={1}>Saisparsh Construction</option>
-                    <option value={2}>Stuti Devcon</option>
-                    <option value={3}>Shilpi Construction</option>
-                    <option value={4}>Dilip Buildecon</option>
-                    <option value={5}>Bansal</option>
+                    {builderList.map((builder) => (
+                      <option value={builder.id}>{builder.name}</option>
+                    ))}
                   </select>
                 </div>
               </div>
