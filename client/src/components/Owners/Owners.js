@@ -10,9 +10,11 @@ const Owners = () => {
   const [isUpdate, setIsUpdate] = useState(false);
   const [ownersList, setOwnersList] = useState([]);
   const [inputs, setInputs] = useState({});
+  const [siteList, setSiteList] = useState([]);
 
   useEffect(() => {
     getAllOwners();
+    getAllSite();
   }, []);
 
   const handleChange = (event) => {
@@ -23,6 +25,18 @@ const Owners = () => {
 
   const handleState = (value) => {
     setIsNew(value);
+  };
+
+  const getAllSite = () => {
+    axios
+      .get("http://localhost:3001/api/sites")
+      .then((response) => {
+        setSiteList(response.data);
+      })
+      .catch((error) => {
+        console.log("error ===> ", error);
+        //NotificationManager.error(error.response.data.message);
+      });
   };
 
   const getAllOwners = () => {
@@ -86,19 +100,43 @@ const Owners = () => {
             <div className="card-title">
               <h3 className="text-center title-2">Owners Details</h3>
             </div>
-            <div className="form-group">
-              <label className="control-label mb-1">Owners Name</label>
-              <div className="input-group">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Enter Owners Name"
-                  name="name"
-                  onChange={(e) => {
-                    handleChange(e);
-                  }}
-                  value={inputs.name || ""}
-                />
+            <div className="row">
+              <div className="col-6">
+                <div className="form-group">
+                  <label className="control-label mb-1">Owners Name</label>
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Enter Owners Name"
+                      name="name"
+                      onChange={(e) => {
+                        handleChange(e);
+                      }}
+                      value={inputs.name || ""}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="col-6">
+                <div className="form-group">
+                  <label className="control-label mb-1">Select Site</label>
+                  <div className="input-group">
+                    <select
+                      name="site"
+                      id="cars"
+                      className="form-control"
+                      onChange={(e) => {
+                        handleChange(e);
+                      }}
+                    >
+                      <option value="0">--Select Site--</option>
+                      {siteList.map((site) => (
+                        <option value={site.id}>{site.name}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
               </div>
             </div>
             <div className="row">
