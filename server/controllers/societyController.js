@@ -1,18 +1,33 @@
-import db from '../database/config.js'
+import db from "../database/config.js";
+import SocietyQuery from "../database/society.js";
 
-export const getSociety = async (request, response) => {
-    const sqlSelect = "SELECT * FROM society";
-    try {
-        db.query(sqlSelect, (err, result) => {
-            if (err) {
-                console.log("err ===> ", err)
-            } else {
-                console.log("result ===> ", result)
-                response.send(result);
-            }
-        })
-    } catch (error) {
-        response.status(404).json({ message : error.message});
-    }
-    
-}
+export const getSocieties = async (request, response) => {
+  try {
+    db.query(SocietyQuery.GET_ALL_SOCIETY, (err, result) => {
+      if (err) {
+        console.log("err ===> ", err);
+      } else {
+        response.send(result[0]);
+      }
+    });
+  } catch (error) {
+    response.status(404).json({ message: error.message });
+  }
+};
+
+export const addSociety = async (request, response) => {
+  try {
+    db.query(SocietyQuery.insert, request.body, (err, result) => {
+      if (err) {
+        console.log("err ===> ", err);
+        response.status(404).send({
+          message: "Error Processing Data!",
+        });
+      } else {
+        response.send(result);
+      }
+    });
+  } catch (error) {
+    response.status(404).json({ message: error.message });
+  }
+};

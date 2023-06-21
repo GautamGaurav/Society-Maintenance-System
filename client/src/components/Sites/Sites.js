@@ -31,7 +31,6 @@ function Sites() {
     axios
       .get("http://localhost:3001/api/sites")
       .then((response) => {
-        debugger;
         setSiteList(response.data);
       })
       .catch((error) => {

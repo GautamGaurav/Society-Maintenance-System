@@ -3,10 +3,14 @@ import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import "./ListView.css";
 
-function ListView({ dataList, heading }) {
+const ListView = (props) => {
   const defaultColDef = {
     resizable: true,
   };
+
+  const { dataList, heading } = props;
+
+  debugger;
 
   return (
     <div className="card">
@@ -20,7 +24,7 @@ function ListView({ dataList, heading }) {
                       field={key}
                       minWidth={key === "id" ? 70 : 250}
                       maxWidth={key === "id" ? 70 : 250}
-                    ></AgGridColumn>
+                    />
                   );
                 })
               : ""}
@@ -29,6 +33,6 @@ function ListView({ dataList, heading }) {
       </div>
     </div>
   );
-}
+};
 
 export default ListView;

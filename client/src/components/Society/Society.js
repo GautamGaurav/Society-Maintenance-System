@@ -6,13 +6,18 @@ import ListContainer from "../Utils/ListContainer/ListContainer";
 import ModalDialog from "../Utils/ModalDialog/ModalDialog";
 
 const Society = () => {
+  const apiUrl = "http://localhost:3001/api/societies";
+  const cudAPIUrl = "http://localhost:3001/api/society";
+  const siteAPIUrl = "http://localhost:3001/api/sites";
   const [isNew, setIsNew] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [societyList, setSocietyList] = useState([]);
   const [inputs, setInputs] = useState({});
+  const [siteList, setSiteList] = useState([]);
 
   useEffect(() => {
     getAllSociety();
+    getAllSite();
   }, []);
 
   const handleState = (value) => {
@@ -25,9 +30,21 @@ const Society = () => {
     setInputs((values) => ({ ...values, [name]: value }));
   };
 
+  const getAllSite = () => {
+    axios
+      .get(siteAPIUrl)
+      .then((response) => {
+        setSiteList(response.data);
+      })
+      .catch((error) => {
+        console.log("error ===> ", error);
+        //NotificationManager.error(error.response.data.message);
+      });
+  };
+
   const getAllSociety = () => {
     axios
-      .get("http://localhost:3001/api/society")
+      .get(apiUrl)
       .then((response) => {
         setSocietyList(response.data);
       })
@@ -39,10 +56,13 @@ const Society = () => {
 
   const addSociety = () => {
     axios
-      .post("http://localhost:3001/api/Society", {})
+      .post(cudAPIUrl, inputs)
       .then((response) => {
         console.log("response =======>", response.data);
-        NotificationManager.success(response.data.message);
+        NotificationManager.success("Society Added Successfully!");
+        setInputs({});
+        setIsNew(false);
+        getAllSociety();
       })
       .catch((error) => {
         console.log("error ===> ", error);
@@ -75,16 +95,14 @@ const Society = () => {
           <div className="card-header">Society Details</div>
           <div className="card-body">
             <div className="row">
-              <div className="col-6">
+              <div className="col-12">
                 <div className="form-group">
-                  <label className="control-label mb-1">
-                    Society President
-                  </label>
+                  <label className="control-label mb-1">Society Name</label>
                   <div className="input-group">
                     <input
                       type="text"
                       className="form-control"
-                      placeholder="Enter Society President Name"
+                      placeholder="Enter Society Name"
                       name="name"
                       value={inputs.name || ""}
                       onChange={(e) => {
@@ -94,20 +112,80 @@ const Society = () => {
                   </div>
                 </div>
               </div>
+            </div>
+            <div className="row">
               <div className="col-6">
                 <div className="form-group">
-                  <label className="control-label mb-1">Builder</label>
+                  <label className="control-label mb-1">President Name</label>
                   <div className="input-group">
                     <input
                       type="text"
                       className="form-control"
-                      placeholder="Enter Builder Name"
-                      name="builder"
-                      value={inputs.builder || ""}
+                      placeholder="Enter President Name"
+                      name="presidentName"
+                      value={inputs.presidentName || ""}
                       onChange={(e) => {
                         handleChange(e);
                       }}
                     />
+                  </div>
+                </div>
+              </div>
+              <div className="col-6">
+                <div className="form-group">
+                  <label className="control-label mb-1">
+                    Registration Number
+                  </label>
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Enter Registration Number"
+                      name="registrationNo"
+                      value={inputs.registrationNo || ""}
+                      onChange={(e) => {
+                        handleChange(e);
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-6">
+                <div className="form-group">
+                  <label className="control-label mb-1">Email</label>
+                  <div className="input-group">
+                    <input
+                      type="email"
+                      className="form-control"
+                      placeholder="Enter Email"
+                      name="email"
+                      value={inputs.email || ""}
+                      onChange={(e) => {
+                        handleChange(e);
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="col-6">
+                <div className="form-group">
+                  <label className="control-label mb-1">Select Site</label>
+                  <div className="input-group">
+                    <select
+                      name="site"
+                      id="cars"
+                      className="form-control"
+                      onChange={(e) => {
+                        handleChange(e);
+                      }}
+                    >
+                      <option value="0">--Select Site--</option>
+                      {siteList.map((site) => (
+                        <option value={site.id}>{site.name}</option>
+                      ))}
+                    </select>
                   </div>
                 </div>
               </div>

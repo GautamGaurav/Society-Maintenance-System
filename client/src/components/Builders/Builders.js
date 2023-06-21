@@ -6,6 +6,8 @@ import ListContainer from "../Utils/ListContainer/ListContainer";
 import ModalDialog from "../Utils/ModalDialog/ModalDialog";
 
 const Builders = () => {
+  const builderAPIUrl = "http://localhost:3001/api/builders";
+  const crudBuilderAPIUrl = "http://localhost:3001/api/builder";
   const [isNew, setIsNew] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [builderList, setBuilderList] = useState([]);
@@ -27,7 +29,7 @@ const Builders = () => {
 
   const getAllBuilders = () => {
     axios
-      .get("http://localhost:3001/api/builders")
+      .get(builderAPIUrl)
       .then((response) => {
         setBuilderList(response.data);
       })
@@ -39,7 +41,7 @@ const Builders = () => {
 
   const addBuilder = () => {
     axios
-      .post("http://localhost:3001/api/Builder", inputs)
+      .post(crudBuilderAPIUrl, inputs)
       .then((response) => {
         console.log("response =======>", response.data);
         NotificationManager.success("Builder Added Successfully!");
@@ -55,7 +57,7 @@ const Builders = () => {
 
   const updateBuilder = () => {
     axios
-      .post("http://localhost:3001/api/Builder", {})
+      .post(crudBuilderAPIUrl, {})
       .then((response) => {
         console.log("response =======>", response.data);
         // NotificationManager.success(response.data.message);

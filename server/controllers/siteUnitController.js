@@ -16,9 +16,8 @@ export const getSiteUnits = (request, response) => {
 };
 
 export const addSiteUnit = (request, response) => {
-  const siteData = request.body;
   try {
-    db.query(SiteUnitQuery.insert, siteData, (err, result) => {
+    db.query(SiteUnitQuery.insert, request.body, (err, result) => {
       if (err) {
         console.log("err ===> ", err);
         response.status(404).send({
