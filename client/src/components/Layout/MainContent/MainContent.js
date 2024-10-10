@@ -19,7 +19,8 @@ function MainContent(props) {
                         <div className="row">
                             <div className="col-md-12">
                                 <div className="copyright">
-                                    <p>Designed, Developed and Maintained by Gaurav Gautam.</p>
+                                    <p>&copy;
+                                        Designed, Developed and Maintained by Gaurav Gautam.</p>
                                 </div>
                             </div>
                         </div>

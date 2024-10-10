@@ -90,196 +90,174 @@ const Society = () => {
         show={isNew}
         calltoClose={handleState}
         headerText={"Add New Society"}
+        onSaveButtonClick={addSociety}
       >
-        <div className="card">
-          <div className="card-header">Society Details</div>
-          <div className="card-body">
-            <div className="row">
-              <div className="col-12">
-                <div className="form-group">
-                  <label className="control-label mb-1">Society Name</label>
-                  <div className="input-group">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Enter Society Name"
-                      name="name"
-                      value={inputs.name || ""}
-                      onChange={(e) => {
-                        handleChange(e);
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-6">
-                <div className="form-group">
-                  <label className="control-label mb-1">President Name</label>
-                  <div className="input-group">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Enter President Name"
-                      name="presidentName"
-                      value={inputs.presidentName || ""}
-                      onChange={(e) => {
-                        handleChange(e);
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="col-6">
-                <div className="form-group">
-                  <label className="control-label mb-1">
-                    Registration Number
-                  </label>
-                  <div className="input-group">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Enter Registration Number"
-                      name="registrationNo"
-                      value={inputs.registrationNo || ""}
-                      onChange={(e) => {
-                        handleChange(e);
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-6">
-                <div className="form-group">
-                  <label className="control-label mb-1">Email</label>
-                  <div className="input-group">
-                    <input
-                      type="email"
-                      className="form-control"
-                      placeholder="Enter Email"
-                      name="email"
-                      value={inputs.email || ""}
-                      onChange={(e) => {
-                        handleChange(e);
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="col-6">
-                <div className="form-group">
-                  <label className="control-label mb-1">Select Site</label>
-                  <div className="input-group">
-                    <select
-                      name="site"
-                      id="cars"
-                      className="form-control"
-                      onChange={(e) => {
-                        handleChange(e);
-                      }}
-                    >
-                      <option value="0">--Select Site--</option>
-                      {siteList.map((site) => (
-                        <option value={site.id}>{site.name}</option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="form-group has-success">
-              <div className="form-group">
-                <label className="control-label mb-1">Address</label>
-                <div className="input-group">
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Enter Address"
-                    name="address"
-                    value={inputs.address || ""}
-                    onChange={(e) => {
-                      handleChange(e);
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-6">
-                <div className="form-group">
-                  <label className="control-label mb-1">City</label>
-                  <div className="input-group">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Enter City"
-                      name="city"
-                      value={inputs.city || ""}
-                      onChange={(e) => {
-                        handleChange(e);
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="col-6">
-                <div className="form-group">
-                  <label className="control-label mb-1">State</label>
-                  <div className="input-group">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Enter State"
-                      name="state"
-                      value={inputs.state || ""}
-                      onChange={(e) => {
-                        handleChange(e);
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
+
+        <div className="row">
+          <div className="col-12">
             <div className="form-group">
-              <div className="col-6">
-                <div className="form-group">
-                  <label className="control-label mb-1">Pin Code</label>
-                  <div className="input-group">
-                    <input
-                      type="number"
-                      className="form-control"
-                      placeholder="Enter Pin Code"
-                      name="pinCode"
-                      value={inputs.pinCode || ""}
-                      onChange={(e) => {
-                        handleChange(e);
-                      }}
-                    />
-                  </div>
-                </div>
+              <label className="control-label mb-1">Society Name</label>
+              <div className="input-group">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter Society Name"
+                  name="name"
+                  value={inputs.name || ""}
+                  onChange={(e) => {
+                    handleChange(e);
+                  }}
+                />
               </div>
             </div>
-            <div className="mt-3"></div>
-            <div>
-              <button
-                type="submit"
-                className="btn btn-md btn-info"
-                onClick={addSociety}
-              >
-                <i className="fa fa-lock fa-lg"></i>&nbsp;
-                <span id="payment-button-amount">Save</span>
-              </button>
-              <button
-                type="submit"
-                onClick={cancel}
-                className="btn btn-md btn-danger ml-15"
-              >
-                <i className="fa fa-lock fa-lg"></i>&nbsp;
-                <span id="payment-button-amount">Cancel</span>
-              </button>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-6">
+            <div className="form-group">
+              <label className="control-label mb-1">President Name</label>
+              <div className="input-group">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter President Name"
+                  name="presidentName"
+                  value={inputs.presidentName || ""}
+                  onChange={(e) => {
+                    handleChange(e);
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="col-6">
+            <div className="form-group">
+              <label className="control-label mb-1">
+                Registration Number
+              </label>
+              <div className="input-group">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter Registration Number"
+                  name="registrationNo"
+                  value={inputs.registrationNo || ""}
+                  onChange={(e) => {
+                    handleChange(e);
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-6">
+            <div className="form-group">
+              <label className="control-label mb-1">Email</label>
+              <div className="input-group">
+                <input
+                  type="email"
+                  className="form-control"
+                  placeholder="Enter Email"
+                  name="email"
+                  value={inputs.email || ""}
+                  onChange={(e) => {
+                    handleChange(e);
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="col-6">
+            <div className="form-group">
+              <label className="control-label mb-1">Select Site</label>
+              <div className="input-group">
+                <select
+                  name="site"
+                  id="cars"
+                  className="form-control"
+                  onChange={(e) => {
+                    handleChange(e);
+                  }}
+                >
+                  <option value="0">--Select Site--</option>
+                  {siteList.map((site) => (
+                    <option value={site.id}>{site.name}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="form-group has-success">
+          <div className="form-group">
+            <label className="control-label mb-1">Address</label>
+            <div className="input-group">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Enter Address"
+                name="address"
+                value={inputs.address || ""}
+                onChange={(e) => {
+                  handleChange(e);
+                }}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-6">
+            <div className="form-group">
+              <label className="control-label mb-1">City</label>
+              <div className="input-group">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter City"
+                  name="city"
+                  value={inputs.city || ""}
+                  onChange={(e) => {
+                    handleChange(e);
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="col-6">
+            <div className="form-group">
+              <label className="control-label mb-1">State</label>
+              <div className="input-group">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter State"
+                  name="state"
+                  value={inputs.state || ""}
+                  onChange={(e) => {
+                    handleChange(e);
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="form-group">
+          <div className="col-6">
+            <div className="form-group">
+              <label className="control-label mb-1">Pin Code</label>
+              <div className="input-group">
+                <input
+                  type="number"
+                  className="form-control"
+                  placeholder="Enter Pin Code"
+                  name="pinCode"
+                  value={inputs.pinCode || ""}
+                  onChange={(e) => {
+                    handleChange(e);
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>

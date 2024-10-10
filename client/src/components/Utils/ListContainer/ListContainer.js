@@ -18,11 +18,13 @@ const ListContainer = (props) => {
           {dataList && dataList.length ? (
             <ListView heading={heading} dataList={dataList}></ListView>
           ) : (
-            "No Data Found"
+            <div className="row">
+              <div className="col-lg-12">No Data Found</div>
+            </div>
           )}
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 
