@@ -7,7 +7,7 @@ function Sidebar() {
       <div className="logo">
         <Link to={`/home`}>
           <img
-            src={process.env.PUBLIC_URL + "/sai_sparsh_logo.jpg"}
+            src={process.env.PUBLIC_URL + "/logo.jpg"}
             className="mainLogo"
             alt="Society Logo"
           />

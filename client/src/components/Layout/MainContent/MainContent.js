@@ -1,20 +1,19 @@
 import './MainContent.css';
 
-import Header from '../Header/Header'
-import Sidebar from '../Sidebar/Sidebar';
+import { Header, Sidebar } from '..'
 
 
 function MainContent(props) {
     return (
         <div className="page-container">
-            <Sidebar></Sidebar>
-            <Header></Header>
+            <Sidebar />
+            <Header />
             <div className="main-content">
                 <div className="section__content section__content--p30">
                     <div className="container-fluid">
                         <div className="row">
-                        <div className="col-md-12">
-                            {props.children}
+                            <div className="col-md-12">
+                                {props.children}
                             </div>
                         </div>
                         <div className="row">

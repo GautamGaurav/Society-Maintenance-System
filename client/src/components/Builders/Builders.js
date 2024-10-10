@@ -4,10 +4,24 @@ import { NotificationManager } from "react-notifications";
 import "./Builders.css";
 import ListContainer from "../Utils/ListContainer/ListContainer";
 import ModalDialog from "../Utils/ModalDialog/ModalDialog";
+import { Textbox, Button } from "../Layout";
+import apiUrl from "../../constants/apiURL"
+
 
 const Builders = () => {
-  const builderAPIUrl = "http://localhost:3001/api/builders";
-  const crudBuilderAPIUrl = "http://localhost:3001/api/builder";
+
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    owner: '',
+    gstn: '',
+    reraRegistrationNumber: '',
+    contactNo: '',
+    address: '',
+    name: '',
+    state: '',
+    pincode: '',
+  });
   const [isNew, setIsNew] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [builderList, setBuilderList] = useState([]);
@@ -17,10 +31,13 @@ const Builders = () => {
     getAllBuilders();
   }, []);
 
-  const handleChange = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-    setInputs((values) => ({ ...values, [name]: value }));
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
 
   const handleState = (value) => {
@@ -29,7 +46,7 @@ const Builders = () => {
 
   const getAllBuilders = () => {
     axios
-      .get(builderAPIUrl)
+      .get(apiUrl.builderAPIUrl)
       .then((response) => {
         setBuilderList(response.data);
       })
@@ -41,7 +58,7 @@ const Builders = () => {
 
   const addBuilder = () => {
     axios
-      .post(crudBuilderAPIUrl, inputs)
+      .post(apiUrl.crudBuilderAPIUrl, inputs)
       .then((response) => {
         console.log("response =======>", response.data);
         NotificationManager.success("Builder Added Successfully!");
@@ -57,7 +74,7 @@ const Builders = () => {
 
   const updateBuilder = () => {
     axios
-      .post(crudBuilderAPIUrl, {})
+      .post(apiUrl.crudBuilderAPIUrl, {})
       .then((response) => {
         console.log("response =======>", response.data);
         // NotificationManager.success(response.data.message);
@@ -82,157 +99,116 @@ const Builders = () => {
         show={isNew}
         calltoClose={handleState}
         headerText={"Add New Builder"}
+        title={"Builder Details"}
       >
-        <div className="card">
-          <div className="card-body">
-            <div className="card-title">
-              <h3 className="text-center title-2">Builder Details</h3>
-            </div>
-            <div className="form-group">
-              <label className="control-label mb-1">Builder Name</label>
-              <div className="input-group">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Enter Builder Name"
-                  name="name"
-                  onChange={(e) => {
-                    handleChange(e);
-                  }}
-                  value={inputs.name || ""}
-                />
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-6">
-                <div className="form-group">
-                  <label className="control-label mb-1">Email</label>
-                  <div className="input-group">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Enter Builder Email"
-                      name="email"
-                      onChange={(e) => {
-                        handleChange(e);
-                      }}
-                      value={inputs.email || ""}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="col-6">
-                <div className="form-group">
-                  <label className="control-label mb-1">Contact No</label>
-                  <div className="input-group">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Enter Builder Contact No"
-                      name="contactNo"
-                      onChange={(e) => {
-                        handleChange(e);
-                      }}
-                      value={inputs.contactNo || ""}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="form-group has-success">
-              <div className="form-group">
-                <label className="control-label mb-1">Address</label>
-                <div className="input-group">
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Enter Address"
-                    name="address"
-                    onChange={(e) => {
-                      handleChange(e);
-                    }}
-                    value={inputs.address || ""}
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-6">
-                <div className="form-group">
-                  <label className="control-label mb-1">City</label>
-                  <div className="input-group">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Enter City"
-                      name="city"
-                      onChange={(e) => {
-                        handleChange(e);
-                      }}
-                      value={inputs.city || ""}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="col-6">
-                <div className="form-group">
-                  <label className="control-label mb-1">State</label>
-                  <div className="input-group">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Enter State"
-                      name="state"
-                      onChange={(e) => {
-                        handleChange(e);
-                      }}
-                      value={inputs.state || ""}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="form-group">
-              <div className="col-6">
-                <div className="form-group">
-                  <label className="control-label mb-1">Pin Code</label>
-                  <div className="input-group">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Enter Pin Code"
-                      name="pincode"
-                      onChange={(e) => {
-                        handleChange(e);
-                      }}
-                      value={inputs.pincode || ""}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="mt-3"></div>
-            <div>
-              <button
-                type="submit"
-                className="btn btn-md btn-info"
-                onClick={isUpdate ? updateBuilder : addBuilder}
-              >
-                <i className="fa fa-lock fa-lg"></i>&nbsp;
-                <span id="payment-button-amount">
-                  {isUpdate ? "Update" : "Save"}
-                </span>
-              </button>
-              <button
-                type="submit"
-                onClick={cancel}
-                className="btn btn-md btn-danger ml-15"
-              >
-                <i className="fa fa-lock fa-lg"></i>&nbsp;
-                <span id="payment-button-amount">Cancel</span>
-              </button>
-            </div>
+        <Textbox
+          type="text"
+          className="form-control"
+          placeholder="Enter Builder Name"
+          label="Builder Name"
+          labelClass={"control-label mb-1"}
+          name="name"
+          onChange={(e) => {
+            handleChange(e);
+          }}
+          value={inputs.name || ""}
+        ></Textbox>
+        <div className="row">
+          <div className="col-6">
+            <Textbox
+              type="text"
+              className="form-control"
+              placeholder="Enter Builder Email"
+              name="email"
+              label="Email"
+              onChange={(e) => {
+                handleChange(e);
+              }}
+              value={inputs.email || ""}
+            />
           </div>
+          <div className="col-6">
+            <Textbox
+              type="text"
+              label="Contact No"
+              className="form-control"
+              placeholder="Enter Builder Contact No"
+              name="contactNo"
+              onChange={(e) => {
+                handleChange(e);
+              }}
+              value={inputs.contactNo || ""}
+            />
+          </div>
+        </div>
+        <div className="row">
+          <Textbox
+            type="textarea"
+            className="form-control"
+            placeholder="Enter Address"
+            name="address"
+            onChange={(e) => {
+              handleChange(e);
+            }}
+            label="Address"
+            value={inputs.address || ""}
+          />
+        </div>
+        <div className="row">
+          <div className="col-6">
+            <Textbox
+              type="text"
+              className="form-control"
+              placeholder="Enter City"
+              name="city"
+              onChange={(e) => {
+                handleChange(e);
+              }}
+              label="City"
+              value={inputs.city || ""}
+            />
+          </div>
+          <div className="col-6">
+            <Textbox
+              type="text"
+              label="State"
+              className="form-control"
+              placeholder="Enter State"
+              name="state"
+              onChange={(e) => {
+                handleChange(e);
+              }}
+              value={inputs.state || ""}
+            />
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-6">
+            <Textbox
+              type="text"
+              className="form-control"
+              placeholder="Enter Pin Code"
+              name="pincode"
+              onChange={(e) => {
+                handleChange(e);
+              }}
+              label="Pin Code"
+              value={inputs.pincode || ""}
+            />
+          </div>
+        </div>
+        <div className="mt-3" />
+        <div>
+          <Button
+            onClick={isUpdate ? updateBuilder : addBuilder}
+            text={isUpdate ? "Update" : "Save"}
+            className="btn-info"
+          />
+          <Button
+            onClick={cancel}
+            className="btn-danger ml-15"
+            text="Cancel"
+          />
         </div>
       </ModalDialog>
     </div>
