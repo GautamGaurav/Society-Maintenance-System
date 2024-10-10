@@ -4,6 +4,7 @@ import axios from "axios";
 import "./Sites.css";
 import ListContainer from "../Utils/ListContainer/ListContainer";
 import ModalDialog from "../Utils/ModalDialog/ModalDialog";
+import { Textbox } from "../Layout";
 
 function Sites() {
   const [isNew, setIsNew] = useState(false);
@@ -81,7 +82,7 @@ function Sites() {
       });
   };
 
-  const cancel = () => {};
+  const cancel = () => { };
 
   return (
     <div>
@@ -95,143 +96,133 @@ function Sites() {
         show={isNew}
         calltoClose={handleState}
         headerText={"Add New Site"}
+        title={"Site Details"}
       >
-        <div className="card">
-          <div className="card-body">
-            <div className="card-title">
-              <h3 className="text-center title-2">Site Details</h3>
+        <div className="row">
+          <Textbox
+            type="text"
+            placeholder="Enter Site Name"
+            name="name"
+            value={inputs.name || ""}
+            label={"Site Name"}
+            onChange={(e) => {
+              handleChange(e);
+            }}
+          />
+        </div>
+        <div className="row">
+          <div className="form-group">
+            <label className="control-label mb-1">Select Builder</label>
+            <div className="input-group">
+              <select
+                name="builder"
+                id="cars"
+                className="form-control"
+                onChange={(e) => {
+                  handleChange(e);
+                }}
+              >
+                <option value="0">--Select Builder--</option>
+                {builderList.map((builder) => (
+                  <option value={builder.id}>{builder.name}</option>
+                ))}
+              </select>
             </div>
-            <hr />
+          </div>
+        </div>
+        <div className="form-group has-success">
+          <div className="form-group">
+            <label className="control-label mb-1">Address</label>
+            <div className="input-group">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Enter Address"
+                name="address"
+                value={inputs.address || ""}
+                onChange={(e) => {
+                  handleChange(e);
+                }}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-6">
             <div className="form-group">
-              <label className="control-label mb-1">Site Name</label>
+              <label className="control-label mb-1">City</label>
               <div className="input-group">
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Enter Site Name"
-                  name="name"
-                  value={inputs.name || ""}
+                  placeholder="Enter City"
+                  name="city"
+                  value={inputs.city || ""}
                   onChange={(e) => {
                     handleChange(e);
                   }}
                 />
               </div>
             </div>
-            <div className="row">
-              <div className="form-group">
-                <label className="control-label mb-1">Select Builder</label>
-                <div className="input-group">
-                  <select
-                    name="builder"
-                    id="cars"
-                    className="form-control"
-                    onChange={(e) => {
-                      handleChange(e);
-                    }}
-                  >
-                    <option value="0">--Select Builder--</option>
-                    {builderList.map((builder) => (
-                      <option value={builder.id}>{builder.name}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div className="form-group has-success">
-              <div className="form-group">
-                <label className="control-label mb-1">Address</label>
-                <div className="input-group">
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Enter Address"
-                    name="address"
-                    value={inputs.address || ""}
-                    onChange={(e) => {
-                      handleChange(e);
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-6">
-                <div className="form-group">
-                  <label className="control-label mb-1">City</label>
-                  <div className="input-group">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Enter City"
-                      name="city"
-                      value={inputs.city || ""}
-                      onChange={(e) => {
-                        handleChange(e);
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="col-6">
-                <div className="form-group">
-                  <label className="control-label mb-1">State</label>
-                  <div className="input-group">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Enter State"
-                      name="state"
-                      value={inputs.state || ""}
-                      onChange={(e) => {
-                        handleChange(e);
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
+          </div>
+          <div className="col-6">
             <div className="form-group">
-              <div className="col-6">
-                <div className="form-group">
-                  <label className="control-label mb-1">Pin Code</label>
-                  <div className="input-group">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Enter Pin Code"
-                      name="pincode"
-                      value={inputs.pincode || ""}
-                      onChange={(e) => {
-                        handleChange(e);
-                      }}
-                    />
-                  </div>
-                </div>
+              <label className="control-label mb-1">State</label>
+              <div className="input-group">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter State"
+                  name="state"
+                  value={inputs.state || ""}
+                  onChange={(e) => {
+                    handleChange(e);
+                  }}
+                />
               </div>
-            </div>
-            <div className="mt-3"></div>
-            <div>
-              <button
-                type="submit"
-                className="btn btn-md btn-info"
-                onClick={isUpdate ? updateSite : addSite}
-              >
-                <i className="fa fa-lock fa-lg"></i>&nbsp;
-                <span id="payment-button-amount">
-                  {isUpdate ? "Update" : "Save"}
-                </span>
-              </button>
-              <button
-                type="submit"
-                onClick={cancel}
-                className="btn btn-md btn-danger ml-15"
-              >
-                <i className="fa fa-lock fa-lg"></i>&nbsp;
-                <span id="payment-button-amount">Cancel</span>
-              </button>
             </div>
           </div>
         </div>
+        <div className="form-group">
+          <div className="col-6">
+            <div className="form-group">
+              <label className="control-label mb-1">Pin Code</label>
+              <div className="input-group">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter Pin Code"
+                  name="pincode"
+                  value={inputs.pincode || ""}
+                  onChange={(e) => {
+                    handleChange(e);
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* <div className="mt-3"></div>
+        <div>
+          <button
+            type="submit"
+            className="btn btn-md btn-info"
+            onClick={isUpdate ? updateSite : addSite}
+          >
+            <i className="fa fa-lock fa-lg"></i>&nbsp;
+            <span id="payment-button-amount">
+              {isUpdate ? "Update" : "Save"}
+            </span>
+          </button>
+          <button
+            type="submit"
+            onClick={cancel}
+            className="btn btn-md btn-danger ml-15"
+          >
+            <i className="fa fa-lock fa-lg"></i>&nbsp;
+            <span id="payment-button-amount">Cancel</span>
+          </button>
+        </div> */}
       </ModalDialog>
     </div>
   );

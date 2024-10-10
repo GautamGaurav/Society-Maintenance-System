@@ -1,7 +1,6 @@
 const BuilderQuery = {
-  insert: `INSERT INTO builders SET ?`,
-  //VALUES  (?,  ?,    ?,       ?,             ?,       ?,    ?,     ?)`,
-  select: "SELECT * FROM builders",
+  insert: `CALL add_builder (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+  select: "SELECT * FROM builder",
   update: "",
   delete: "",
 };

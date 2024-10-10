@@ -18,7 +18,7 @@ export const getBuilders = (request, response) => {
 
 export const addBuilder = (request, response) => {
   try {
-    db.query(BuilderQuery.insert, request.body, (err, result) => {
+    db.query(BuilderQuery.insert, Object.values(request.body), (err, result) => {
       if (err) {
         console.log("err ===> ", err);
       } else {

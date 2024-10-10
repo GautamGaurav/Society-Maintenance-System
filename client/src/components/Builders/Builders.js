@@ -13,7 +13,6 @@ const Builders = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    owner: '',
     gstn: '',
     reraRegistrationNumber: '',
     contactNo: '',
