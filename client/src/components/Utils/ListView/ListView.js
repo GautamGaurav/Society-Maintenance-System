@@ -8,7 +8,7 @@ const ListView = (props) => {
     resizable: true,
   };
 
-  const { dataList, heading } = props;
+  const { dataList } = props;
 
   return (
     <div className="card">

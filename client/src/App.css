@@ -2,7 +2,6 @@
     padding-right: 0px;
     padding-left: 0px;
     padding-top: 2px;
-
 }
 
 .white-font {
@@ -31,4 +30,11 @@
 
 .no-padding {
     padding: 0 !important;
+}
+
+.no-data-container {
+    background-color: '#fff2cc';
+    padding: '20px';
+    border-radius: '5px';
+    margin-left: '10px';
 }

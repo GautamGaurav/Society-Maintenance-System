@@ -41,15 +41,15 @@ function Sidebar() {
               </Link>
             </li>
             <li>
-              <Link className="link" to={`/society`}>
-                <i className="fa fa-users fa-md"></i>
-                <span className="ms-1">Society</span>
-              </Link>
-            </li>
-            <li>
               <Link className="link" to={`/owners`}>
                 <i className="fa fa-users fa-md"></i>
                 <span className="ms-1">Owners</span>
+              </Link>
+            </li>
+            <li>
+              <Link className="link" to={`/society`}>
+                <i className="fa fa-users fa-md"></i>
+                <span className="ms-1">Society</span>
               </Link>
             </li>
             <li>

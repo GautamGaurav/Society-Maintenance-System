@@ -23,10 +23,11 @@ const ModalDialog = (props) => {
           <Button
             text={saveButtonText ? saveButtonText : "Save"}
             onClick={onSaveButtonClick}
-            variant="info"
+            icon={<i class="fa fa-floppy-o" aria-hidden="true" />}
           />
           <Button
             variant="danger"
+            icon={<i class="fa fa-times" aria-hidden="true" />}
             onClick={() => calltoClose(false)}
             text={"Close"}
           />
