@@ -14,7 +14,7 @@ const apiPath = {
   getSocieties: "/api/societies",
   addSociety: "/api/society",
 
-  getSiteUnits: "/api/siteUnits",
+  getAllSiteUnits: "/api/siteUnits",
   addSiteUnit: "/api/siteUnit",
 };
 

@@ -123,7 +123,7 @@ function Sites() {
             onChange={(e) => {
               handleChange(e);
             }}
-            list={builderList}
+            data={builderList}
             placeholder={"--Select Builder--"}
           />
         </div>

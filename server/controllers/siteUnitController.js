@@ -1,9 +1,9 @@
 import db from "../database/config.js";
-import SiteUnitQuery from "../database/sites.js";
+import SiteUnitQuery from "../database/siteUnit.js";
 
-export const getSiteUnits = (request, response) => {
+export const getAllSiteUnits = (request, response) => {
   try {
-    db.query(SiteUnitQuery.GET_SITES, (err, result) => {
+    db.query(SiteUnitQuery.GET_ALL_SITE_UNITS, (err, result) => {
       if (err) {
         console.log("err ===> ", err);
       } else {

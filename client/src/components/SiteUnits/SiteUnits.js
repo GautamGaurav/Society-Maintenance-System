@@ -4,13 +4,20 @@ import { NotificationManager } from "react-notifications";
 import "./SiteUnits.css";
 import ListContainer from "../Utils/ListContainer/ListContainer";
 import ModalDialog from "../Utils/ModalDialog/ModalDialog";
+import { Select, Textbox } from "../Layout";
+import SelectOption from "../../constants/data"
 
 function SiteUnits() {
   const [isNew, setIsNew] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [siteUnitsList, setSiteUnitsList] = useState([]);
-  const [inputs, setInputs] = useState({});
   const [siteList, setSiteList] = useState([]);
+  const [formData, setFormData] = useState({
+    name: '',
+    floor: '',
+    site: '',
+    type: ''
+  });
 
   useEffect(() => {
     getAllSiteUnits();
@@ -33,10 +40,12 @@ function SiteUnits() {
     setIsNew(value);
   };
 
-  const handleChange = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-    setInputs((values) => ({ ...values, [name]: value }));
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
 
   const getAllSiteUnits = () => {
@@ -51,10 +60,13 @@ function SiteUnits() {
       });
   };
 
-  const addSiteUnits = () => {
+  const addSiteUnit = () => {
     axios
-      .post("http://localhost:3001/api/siteunits", inputs)
+      .post("http://localhost:3001/api/siteunit", formData)
       .then((response) => {
+        getAllSiteUnits();
+        getAllSites();
+        setIsNew(false);
         console.log("response =======>", response.data);
         NotificationManager.success("Site Added Successfully");
       })
@@ -64,9 +76,9 @@ function SiteUnits() {
       });
   };
 
-  const updateSiteUnits = () => {
+  const updateSiteUnit = () => {
     axios
-      .post("http://localhost:3001/api/siteUnits", inputs)
+      .post("http://localhost:3001/api/siteUnits", formData)
       .then((response) => {
         console.log("response =======>", response.data);
         // NotificationManager.success(response.data.message);
@@ -77,127 +89,74 @@ function SiteUnits() {
       });
   };
 
-  const cancel = () => {};
-
   return (
     <div>
       <ListContainer
         heading={"Site Unit List"}
         dataList={siteUnitsList}
         addNew={handleState}
-        btnText={"Add New Society"}
+        btnText={"Add New Site"}
       />
       <ModalDialog
         show={isNew}
         calltoClose={handleState}
         headerText={"Add New Site Unit"}
+        title={"Site Details"}
+        onSaveButtonClick={isUpdate ? updateSiteUnit : addSiteUnit}
       >
-        <div className="card">
-          <div className="card-body">
-            <div className="card-title">
-              <h3 className="text-center title-2">Site Units Details</h3>
-            </div>
-            <hr />
-            <div className="form-group">
-              <label className="control-label mb-1">Site Units Name/No</label>
-              <div className="input-group">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Enter Site Unit Name/No"
-                  name="name"
-                  value={inputs.name || ""}
-                  onChange={(e) => {
-                    handleChange(e);
-                  }}
-                />
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-6">
-                <div className="form-group">
-                  <label className="control-label mb-1">Floor</label>
-                  <div className="input-group">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Enter floor details"
-                      name="floor"
-                      value={inputs.floor || ""}
-                      onChange={(e) => {
-                        handleChange(e);
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="col-6">
-                <div className="form-group">
-                  <label className="control-label mb-1">Select Site</label>
-                  <div className="input-group">
-                    <select
-                      name="site"
-                      id="cars"
-                      className="form-control"
-                      onChange={(e) => {
-                        handleChange(e);
-                      }}
-                    >
-                      <option value="0">--Select Site--</option>
-                      {siteList.map((site) => (
-                        <option value={site.id}>{site.name}</option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div className="col-6">
-                <div className="form-group">
-                  <label className="control-label mb-1">Select Type</label>
-                  <div className="input-group">
-                    <select
-                      name="type"
-                      id="cars"
-                      className="form-control"
-                      onChange={(e) => {
-                        handleChange(e);
-                      }}
-                    >
-                      <option value="0">--Select Site--</option>
-                      <option value={"Flat"}>Flat</option>
-                      <option value={"Singlex"}>Singlex </option>
-                      <option value={"Duplex"}>Duplex</option>
-                      <option value={"Form House"}>Form House</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="mt-3"></div>
-            <div>
-              <button
-                type="submit"
-                className="btn btn-md btn-info"
-                onClick={isUpdate ? updateSiteUnits : addSiteUnits}
-              >
-                <i className="fa fa-lock fa-lg"></i>&nbsp;
-                <span id="payment-button-amount">
-                  {isUpdate ? "Update" : "Save"}
-                </span>
-              </button>
-              <button
-                type="submit"
-                onClick={cancel}
-                className="btn btn-md btn-danger ml-15"
-              >
-                <i className="fa fa-lock fa-lg"></i>&nbsp;
-                <span id="payment-button-amount">Cancel</span>
-              </button>
-            </div>
+        <div className="row">
+          <Textbox
+            label="Site Units Name/No"
+            type="text"
+            className="form-control"
+            placeholder="Enter Site Unit Name/No"
+            name="name"
+            value={formData.name}
+            onChange={(e) => {
+              handleChange(e);
+            }}
+          />
+        </div>
+        <div className="row">
+          <div className="col-6">
+            <Textbox
+              type="text"
+              label="Floor"
+              className="form-control"
+              placeholder="Enter floor details"
+              name="floor"
+              value={formData.floor}
+              onChange={(e) => {
+                handleChange(e);
+              }}
+            />
+          </div>
+          <div className="col-6">
+            <Select
+              label="Select Site"
+              name="site"
+              placeholder={"--Select Site--"}
+              onChange={(e) => {
+                handleChange(e);
+              }}
+              data={siteList}
+            />
+          </div>
+          <div className="col-6">
+            <Select
+              label="Select Site Unit Type"
+              name="type"
+              className="form-control"
+              onChange={(e) => {
+                handleChange(e);
+              }}
+              placeholder={"--Select Site Unit Type--"}
+              data={SelectOption}
+            />
           </div>
         </div>
-      </ModalDialog>
-    </div>
+      </ModalDialog >
+    </div >
   );
 }
 

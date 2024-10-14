@@ -1,10 +1,9 @@
 const SiteUnitQuery = {
-  insert: `INSERT INTO site_units SET ?`,
-  //VALUES  (?,  ?,    ?,       ?,             ?,       ?,    ?,     ?)`,
+  insert: `INSERT INTO site_unit SET ?`,
   select: "SELECT * FROM site_units",
   update: "",
   delete: "",
-  GET_SITE_UNITS: `CALL GET_SITE_UNITS()`,
+  GET_ALL_SITE_UNITS: `CALL GET_ALL_SITE_UNITS()`,
 };
 
 export default SiteUnitQuery;

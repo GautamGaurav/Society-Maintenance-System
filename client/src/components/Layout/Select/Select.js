@@ -10,8 +10,8 @@ const Select = (props) => {
                     onChange={props.onChange}
                 >
                     <option value="0">{props.placeholder}</option>
-                    {props?.list.map((item) => (
-                        <option value={item.id}>{item.name}</option>
+                    {props?.data.map((item) => (
+                        <option value={item.id ? item.id : item.value}>{item.text ? item.text : item.name}</option>
                     ))}
                 </select>
             </div>
