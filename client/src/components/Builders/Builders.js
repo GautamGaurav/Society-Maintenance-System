@@ -27,7 +27,7 @@ const Builders = () => {
 
   useEffect(() => {
     getAllBuilders();
-  }, []);
+  }, [builderList]);
 
 
   const handleChange = (e) => {

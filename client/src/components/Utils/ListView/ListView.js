@@ -10,8 +10,6 @@ const ListView = (props) => {
 
   const { dataList, heading } = props;
 
-  debugger;
-
   return (
     <div className="card">
       <div className="card-body no-padding">
@@ -19,14 +17,14 @@ const ListView = (props) => {
           <AgGridReact rowData={dataList} defaultColDef={defaultColDef}>
             {dataList && dataList.length
               ? Object.entries(dataList[0]).map(([key]) => {
-                  return (
-                    <AgGridColumn
-                      field={key}
-                      minWidth={key === "id" ? 70 : 250}
-                      maxWidth={key === "id" ? 70 : 250}
-                    />
-                  );
-                })
+                return (
+                  <AgGridColumn
+                    field={key}
+                    minWidth={key === "id" ? 70 : 250}
+                    maxWidth={key === "id" ? 70 : 250}
+                  />
+                );
+              })
               : ""}
           </AgGridReact>
         </div>

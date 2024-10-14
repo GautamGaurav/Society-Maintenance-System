@@ -1,10 +1,10 @@
 const SiteQuery = {
-  insert: `INSERT INTO sites SET ?`,
+  insert: `INSERT INTO site SET ?`,
   //VALUES  (?,  ?,    ?,       ?,             ?,       ?,    ?,     ?)`,
-  select: "SELECT * FROM sites",
+  select: "SELECT * FROM site",
   update: "",
   delete: "",
-  GET_SITES: `CALL GET_SITES()`,
+  GET_ALL_SITES: `CALL GET_ALL_SITES()`,
 };
 
 export default SiteQuery;

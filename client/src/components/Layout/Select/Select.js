@@ -1,18 +1,21 @@
-const Select = () => {
+const Select = (props) => {
     return (
-        <select
-            name="builder"
-            id="cars"
-            className="form-control"
-            onChange={(e) => {
-                handleChange(e);
-            }}
-        >
-            <option value="0">--Select Builder--</option>
-            {builderList.map((builder) => (
-                <option value={builder.id}>{builder.name}</option>
-            ))}
-        </select>
+        <div className="form-group">
+            <label className="control-label mb-1">{props?.label}</label>
+            <div className="input-group">
+                <select
+                    name={props.name}
+                    id={props.id}
+                    className={"form-control " + props?.className}
+                    onChange={props.onChange}
+                >
+                    <option value="0">{props.placeholder}</option>
+                    {props?.list.map((item) => (
+                        <option value={item.id}>{item.name}</option>
+                    ))}
+                </select>
+            </div>
+        </div>
     )
 }
 
