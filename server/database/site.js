@@ -1,6 +1,5 @@
 const SiteQuery = {
   insert: `INSERT INTO site SET ?`,
-  //VALUES  (?,  ?,    ?,       ?,             ?,       ?,    ?,     ?)`,
   select: "SELECT * FROM site",
   update: "",
   delete: "",

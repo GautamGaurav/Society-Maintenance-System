@@ -1,8 +1,9 @@
 const BuilderQuery = {
-  insert: `CALL add_builder (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-  select: "SELECT * FROM builder",
-  update: "",
-  delete: "",
+  INSERT: `CALL ADD_BUILDER (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+  SELECT: "SELECT * FROM builder",
+  UPDATE: "",
+  DELETE: "",
+  GET_ALL: "SELECT * FROM builder",
 };
 
 export default BuilderQuery;

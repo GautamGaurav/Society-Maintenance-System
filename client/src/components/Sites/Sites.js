@@ -5,6 +5,8 @@ import "./Sites.css";
 import ListContainer from "../Utils/ListContainer/ListContainer";
 import ModalDialog from "../Utils/ModalDialog/ModalDialog";
 import { Textbox, Select } from "../Layout";
+import { getAllBuilders, getAllSites, } from "../../Utils";
+import { api } from "../../constants/api";
 
 function Sites() {
   const [isNew, setIsNew] = useState(false);
@@ -20,9 +22,9 @@ function Sites() {
   });
 
   useEffect(() => {
-    getAllSites();
-    getAllBuilders();
-  }, [siteList]);
+    getAllSites().then((sites) => { setSiteList(sites); });
+    getAllBuilders().then((builders) => { setBuilderList(builders); });
+  }, []);
 
   const handleState = (value) => {
     setIsNew(value);
@@ -36,37 +38,13 @@ function Sites() {
     });
   };
 
-  const getAllSites = () => {
-    axios
-      .get("http://localhost:3001/api/sites")
-      .then((response) => {
-        setSiteList(response.data);
-      })
-      .catch((error) => {
-        console.log("error ===> ", error);
-        NotificationManager.error(error.response.data.message);
-      });
-  };
-
-  const getAllBuilders = () => {
-    axios
-      .get("http://localhost:3001/api/builders")
-      .then((response) => {
-        setBuilderList(response.data);
-      })
-      .catch((error) => {
-        console.log("error ===> ", error);
-        //NotificationManager.error(error.response.data.message);
-      });
-  };
-
   const addSite = () => {
     axios
-      .post("http://localhost:3001/api/site", formData)
+      .post(api.site.CRUD, formData)
       .then((response) => {
         NotificationManager.success("New Site Added Successfully!");
         setIsNew(false);
-        getAllSites();
+        getAllSites().then((sites) => { setSiteList(sites); });
       })
       .catch((error) => {
         console.log("error ===> ", error);
@@ -78,7 +56,7 @@ function Sites() {
 
   const updateSite = () => {
     axios
-      .post("http://localhost:3001/api/site", formData)
+      .post(api.site.CRUD, formData)
       .then((response) => {
         console.log("response =======>", response.data);
         NotificationManager.success(response.data.message);

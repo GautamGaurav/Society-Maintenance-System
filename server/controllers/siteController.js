@@ -1,5 +1,5 @@
 import db from "../database/config.js";
-import SiteQuery from "../database/sites.js";
+import SiteQuery from "../database/site.js";
 
 export const getSites = (request, response) => {
   try {
@@ -7,7 +7,6 @@ export const getSites = (request, response) => {
       if (err) {
         console.log("err ===> ", err);
       } else {
-        console.log("result ===> ", result);
         response.send(result[0]);
       }
     });

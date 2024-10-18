@@ -5,7 +5,8 @@ import "./Builders.css";
 import ListContainer from "../Utils/ListContainer/ListContainer";
 import ModalDialog from "../Utils/ModalDialog/ModalDialog";
 import { Textbox, Button } from "../Layout";
-import apiUrl from "../../constants/apiURL"
+import { api } from "../../constants/api";
+import { getAllBuilders } from "../../Utils";
 
 
 const Builders = () => {
@@ -26,8 +27,11 @@ const Builders = () => {
   const [builderList, setBuilderList] = useState([]);
 
   useEffect(() => {
-    getAllBuilders();
-  }, [builderList]);
+    getAllBuilders()
+      .then((builders) => {
+        setBuilderList(builders);
+      })
+  }, []);
 
 
   const handleChange = (e) => {
@@ -42,21 +46,9 @@ const Builders = () => {
     setIsNew(value);
   };
 
-  const getAllBuilders = () => {
-    axios
-      .get(apiUrl.builderAPIUrl)
-      .then((response) => {
-        setBuilderList(response.data);
-      })
-      .catch((error) => {
-        console.log("error ===> ", error);
-        //NotificationManager.error(error.response.data.message);
-      });
-  };
-
   const addBuilder = () => {
     axios
-      .post(apiUrl.crudBuilderAPIUrl, formData)
+      .post(api.builder.CRUD, formData)
       .then((response) => {
         console.log("response =======>", response.data);
         NotificationManager.success("Builder Added Successfully!");
@@ -71,7 +63,7 @@ const Builders = () => {
 
   const updateBuilder = () => {
     axios
-      .post(apiUrl.crudBuilderAPIUrl, {})
+      .post(api.builder.CRUD, formData)
       .then((response) => {
         console.log("response =======>", response.data);
         // NotificationManager.success(response.data.message);
@@ -81,8 +73,6 @@ const Builders = () => {
         //NotificationManager.error(error.response.data.message);
       });
   };
-
-  const cancel = () => setIsNew(false);
 
   return (
     <div>

@@ -4,7 +4,7 @@ import cors from "cors";
 import apiPath from "./routes.js";
 
 import { login } from "./controllers/loginController.js";
-import { getOwners, getOwnerByEmail } from "./controllers/ownerController.js";
+import { getOwners, addOwner } from "./controllers/ownerController.js";
 import { getBuilders, addBuilder } from "./controllers/builderController.js";
 import { getSites, addSite } from "./controllers/siteController.js";
 import { getSocieties, addSociety } from "./controllers/societyController.js";
@@ -20,7 +20,7 @@ app.post(apiPath.login, login);
 
 /* ------- Owner --------- */
 app.get(apiPath.getOwners, getOwners);
-app.post(apiPath.getOwnerByEmail, getOwnerByEmail);
+app.post(apiPath.addOwner, addOwner);
 
 /* ------- Builders --------- */
 app.get(apiPath.getBuilders, getBuilders);

@@ -20,7 +20,14 @@ const ListContainer = (props) => {
             <ListView heading={heading} dataList={dataList}></ListView>
           ) : (
             <div className="row">
-              <div className="border border-light" style={{ backgroundColor: '#fff2cc', padding: '10px', borderRadius: '5px', marginLeft: '10px', textAlign: "center" }}>No Data Found</div>
+              <div className="border border-light"
+                style={{
+                  backgroundColor: '#fff2cc',
+                  padding: '10px',
+                  borderRadius: '5px',
+                  marginLeft: '10px',
+                  textAlign: "center"
+                }}>No Data Found</div>
             </div>
           )}
         </div>

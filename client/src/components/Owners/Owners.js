@@ -5,89 +5,82 @@ import "./Owners.css";
 import ListContainer from "../Utils/ListContainer/ListContainer";
 import ModalDialog from "../Utils/ModalDialog/ModalDialog";
 import { Select, Textbox } from "../Layout";
+import { api } from "../../constants/api"
+import { getAllBuilders, getAllOwners, getAllSites, getAllSiteUnits } from "../../Utils";
 
 const Owners = () => {
   const [isNew, setIsNew] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
-  const [ownersList, setOwnersList] = useState([]);
-  const [inputs, setInputs] = useState({});
-  const [siteList, setSiteList] = useState([]);
+  const [owners, setOwners] = useState([]);
+  const [sites, setSites] = useState([]);
+  const [siteUnits, setSiteUnits] = useState([]);
+  const [builders, setBuilders] = useState([]);
+  const [formData, setFormData] = useState({
+    name: '',
+    builder: '',
+    site: '',
+    siteUnit: '',
+    email: '',
+    contactNo: '',
+    address: '',
+    city: '',
+    state: '',
+    pincode: ''
+  });
 
   useEffect(() => {
-    getAllOwners();
-    getAllSite();
+    getAllOwners().then((owners) => { setOwners(owners); });
+    getAllSites().then((sites) => { setSites(sites); });
+    getAllSiteUnits().then((siteUnits) => { setSiteUnits(siteUnits); });
+    getAllBuilders().then((builders) => { setBuilders(builders); });
   }, []);
 
-  const handleChange = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-    setInputs((values) => ({ ...values, [name]: value }));
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
 
   const handleState = (value) => {
     setIsNew(value);
   };
 
-  const getAllSite = () => {
+  const addOwner = () => {
     axios
-      .get("http://localhost:3001/api/sites")
-      .then((response) => {
-        setSiteList(response.data);
-      })
-      .catch((error) => {
-        console.log("error ===> ", error);
-        //NotificationManager.error(error.response.data.message);
-      });
-  };
-
-  const getAllOwners = () => {
-    axios
-      .get("http://localhost:3001/api/owners")
-      .then((response) => {
-        setOwnersList(response.data);
-      })
-      .catch((error) => {
-        console.log("error ===> ", error);
-        //NotificationManager.error(error.response.data.message);
-      });
-  };
-
-  const addOwners = () => {
-    axios
-      .post("http://localhost:3001/api/Owners", inputs)
+      .post(api.owner.CRUD, formData)
       .then((response) => {
         console.log("response =======>", response.data);
         NotificationManager.success("Owners Added Successfully!");
-        setInputs({});
         setIsNew(false);
-        getAllOwners();
+        getAllOwners().then((owners) => { setOwners(owners); });
       })
       .catch((error) => {
         console.log("error ===> ", error);
-        //NotificationManager.error(error.response.data.message);
+        NotificationManager.error(error.response.data.message);
       });
   };
 
-  const updateOwners = () => {
+  const updateOwner = () => {
     axios
-      .post("http://localhost:3001/api/Owners", {})
+      .post(api.owner.CRUD, formData)
       .then((response) => {
         console.log("response =======>", response.data);
-        // NotificationManager.success(response.data.message);
+        NotificationManager.success(response.data.message);
       })
       .catch((error) => {
         console.log("error ===> ", error);
-        //NotificationManager.error(error.response.data.message);
+        NotificationManager.error(error.response.data.message);
       });
   };
 
-  const cancel = () => setIsNew(false);
 
   return (
     <div>
       <ListContainer
         heading={"Owners List"}
-        dataList={ownersList}
+        dataList={owners}
         addNew={handleState}
         btnText={"Add New Owners"}
       />
@@ -96,6 +89,7 @@ const Owners = () => {
         calltoClose={handleState}
         headerText={"Add New Owners"}
         title={"Owners Details"}
+        onSaveButtonClick={isUpdate ? updateOwner : addOwner}
       >
         <div className="row">
           <div className="col-6">
@@ -107,23 +101,35 @@ const Owners = () => {
               onChange={(e) => {
                 handleChange(e);
               }}
-              value={inputs.name || ""}
+              value={formData.name}
             />
           </div>
+          <div className="col-6">
+            <Select
+              placeholder="--Select Builder--"
+              label="Select Builder"
+              name="builder"
+              onChange={(e) => {
+                handleChange(e);
+              }}
+              data={builders}
+              value={formData.builder}
+            />
+          </div>
+        </div >
+        <div className="row">
           <div className="col-6">
             <Select
               placeholder="--Select Site--"
               label="Select Site"
               name="site"
-              id="cars"
               onChange={(e) => {
                 handleChange(e);
               }}
-              data={siteList}
+              data={sites}
+              value={formData.site}
             />
           </div>
-        </div >
-        <div className="row">
           <div className="col-6">
             <Select
               placeholder="--Select Site Unit--"
@@ -132,7 +138,8 @@ const Owners = () => {
               onChange={(e) => {
                 handleChange(e);
               }}
-              data={siteList}
+              data={siteUnits}
+              value={formData.siteUnit}
             />
           </div>
         </div>
@@ -146,7 +153,7 @@ const Owners = () => {
               onChange={(e) => {
                 handleChange(e);
               }}
-              value={inputs.email || ""}
+              value={formData.email}
             />
           </div>
           <div className="col-6">
@@ -158,7 +165,7 @@ const Owners = () => {
               onChange={(e) => {
                 handleChange(e);
               }}
-              value={inputs.contactNo || ""}
+              value={formData.contactNo}
             />
           </div>
         </div >
@@ -171,7 +178,7 @@ const Owners = () => {
             onChange={(e) => {
               handleChange(e);
             }}
-            value={inputs.address || ""}
+            value={formData.address}
           />
         </div>
         <div className="row">
@@ -184,7 +191,7 @@ const Owners = () => {
               onChange={(e) => {
                 handleChange(e);
               }}
-              value={inputs.city || ""}
+              value={formData.city}
             />
           </div>
           <div className="col-6">
@@ -196,7 +203,7 @@ const Owners = () => {
               onChange={(e) => {
                 handleChange(e);
               }}
-              value={inputs.state || ""}
+              value={formData.state}
             />
           </div>
         </div>
@@ -209,7 +216,7 @@ const Owners = () => {
             onChange={(e) => {
               handleChange(e);
             }}
-            value={inputs.pincode || ""}
+            value={formData.pincode}
           />
         </div>
       </ModalDialog>

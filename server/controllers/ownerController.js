@@ -1,18 +1,32 @@
 import db from '../database/config.js'
+import OwnerQuery from "../database/owner.js";
 
 export const getOwners = (request, response) => {
-  const siteId = request.body.siteId;
-  const sqlSelect = "SELECT * FROM owners";
-
   try {
-    db.query(sqlSelect, [siteId], (err, result) => {
+    db.query(OwnerQuery.GET_ALL, (err, result) => {
       if (err) {
         console.log("err ===> ", err);
         return response.status(400).send({
-          message: "This is an error!",
+          message: err.message,
         });
       } else {
-        console.log("result ===> ", result);
+        response.send(result);
+      }
+    });
+  } catch (error) {
+    response.status(404).json({ message: error.message });
+  }
+};
+
+export const addOwner = (request, response) => {
+  try {
+    db.query(OwnerQuery.INSERT, Object.values(request.body), (err, result) => {
+      if (err) {
+        console.log("err ===> ", err);
+        return response.status(400).send({
+          message: err.message
+        });
+      } else {
         response.send(result);
       }
     });
@@ -22,14 +36,13 @@ export const getOwners = (request, response) => {
 };
 
 export const getOwnerByEmail = (request, response) => {
-  const sqlSelect = "SELECT * FROM owners WHERE email = ?";
-
   try {
-    db.query(sqlSelect, ["gaurav.gautam17@gmail.com"], (err, result) => {
+    db.query(OwnerQuery.selectOwnerByEmail, request.body, (err, result) => {
       if (err) {
-        console.log("err ===> ", err);
+        return response.status(400).send({
+          message: err.message
+        });
       } else {
-        console.log("result ===> ", result);
         response.send(result);
       }
     });

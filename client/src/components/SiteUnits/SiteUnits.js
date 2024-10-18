@@ -5,7 +5,10 @@ import "./SiteUnits.css";
 import ListContainer from "../Utils/ListContainer/ListContainer";
 import ModalDialog from "../Utils/ModalDialog/ModalDialog";
 import { Select, Textbox } from "../Layout";
-import SelectOption from "../../constants/data"
+import SelectOption from "../../constants/data";
+import { getAllSiteUnits, getAllSites, } from "../../Utils";
+import { api } from "../../constants/api";
+
 
 function SiteUnits() {
   const [isNew, setIsNew] = useState(false);
@@ -20,21 +23,10 @@ function SiteUnits() {
   });
 
   useEffect(() => {
-    getAllSiteUnits();
-    getAllSites();
+    getAllSiteUnits().then((siteUnits) => { setSiteUnitsList(siteUnits); });
+    getAllSites().then((sites) => { setSiteList(sites); });
   }, []);
 
-  const getAllSites = () => {
-    axios
-      .get("http://localhost:3001/api/sites")
-      .then((response) => {
-        setSiteList(response.data);
-      })
-      .catch((error) => {
-        console.log("error ===> ", error);
-        NotificationManager.error(error.response.data.message);
-      });
-  };
 
   const handleState = (value) => {
     setIsNew(value);
@@ -48,24 +40,12 @@ function SiteUnits() {
     });
   };
 
-  const getAllSiteUnits = () => {
-    axios
-      .get("http://localhost:3001/api/siteUnits")
-      .then((response) => {
-        setSiteUnitsList(response.data);
-      })
-      .catch((error) => {
-        console.log("error ===> ", error);
-        //NotificationManager.error(error.response.data.message);
-      });
-  };
-
   const addSiteUnit = () => {
     axios
-      .post("http://localhost:3001/api/siteunit", formData)
+      .post(api.siteUnit.CRUD, formData)
       .then((response) => {
-        getAllSiteUnits();
-        getAllSites();
+        getAllSiteUnits().then((siteUnits) => { setSiteUnitsList(siteUnits); });
+        getAllSites().then((sites) => { setSiteList(sites); });
         setIsNew(false);
         console.log("response =======>", response.data);
         NotificationManager.success("Site Added Successfully");
@@ -78,7 +58,7 @@ function SiteUnits() {
 
   const updateSiteUnit = () => {
     axios
-      .post("http://localhost:3001/api/siteUnits", formData)
+      .post(api.siteUnit.CRUD, formData)
       .then((response) => {
         console.log("response =======>", response.data);
         // NotificationManager.success(response.data.message);
