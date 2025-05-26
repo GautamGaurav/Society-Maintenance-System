@@ -48,3 +48,22 @@ export const getSocietyById = async (request, response) => {
     response.status(404).json({ message: error.message });
   }
 };
+
+export const getSocietyDetailsById = async (request, response) => {
+  console.log("request.body ==================> ", request.params)
+  try {
+    db.query(SocietyQuery.GET_SOCIETY_DETAILS_BY_ID, Object.values(request.params), (err, result) => {
+      if (err) {
+        console.log("err ===> ", err);
+        response.status(404).send({
+          message: "Error Processing Data!",
+        });
+      } else {
+        console.log("result ===========> ", result[0][0])
+        response.send(result[0][0]);
+      }
+    });
+  } catch (error) {
+    response.status(404).json({ message: error.message });
+  }
+};

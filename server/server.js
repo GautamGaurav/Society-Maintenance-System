@@ -7,7 +7,7 @@ import { login } from "./controllers/loginController.js";
 import { getOwners, addOwner } from "./controllers/ownerController.js";
 import { getBuilders, addBuilder } from "./controllers/builderController.js";
 import { getSites, addSite } from "./controllers/siteController.js";
-import { getSocieties, addSociety } from "./controllers/societyController.js";
+import { getSocieties, addSociety, getSocietyDetailsById } from "./controllers/societyController.js";
 import { getAllSiteUnits, addSiteUnit, getAllSiteUnitsBySiteId } from "./controllers/siteUnitController.js";
 
 const app = express();
@@ -33,11 +33,12 @@ app.post(apiPath.addSite, addSite);
 /* ------- Society --------- */
 app.get(apiPath.getSocieties, getSocieties);
 app.post(apiPath.addSociety, addSociety);
+app.get(apiPath.getSocietyDetailsById, getSocietyDetailsById);
 
 /* ------- Site Units --------- */
 app.get(apiPath.getAllSiteUnits, getAllSiteUnits);
 app.post(apiPath.addSiteUnit, addSiteUnit);
-app.post(apiPath.getAllSiteUnitsBySiteId, getAllSiteUnitsBySiteId);
+app.get(apiPath.getAllSiteUnitsBySiteId, getAllSiteUnitsBySiteId);
 
 
 app.listen(3001, () => {

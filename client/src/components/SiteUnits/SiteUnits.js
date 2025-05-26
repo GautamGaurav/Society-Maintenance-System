@@ -5,7 +5,7 @@ import "./SiteUnits.css";
 import ListContainer from "../Utils/ListContainer/ListContainer";
 import ModalDialog from "../Utils/ModalDialog/ModalDialog";
 import { Select, Textbox } from "../Layout";
-import { SiteOptions } from "../../constants/data";
+import { SiteOptions, FloorOptions, RoomLayout } from "../../constants/data";
 import { getAllSiteUnits, getAllSites, } from "../../Utils";
 import { api } from "../../constants/api";
 
@@ -16,10 +16,12 @@ function SiteUnits() {
   const [siteUnitsList, setSiteUnitsList] = useState([]);
   const [siteList, setSiteList] = useState([]);
   const [formData, setFormData] = useState({
-    name: '',
-    floor: '',
     site: '',
-    type: ''
+    name: '',
+    type: '',
+    floor: '',
+    roomLayout: '',
+    areaSize: ''
   });
 
   useEffect(() => {
@@ -92,32 +94,6 @@ function SiteUnits() {
         onSaveButtonClick={isUpdate ? updateSiteUnit : addSiteUnit}
       >
         <div className="row">
-          <Textbox
-            label="Site Units Name/No"
-            type="text"
-            className="form-control"
-            placeholder="Enter Site Unit Name/No"
-            name="name"
-            value={formData.name}
-            onChange={(e) => {
-              handleChange(e);
-            }}
-          />
-        </div>
-        <div className="row">
-          <div className="col-6">
-            <Textbox
-              type="text"
-              label="Floor"
-              className="form-control"
-              placeholder="Enter floor details"
-              name="floor"
-              value={formData.floor}
-              onChange={(e) => {
-                handleChange(e);
-              }}
-            />
-          </div>
           <div className="col-6">
             <Select
               label="Select Site"
@@ -130,6 +106,21 @@ function SiteUnits() {
             />
           </div>
           <div className="col-6">
+            <Textbox
+              label="Site Units Name/No"
+              type="text"
+              className="form-control"
+              placeholder="Enter Site Unit Name/No"
+              name="name"
+              value={formData.name}
+              onChange={(e) => {
+                handleChange(e);
+              }}
+            />
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-6">
             <Select
               label="Select Site Unit Type"
               name="type"
@@ -139,6 +130,45 @@ function SiteUnits() {
               }}
               placeholder={"--Select Site Unit Type--"}
               data={SiteOptions}
+            />
+          </div>
+          <div className="col-6">
+            <Select
+              label="Select Floor"
+              name="floor"
+              className="form-control"
+              onChange={(e) => {
+                handleChange(e);
+              }}
+              placeholder={"--Select Floor--"}
+              data={FloorOptions}
+            />
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-6">
+            <Select
+              label="Select Rooms Layout"
+              name="roomLayout"
+              className="form-control"
+              onChange={(e) => {
+                handleChange(e);
+              }}
+              placeholder={"--Select Room Layout Type--"}
+              data={RoomLayout}
+            />
+          </div>
+          <div className="col-6">
+            <Textbox
+              label="Area Size"
+              type="text"
+              className="form-control"
+              placeholder="Enter Area Size in Sq Ft"
+              name="areaSize"
+              value={formData.areaSize}
+              onChange={(e) => {
+                handleChange(e);
+              }}
             />
           </div>
         </div>

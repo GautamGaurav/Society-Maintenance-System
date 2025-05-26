@@ -31,7 +31,7 @@ export const getAllSiteUnitsBySiteId = (request, response) => {
 
 export const addSiteUnit = (request, response) => {
   try {
-    db.query(SiteUnitQuery.insert, request.body, (err, result) => {
+    db.query(SiteUnitQuery.INSERT, Object.values(request.body), (err, result) => {
       if (err) {
         console.log("err ===> ", err);
         response.status(404).send({

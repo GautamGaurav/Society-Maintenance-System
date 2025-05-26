@@ -31,16 +31,6 @@ const getAllSiteUnits = async () => {
     }
 };
 
-const getAllSiteUnitsBySiteId = async () => {
-    try {
-        const response = await axios.get(api.siteUnit.GET_ALL_BY_SITE_ID);
-        return response.data;
-    } catch (error) {
-        console.log("error ===> ", error);
-        return [];
-    }
-
-};
 
 const getAllOwners = async () => {
     try {
@@ -72,6 +62,18 @@ const getAllSocietyById = async (id) => {
     }
 };
 
+const getSocietyDetailsById = async (societyId) => {
+    try {
+        const url = api.society.GET_ALL_DETAILS_BY_ID + `${societyId}`;
+        const response = await axios.get(url);
+        return response.data;
+    } catch (error) {
+        console.log("error ===> ", error);
+        return [];
+    }
+
+};
+
 const getAllBudgetDetail = async () => {
     try {
         const response = await axios.get(api.budgetDetail.GET);
@@ -90,5 +92,5 @@ export {
     getAllSocieties,
     getAllSocietyById,
     getAllBudgetDetail,
-    getAllSiteUnitsBySiteId
+    getSocietyDetailsById
 }

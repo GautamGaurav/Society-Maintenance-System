@@ -7,7 +7,7 @@ import axios from "axios";
 import ListContainer from "../Utils/ListContainer/ListContainer";
 import ModalDialog from "../Utils/ModalDialog/ModalDialog";
 import { Select, Textbox } from "../Layout";
-import { getAllBudgetDetail, getAllSocieties, getAllSocietyById, getAllSiteUnitsBySiteId } from "../../Utils";
+import { getAllBudgetDetail, getAllSocieties, getAllSocietyById, getSocietyDetailsById } from "../../Utils";
 import { api } from "../../constants/api";
 import { FrequencyData } from "../../constants/data"
 
@@ -40,7 +40,7 @@ const Budget = () => {
 
   const handleState = (value) => {
     getAllSocieties().then((societyList) => { setSocietyList(societyList); });
-    getAllSiteUnitsBySiteId(value).then((siteUnits) => { setSiteUnits(siteUnits); });
+    //getAllSiteUnitsBySiteId(value).then((siteUnits) => { setSiteUnits(siteUnits); });
     //getAllBuilders().then((builders) => { setBuilders(builders); });
     setIsNew(value);
   };
@@ -49,22 +49,15 @@ const Budget = () => {
     const { name, value } = e.target;
 
     if (value !== null && value !== undefined) {
-      getAllSiteUnitsBySiteId(value).then((siteUnits) => { setSiteUnits(siteUnits); });
+      getSocietyDetailsById(value).then((societyDetail) => {
+        setSocietyDetail(societyDetail);
+      });
     }
 
     setFormData({
       ...formData,
       [name]: value,
     });
-    if (name === "society") {
-      getAllSocietyById(value)
-        .then(
-          (societyDetail) => {
-            setSocietyDetail(societyDetail);
-            debugger
-          }
-        );
-    }
   };
 
 
@@ -137,7 +130,7 @@ const Budget = () => {
               type="number"
               placeholder="Total Site Unit"
               name="totalSiteUnit"
-              value={societyDetail.siteUnit}
+              value={societyDetail.siteUnitCount}
             />
           </div>
         </div>

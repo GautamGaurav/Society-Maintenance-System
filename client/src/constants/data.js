@@ -15,7 +15,27 @@ const FrequencyData = [
     { id: 5, value: "Contract Base" }
 ];
 
+const FloorOptions = [
+    { value: "Ground", text: "Ground" },
+    { value: "First Floor", text: "First Floor" },
+    { value: "Second Floor", text: "Second Floor" },
+    { value: "Third Floor", text: "Third Floor" },
+    { value: "Fourth Floor", text: "Fourth Floor" },
+    { value: "Fifth Floor", text: "Fifth Floor" }
+];
+
+const RoomLayout = [
+    { value: "1RK", text: "1 RK" },
+    { value: "1BHK", text: "1 BHK" },
+    { value: "2BHK", text: "2 BHK" },
+    { value: "3BHK", text: "3 BHK" },
+    { value: "4BHK", text: "4 BHK" },
+    { value: "5BHK", text: "5 BHK" }
+];
+
 export {
     SiteOptions,
-    FrequencyData
+    FrequencyData,
+    FloorOptions,
+    RoomLayout
 };

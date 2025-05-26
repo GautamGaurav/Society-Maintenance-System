@@ -11,7 +11,7 @@ const api = {
     },
     siteUnit: {
         GET: baseUrl + "siteUnits",
-        GET_ALL_BY_SITE_ID: baseUrl + "siteUnits/:siteId",
+        GET_ALL_BY_SITE_ID: baseUrl + "siteUnits/",
         CRUD: baseUrl + "siteunit"
     },
     owner: {
@@ -21,6 +21,7 @@ const api = {
     society: {
         GET: baseUrl + "societies",
         GET_BY_ID: baseUrl + "society/",
+        GET_ALL_DETAILS_BY_ID: baseUrl + "society/",
         CRUD: baseUrl + "society"
     },
     budgetDetail: {

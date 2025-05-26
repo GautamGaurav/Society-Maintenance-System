@@ -1,5 +1,5 @@
 const SiteUnitQuery = {
-  INSERT: `INSERT INTO site_unit SET ?`,
+  INSERT: `CALL ADD_SITE_UNIT (?, ?, ? ,? ,?, ?);`,
   SELECT: "SELECT * FROM site_units",
   UPDATE: "",
   DELETE: "",
