@@ -1,8 +1,8 @@
 const SiteQuery = {
-  insert: `INSERT INTO site SET ?`,
-  select: "SELECT * FROM site",
-  update: "",
-  delete: "",
+  INSERT: `INSERT INTO site SET ?`,
+  SELECT: `SELECT * FROM site`,
+  UPDATE: "",
+  DELETE: "",
   GET_ALL_SITES: `CALL GET_ALL_SITES()`,
 };
 

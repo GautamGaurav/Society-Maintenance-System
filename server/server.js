@@ -8,7 +8,7 @@ import { getOwners, addOwner } from "./controllers/ownerController.js";
 import { getBuilders, addBuilder } from "./controllers/builderController.js";
 import { getSites, addSite } from "./controllers/siteController.js";
 import { getSocieties, addSociety } from "./controllers/societyController.js";
-import { getAllSiteUnits, addSiteUnit } from "./controllers/siteUnitController.js";
+import { getAllSiteUnits, addSiteUnit, getAllSiteUnitsBySiteId } from "./controllers/siteUnitController.js";
 
 const app = express();
 app.use(cors());
@@ -37,6 +37,8 @@ app.post(apiPath.addSociety, addSociety);
 /* ------- Site Units --------- */
 app.get(apiPath.getAllSiteUnits, getAllSiteUnits);
 app.post(apiPath.addSiteUnit, addSiteUnit);
+app.post(apiPath.getAllSiteUnitsBySiteId, getAllSiteUnitsBySiteId);
+
 
 app.listen(3001, () => {
   console.log("running on port 3001");

@@ -67,9 +67,16 @@ function Sites() {
       });
   };
 
+  const onRowClick = (e) => {
+    console.log("Event ==============> ", e.data)
+    setIsNew(true);
+    setFormData(e.data);
+  }
+
   return (
     <div>
       <ListContainer
+        onRowClick={onRowClick}
         heading={"Site List"}
         dataList={siteList}
         addNew={handleState}

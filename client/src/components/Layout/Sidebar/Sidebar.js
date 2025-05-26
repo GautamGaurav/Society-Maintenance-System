@@ -24,7 +24,7 @@ function Sidebar() {
             </li>
             <li>
               <Link className="link" to={`/builders`}>
-                <i className="fa fa-lock fa-md"></i>
+                <i className="fa fa-cubes fa-md"></i>
                 <span className="ms-1">Builders</span>
               </Link>
             </li>
@@ -36,13 +36,13 @@ function Sidebar() {
             </li>
             <li>
               <Link className="link" to={`/siteunits`}>
-                <i className="fa fa-lock fa-md"></i>
+                <i className="fa fa-sitemap fa-md"></i>
                 <span className="ms-1">Site Units</span>
               </Link>
             </li>
             <li>
               <Link className="link" to={`/owners`}>
-                <i className="fa fa-users fa-md"></i>
+                <i className="fa fa-user fa-md"></i>
                 <span className="ms-1">Owners</span>
               </Link>
             </li>
@@ -50,6 +50,12 @@ function Sidebar() {
               <Link className="link" to={`/society`}>
                 <i className="fa fa-users fa-md"></i>
                 <span className="ms-1">Society</span>
+              </Link>
+            </li>
+            <li>
+              <Link className="link" to={`/budget`}>
+                <i className="fa fa-credit-card fa-md"></i>
+                <span className="ms-1">Society Budget</span>
               </Link>
             </li>
             <li>

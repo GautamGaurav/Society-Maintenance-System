@@ -31,10 +31,20 @@ const getAllSiteUnits = async () => {
     }
 };
 
+const getAllSiteUnitsBySiteId = async () => {
+    try {
+        const response = await axios.get(api.siteUnit.GET_ALL_BY_SITE_ID);
+        return response.data;
+    } catch (error) {
+        console.log("error ===> ", error);
+        return [];
+    }
+
+};
+
 const getAllOwners = async () => {
     try {
         const response = await axios.get(api.owner.GET);
-        debugger
         return response?.data?.[0] || [];
     } catch (error) {
         console.log("error ===> ", error);
@@ -42,4 +52,43 @@ const getAllOwners = async () => {
     }
 };
 
-export { getAllOwners, getAllSites, getAllBuilders, getAllSiteUnits }
+const getAllSocieties = async () => {
+    try {
+        const response = await axios.get(api.society.GET);
+        return response?.data || [];
+    } catch (error) {
+        console.log("error ===> ", error);
+        return [];
+    }
+};
+
+const getAllSocietyById = async (id) => {
+    try {
+        const response = await axios.get(api.society.GET_BY_ID + id);
+        return response?.data || [];
+    } catch (error) {
+        console.log("error ===> ", error);
+        return [];
+    }
+};
+
+const getAllBudgetDetail = async () => {
+    try {
+        const response = await axios.get(api.budgetDetail.GET);
+        return response?.data || [];
+    } catch (error) {
+        console.log("error ===> ", error);
+        return [];
+    }
+};
+
+export {
+    getAllOwners,
+    getAllSites,
+    getAllBuilders,
+    getAllSiteUnits,
+    getAllSocieties,
+    getAllSocietyById,
+    getAllBudgetDetail,
+    getAllSiteUnitsBySiteId
+}

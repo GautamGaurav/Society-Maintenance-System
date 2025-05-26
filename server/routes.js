@@ -13,8 +13,10 @@ const apiPath = {
 
   getSocieties: "/api/societies",
   addSociety: "/api/society",
+  getSocietyById: "/api/society/:id",
 
   getAllSiteUnits: "/api/siteUnits",
+  getAllSiteUnitsBySiteId: "/api/siteUnits/:siteId",
   addSiteUnit: "/api/siteUnit",
 };
 

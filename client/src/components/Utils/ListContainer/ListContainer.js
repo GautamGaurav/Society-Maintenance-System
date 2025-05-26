@@ -3,7 +3,7 @@ import ListView from "../ListView/ListView";
 import { Button } from "../../Layout";
 
 const ListContainer = (props) => {
-  const { addNew, heading, dataList } = props;
+  const { addNew, heading, dataList, onRowClick } = props;
 
   return (
     <div className="container-fluid">
@@ -17,7 +17,11 @@ const ListContainer = (props) => {
           />
           <div className="mt-3"></div>
           {dataList && dataList.length ? (
-            <ListView heading={heading} dataList={dataList}></ListView>
+            <ListView
+              heading={heading}
+              dataList={dataList}
+              onRowClick={onRowClick}
+            />
           ) : (
             <div className="row">
               <div className="border border-light"

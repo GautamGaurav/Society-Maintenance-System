@@ -15,6 +15,20 @@ export const getAllSiteUnits = (request, response) => {
   }
 };
 
+export const getAllSiteUnitsBySiteId = (request, response) => {
+  try {
+    db.query(SiteUnitQuery.getAllSiteUnitsBySiteId, request.body, (err, result) => {
+      if (err) {
+        console.log("err ===> ", err);
+      } else {
+        response.send(result[0]);
+      }
+    });
+  } catch (error) {
+    response.status(404).json({ message: error.message });
+  }
+};
+
 export const addSiteUnit = (request, response) => {
   try {
     db.query(SiteUnitQuery.insert, request.body, (err, result) => {

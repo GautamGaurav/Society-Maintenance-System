@@ -4,65 +4,74 @@ import axios from "axios";
 import "./Society.css";
 import ListContainer from "../Utils/ListContainer/ListContainer";
 import ModalDialog from "../Utils/ModalDialog/ModalDialog";
+import { Select, Textbox } from "../Layout";
+import { getAllBuilders, getAllSites, getAllSiteUnits, getAllOwners, getAllSocieties } from "../../Utils";
+import { api } from "../../constants/api";
 
 const Society = () => {
-  const apiUrl = "http://localhost:3001/api/societies";
-  const cudAPIUrl = "http://localhost:3001/api/society";
-  const siteAPIUrl = "http://localhost:3001/api/sites";
   const [isNew, setIsNew] = useState(false);
-  const [isUpdate, setIsUpdate] = useState(false);
   const [societyList, setSocietyList] = useState([]);
-  const [inputs, setInputs] = useState({});
-  const [siteList, setSiteList] = useState([]);
+  const [owners, setOwners] = useState([]);
+  const [sites, setSites] = useState([]);
+  const [siteUnits, setSiteUnits] = useState([]);
+  const [builders, setBuilders] = useState([]);
+  const [formData, setFormData] = useState({
+    name: '',
+    registrationNumber: '',
+    email: '',
+    builder: '',
+    site: '',
+    siteUnit: '',
+    contactNo: '',
+    presidentName: '',
+    address: '',
+    city: '',
+    state: '',
+    pincode: ''
+  });
 
   useEffect(() => {
-    getAllSociety();
-    getAllSite();
+    getAllSocieties().then((societyList) => { setSocietyList(societyList); });
   }, []);
 
   const handleState = (value) => {
+    getAllOwners().then((owners) => { setOwners(owners); });
+    getAllSites().then((sites) => { setSites(sites); });
+    getAllSiteUnits().then((siteUnits) => { setSiteUnits(siteUnits); });
+    getAllBuilders().then((builders) => { setBuilders(builders); });
     setIsNew(value);
   };
 
-  const handleChange = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-    setInputs((values) => ({ ...values, [name]: value }));
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
 
-  const getAllSite = () => {
-    axios
-      .get(siteAPIUrl)
-      .then((response) => {
-        setSiteList(response.data);
-      })
-      .catch((error) => {
-        console.log("error ===> ", error);
-        //NotificationManager.error(error.response.data.message);
-      });
-  };
-
-  const getAllSociety = () => {
-    axios
-      .get(apiUrl)
-      .then((response) => {
-        setSocietyList(response.data);
-      })
-      .catch((error) => {
-        console.log("error ===> ", error);
-        //NotificationManager.error(error.response.data.message);
-      });
-  };
 
   const addSociety = () => {
     axios
-      .post(cudAPIUrl, inputs)
+      .post(api.society.CRUD, formData)
+      .then((response) => {
+        NotificationManager.success(response.data.message);
+        setIsNew(false);
+        getAllSocieties().then((societyList) => { setSocietyList(societyList); });
+      })
+      .catch((error) => {
+        NotificationManager.error(error.response.data.message);
+      });
+  };
+
+  const updateSociety = () => {
+    axios
+      .post(api.society.CRUD, formData)
       .then((response) => {
         console.log("response =======>", response.data);
         NotificationManager.success("Society Added Successfully!");
-        setInputs({});
         setIsNew(false);
-        getAllSociety();
+        getAllSocieties();
       })
       .catch((error) => {
         console.log("error ===> ", error);
@@ -70,13 +79,11 @@ const Society = () => {
       });
   };
 
-  const cancel = () => setIsNew(false);
-
-  useEffect(() => {
-    getAllSociety();
-    setIsNew(false);
-    setIsUpdate(false);
-  }, []);
+  const onRowClick = (e) => {
+    console.log("Event ==============> ", e.data)
+    setIsNew(true);
+    setFormData(e.data);
+  }
 
   return (
     <div>
@@ -85,184 +92,183 @@ const Society = () => {
         dataList={societyList}
         addNew={handleState}
         btnText={"Add New Society"}
+        onRowClick={onRowClick}
       />
       <ModalDialog
         show={isNew}
         calltoClose={handleState}
         headerText={"Add New Society"}
-        onSaveButtonClick={addSociety}
+        title={"Society Detail"}
+        onSaveButtonClick={isNew ? addSociety : updateSociety}
       >
-
         <div className="row">
-          <div className="col-12">
-            <div className="form-group">
-              <label className="control-label mb-1">Society Name</label>
-              <div className="input-group">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Enter Society Name"
-                  name="name"
-                  value={inputs.name || ""}
-                  onChange={(e) => {
-                    handleChange(e);
-                  }}
-                />
-              </div>
-            </div>
-          </div>
+          <Textbox
+            label="Society Name"
+            type="text"
+            className="form-control"
+            placeholder="Enter Society Name"
+            name="name"
+            value={formData.name}
+            onChange={(e) => {
+              handleChange(e);
+            }}
+          />
         </div>
         <div className="row">
           <div className="col-6">
-            <div className="form-group">
-              <label className="control-label mb-1">President Name</label>
-              <div className="input-group">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Enter President Name"
-                  name="presidentName"
-                  value={inputs.presidentName || ""}
-                  onChange={(e) => {
-                    handleChange(e);
-                  }}
-                />
-              </div>
-            </div>
+            <Textbox
+              label="Registration Number"
+              type="text"
+              className="form-control"
+              placeholder="Enter Registration Number"
+              name="registrationNumber"
+              value={formData.registrationNo}
+              onChange={(e) => {
+                handleChange(e);
+              }}
+            />
           </div>
           <div className="col-6">
-            <div className="form-group">
-              <label className="control-label mb-1">
-                Registration Number
-              </label>
-              <div className="input-group">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Enter Registration Number"
-                  name="registrationNo"
-                  value={inputs.registrationNo || ""}
-                  onChange={(e) => {
-                    handleChange(e);
-                  }}
-                />
-              </div>
-            </div>
+            <Textbox
+              label="Society Email"
+              type="email"
+              className="form-control"
+              placeholder="Enter Email"
+              name="email"
+              value={formData.email}
+              onChange={(e) => {
+                handleChange(e);
+              }}
+            />
           </div>
         </div>
         <div className="row">
           <div className="col-6">
-            <div className="form-group">
-              <label className="control-label mb-1">Email</label>
-              <div className="input-group">
-                <input
-                  type="email"
-                  className="form-control"
-                  placeholder="Enter Email"
-                  name="email"
-                  value={inputs.email || ""}
-                  onChange={(e) => {
-                    handleChange(e);
-                  }}
-                />
-              </div>
-            </div>
+            <Select
+              placeholder="--Select Builder--"
+              label="Select Builder"
+              name="builder"
+              onChange={(e) => {
+                handleChange(e);
+              }}
+              data={builders}
+              value={formData.builder}
+            />
           </div>
           <div className="col-6">
-            <div className="form-group">
-              <label className="control-label mb-1">Select Site</label>
-              <div className="input-group">
-                <select
-                  name="site"
-                  id="cars"
-                  className="form-control"
-                  onChange={(e) => {
-                    handleChange(e);
-                  }}
-                >
-                  <option value="0">--Select Site--</option>
-                  {siteList.map((site) => (
-                    <option value={site.id}>{site.name}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="form-group has-success">
-          <div className="form-group">
-            <label className="control-label mb-1">Address</label>
-            <div className="input-group">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Enter Address"
-                name="address"
-                value={inputs.address || ""}
-                onChange={(e) => {
-                  handleChange(e);
-                }}
-              />
-            </div>
+            <Select
+              placeholder="--Select Site--"
+              label="Select Site"
+              name="site"
+              onChange={(e) => {
+                handleChange(e);
+              }}
+              data={sites}
+              value={formData.site}
+            />
           </div>
         </div>
         <div className="row">
           <div className="col-6">
-            <div className="form-group">
-              <label className="control-label mb-1">City</label>
-              <div className="input-group">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Enter City"
-                  name="city"
-                  value={inputs.city || ""}
-                  onChange={(e) => {
-                    handleChange(e);
-                  }}
-                />
-              </div>
-            </div>
+            <Select
+              label="Select Owner as President"
+              type="text"
+              placeholder="--Select President--"
+              name="presidentName"
+              data={owners}
+              onChange={(e) => {
+                handleChange(e);
+              }}
+              value={formData.ownerName}
+            />
           </div>
           <div className="col-6">
-            <div className="form-group">
-              <label className="control-label mb-1">State</label>
-              <div className="input-group">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Enter State"
-                  name="state"
-                  value={inputs.state || ""}
-                  onChange={(e) => {
-                    handleChange(e);
-                  }}
-                />
-              </div>
-            </div>
+            <Textbox
+              label="Total Site Unit"
+              type="number"
+              className="form-control"
+              placeholder="Total Site Unit"
+              name="totalSiteUnit"
+              value={formData.totalSiteUnit}
+            />
           </div>
         </div>
-        <div className="form-group">
+        <div className="row">
           <div className="col-6">
-            <div className="form-group">
-              <label className="control-label mb-1">Pin Code</label>
-              <div className="input-group">
-                <input
-                  type="number"
-                  className="form-control"
-                  placeholder="Enter Pin Code"
-                  name="pinCode"
-                  value={inputs.pinCode || ""}
-                  onChange={(e) => {
-                    handleChange(e);
-                  }}
-                />
-              </div>
-            </div>
+          </div>
+          <div className="col-6">
+          </div>
+        </div >
+        <div className="row">
+          <div className="col-6">
+            <Textbox
+              label="Contact No"
+              type="text"
+              placeholder="Enter Owners Contact No"
+              name="contactNo"
+              onChange={(e) => {
+                handleChange(e);
+              }}
+              value={formData.contactNo}
+            />
+          </div>
+        </div >
+        <div className="row">
+          <Textbox
+            label="Address"
+            type="text"
+            className="form-control"
+            placeholder="Enter Address"
+            name="address"
+            value={formData.address}
+            onChange={(e) => {
+              handleChange(e);
+            }}
+          />
+        </div>
+        <div className="row">
+          <div className="col-6">
+            <Textbox
+              label="City"
+              type="text"
+              className="form-control"
+              placeholder="Enter City"
+              name="city"
+              value={formData.city}
+              onChange={(e) => {
+                handleChange(e);
+              }}
+            />
+          </div>
+          <div className="col-6">
+            <Textbox
+              label="State"
+              type="text"
+              className="form-control"
+              placeholder="Enter State"
+              name="state"
+              value={formData.state}
+              onChange={(e) => {
+                handleChange(e);
+              }}
+            />
+          </div>
+          <div className="col-6">
+            <Textbox
+              label="Pin Code"
+              type="number"
+              className="form-control"
+              placeholder="Enter Pin Code"
+              name="pinCode"
+              value={formData.pinCode}
+              onChange={(e) => {
+                handleChange(e);
+              }}
+            />
           </div>
         </div>
-      </ModalDialog>
-    </div>
+      </ModalDialog >
+    </div >
   );
 };
 

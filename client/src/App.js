@@ -13,6 +13,7 @@ import MainContent from "./components/Layout/MainContent/MainContent";
 import Sites from "./components/Sites/Sites";
 import SiteUnits from "./components/SiteUnits/SiteUnits";
 import Society from "./components/Society/Society";
+import Budget from "./components/Budget/Budget";
 
 function App() {
   return (
@@ -79,9 +80,14 @@ function App() {
             <Owners />
           </Route>
 
+          <Route exact path="/budget">
+            <Budget />
+          </Route>
+
           <Route exact path="/maintenance">
             <MaintenanceDetails />
           </Route>
+
         </MainContent>
       </Switch>
     </Router>

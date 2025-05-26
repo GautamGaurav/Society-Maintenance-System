@@ -7,4 +7,15 @@ const SiteOptions = [
     { value: "Shop", text: "Shop" }
 ];
 
-export default SiteOptions;
+const FrequencyData = [
+    { id: 1, value: "Per Hour" },
+    { id: 2, value: "Per Day" },
+    { id: 3, value: "Per Month" },
+    { id: 4, value: "Per Year" },
+    { id: 5, value: "Contract Base" }
+];
+
+export {
+    SiteOptions,
+    FrequencyData
+};

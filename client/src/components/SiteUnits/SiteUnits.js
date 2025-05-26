@@ -5,7 +5,7 @@ import "./SiteUnits.css";
 import ListContainer from "../Utils/ListContainer/ListContainer";
 import ModalDialog from "../Utils/ModalDialog/ModalDialog";
 import { Select, Textbox } from "../Layout";
-import SelectOption from "../../constants/data";
+import { SiteOptions } from "../../constants/data";
 import { getAllSiteUnits, getAllSites, } from "../../Utils";
 import { api } from "../../constants/api";
 
@@ -69,13 +69,20 @@ function SiteUnits() {
       });
   };
 
+  const onRowClick = (e) => {
+    console.log("Event ==============> ", e.data)
+    setIsNew(true);
+    setFormData(e.data);
+  }
+
   return (
     <div>
       <ListContainer
+        onRowClick={onRowClick}
         heading={"Site Unit List"}
         dataList={siteUnitsList}
         addNew={handleState}
-        btnText={"Add New Site"}
+        btnText={"Add New Site Unit"}
       />
       <ModalDialog
         show={isNew}
@@ -131,7 +138,7 @@ function SiteUnits() {
                 handleChange(e);
               }}
               placeholder={"--Select Site Unit Type--"}
-              data={SelectOption}
+              data={SiteOptions}
             />
           </div>
         </div>

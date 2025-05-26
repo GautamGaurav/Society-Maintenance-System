@@ -17,7 +17,24 @@ export const getSocieties = async (request, response) => {
 
 export const addSociety = async (request, response) => {
   try {
-    db.query(SocietyQuery.insert, request.body, (err, result) => {
+    db.query(SocietyQuery.ADD, Object.values(request.body), (err, result) => {
+      if (err) {
+        console.log("err ===> ", err);
+        response.status(404).send({
+          message: "Error Processing Data!",
+        });
+      } else {
+        response.send(result);
+      }
+    });
+  } catch (error) {
+    response.status(404).json({ message: error.message });
+  }
+};
+
+export const getSocietyById = async (request, response) => {
+  try {
+    db.query(SocietyQuery.GET_SOCIETY_BY_ID, Object.values(request.body), (err, result) => {
       if (err) {
         console.log("err ===> ", err);
         response.status(404).send({

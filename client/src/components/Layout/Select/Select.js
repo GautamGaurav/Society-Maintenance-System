@@ -8,10 +8,16 @@ const Select = (props) => {
                     id={props.id}
                     className={"form-control " + props?.className}
                     onChange={props.onChange}
+                    disabled={props.disabled || false}
                 >
                     <option value="0">{props.placeholder}</option>
                     {props?.data.map((item) => (
-                        <option value={item.id ? item.id : item.value}>{item.text ? item.text : item.name}</option>
+                        <option
+                            key={item.id ? item.id : item.value}
+                            value={item.id ? item.id : item.value}
+                        >
+                            {item.text ? item.text : item.name || item.value}
+                        </option>
                     ))}
                 </select>
             </div>

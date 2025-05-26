@@ -74,9 +74,16 @@ const Builders = () => {
       });
   };
 
+  const onRowClick = (e) => {
+    console.log("Event ==============> ", e.data)
+    setIsNew(true);
+    setFormData(e.data);
+  }
+
   return (
     <div>
       <ListContainer
+        onRowClick={onRowClick}
         heading={"Builder List"}
         dataList={builderList}
         addNew={handleState}

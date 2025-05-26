@@ -5,7 +5,7 @@ import "./Owners.css";
 import ListContainer from "../Utils/ListContainer/ListContainer";
 import ModalDialog from "../Utils/ModalDialog/ModalDialog";
 import { Select, Textbox } from "../Layout";
-import { api } from "../../constants/api"
+import { api } from "../../constants/api";
 import { getAllBuilders, getAllOwners, getAllSites, getAllSiteUnits } from "../../Utils";
 
 const Owners = () => {
@@ -20,6 +20,7 @@ const Owners = () => {
     builder: '',
     site: '',
     siteUnit: '',
+    dateOfRegistry: '',
     email: '',
     contactNo: '',
     address: '',
@@ -75,10 +76,16 @@ const Owners = () => {
       });
   };
 
+  const onRowClick = (e) => {
+    console.log("Event ==============> ", e.data)
+    setIsNew(true);
+    setFormData(e.data);
+  }
 
   return (
     <div>
       <ListContainer
+        onRowClick={onRowClick}
         heading={"Owners List"}
         dataList={owners}
         addNew={handleState}
@@ -90,6 +97,7 @@ const Owners = () => {
         headerText={"Add New Owners"}
         title={"Owners Details"}
         onSaveButtonClick={isUpdate ? updateOwner : addOwner}
+        saveButtonText={isUpdate ? "Update" : "Save"}
       >
         <div className="row">
           <div className="col-6">
@@ -143,6 +151,32 @@ const Owners = () => {
             />
           </div>
         </div>
+        <div className="row">
+          <div className="col-6">
+            <Textbox
+              label="Date Of Registry"
+              type="date"
+              placeholder="Enter Date Of Registry"
+              name="dateOfRegistry"
+              onChange={(e) => {
+                handleChange(e);
+              }}
+              value={formData.dateOfRegistry}
+            />
+          </div>
+          <div className="col-6">
+            <Textbox
+              label="Date Of Possession"
+              type="date"
+              placeholder="Enter Date of Possession"
+              name="dateOfPossession"
+              onChange={(e) => {
+                handleChange(e);
+              }}
+              value={formData.dateOfPossession}
+            />
+          </div>
+        </div >
         <div className="row">
           <div className="col-6">
             <Textbox
