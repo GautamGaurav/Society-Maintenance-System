@@ -11,7 +11,7 @@ export const getSocieties = async (request, response) => {
       }
     });
   } catch (error) {
-    response.status(404).json({ message: error.message });
+    response.status(500).json({ message: error.message });
   }
 };
 
@@ -20,7 +20,7 @@ export const addSociety = async (request, response) => {
     db.query(SocietyQuery.ADD, Object.values(request.body), (err, result) => {
       if (err) {
         console.log("err ===> ", err);
-        response.status(404).send({
+        response.status(500).send({
           message: "Error Processing Data!",
         });
       } else {
@@ -28,7 +28,7 @@ export const addSociety = async (request, response) => {
       }
     });
   } catch (error) {
-    response.status(404).json({ message: error.message });
+    response.status(500).json({ message: error.message });
   }
 };
 
@@ -37,7 +37,7 @@ export const getSocietyById = async (request, response) => {
     db.query(SocietyQuery.GET_SOCIETY_BY_ID, Object.values(request.body), (err, result) => {
       if (err) {
         console.log("err ===> ", err);
-        response.status(404).send({
+        response.status(500).send({
           message: "Error Processing Data!",
         });
       } else {
@@ -45,7 +45,7 @@ export const getSocietyById = async (request, response) => {
       }
     });
   } catch (error) {
-    response.status(404).json({ message: error.message });
+    response.status(500).json({ message: error.message });
   }
 };
 
@@ -55,7 +55,7 @@ export const getSocietyDetailsById = async (request, response) => {
     db.query(SocietyQuery.GET_SOCIETY_DETAILS_BY_ID, Object.values(request.params), (err, result) => {
       if (err) {
         console.log("err ===> ", err);
-        response.status(404).send({
+        response.status(500).send({
           message: "Error Processing Data!",
         });
       } else {
@@ -64,6 +64,6 @@ export const getSocietyDetailsById = async (request, response) => {
       }
     });
   } catch (error) {
-    response.status(404).json({ message: error.message });
+    response.status(500).json({ message: error.message });
   }
 };

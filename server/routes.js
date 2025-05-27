@@ -19,6 +19,11 @@ const apiPath = {
   getAllSiteUnits: "/api/siteUnits",
   getAllSiteUnitsBySiteId: "/api/siteUnits/:siteId",
   addSiteUnit: "/api/siteUnit",
+
+  getAllBudget: "/api/budgets",
+  getBudgetById: "/api/budget/:id",
+  getBudgetBySocietyId: "/api/budget/:societyId",
+  addBudget: "/api/budget",
 };
 
 export default apiPath;

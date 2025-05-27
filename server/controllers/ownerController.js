@@ -14,7 +14,7 @@ export const getOwners = (request, response) => {
       }
     });
   } catch (error) {
-    response.status(404).json({ message: error.message });
+    response.status(500).json({ message: error.message });
   }
 };
 
@@ -31,7 +31,7 @@ export const addOwner = (request, response) => {
       }
     });
   } catch (error) {
-    response.status(404).json({ message: error.message });
+    response.status(500).json({ message: error.message });
   }
 };
 
@@ -47,6 +47,6 @@ export const getOwnerByEmail = (request, response) => {
       }
     });
   } catch (error) {
-    response.status(404).json({ message: error.message });
+    response.status(500).json({ message: error.message });
   }
 };

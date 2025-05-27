@@ -11,7 +11,7 @@ export const getBuilders = (request, response) => {
       }
     });
   } catch (error) {
-    response.status(404).json({ message: error.message });
+    response.status(500).json({ message: error.message });
   }
 };
 
@@ -25,6 +25,6 @@ export const addBuilder = (request, response) => {
       }
     });
   } catch (error) {
-    response.status(404).json({ message: error.message });
+    response.status(500).json({ message: error.message });
   }
 };

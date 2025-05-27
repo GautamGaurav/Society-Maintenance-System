@@ -15,7 +15,7 @@ export const getSites = (request, response) => {
       console.log("Data received!");
     });
   } catch (error) {
-    response.status(404).json({ message: error.message });
+    response.status(500).json({ message: error.message });
   }
 };
 
@@ -25,7 +25,7 @@ export const addSite = (request, response) => {
     db.query(SiteQuery.insert, siteData, (err, result) => {
       if (err) {
         console.log("err ===> ", err);
-        response.status(404).send({
+        response.status(500).send({
           message: "Error Processing Data!",
         });
       } else {
@@ -33,6 +33,6 @@ export const addSite = (request, response) => {
       }
     });
   } catch (error) {
-    response.status(404).json({ message: error.message });
+    response.status(500).json({ message: error.message });
   }
 };

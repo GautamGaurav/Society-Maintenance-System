@@ -7,7 +7,7 @@ import axios from "axios";
 import ListContainer from "../Utils/ListContainer/ListContainer";
 import ModalDialog from "../Utils/ModalDialog/ModalDialog";
 import { Select, Textbox } from "../Layout";
-import { getAllBudgetDetail, getAllSocieties, getAllSocietyById, getSocietyDetailsById } from "../../Utils";
+import { getAllBudget, getAllSocieties, getSocietyDetailsById } from "../../Utils";
 import { api } from "../../constants/api";
 import { FrequencyData } from "../../constants/data"
 
@@ -16,39 +16,30 @@ const Budget = () => {
   const [societyList, setSocietyList] = useState([]);
   const [societyDetail, setSocietyDetail] = useState([]);
   const [budgetList, setBudgetList] = useState([]);
-  const [siteUnits, setSiteUnits] = useState([]);
-  const [builders, setBuilders] = useState([]);
   const [formData, setFormData] = useState({
-    componentName: '',
     society: '',
-    totalSiteUnit: '',
-    president: '',
-
-    site: '',
-    siteUnit: '',
-    contactNo: '',
-    presidentName: '',
-    address: '',
-    city: '',
-    state: '',
-    pincode: ''
+    componentName: '',
+    componentDetail: '',
+    expenditureAmount: '',
+    payFrequency: '',
+    assignedAgency: '',
   });
 
   useEffect(() => {
-    getAllBudgetDetail().then((budgetList) => { setBudgetList(budgetList); });
+    getAllBudget().then((budgetList) => {
+      setBudgetList(budgetList);
+    });
   }, []);
 
   const handleState = (value) => {
     getAllSocieties().then((societyList) => { setSocietyList(societyList); });
-    //getAllSiteUnitsBySiteId(value).then((siteUnits) => { setSiteUnits(siteUnits); });
-    //getAllBuilders().then((builders) => { setBuilders(builders); });
     setIsNew(value);
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    if (value !== null && value !== undefined) {
+    if (name !== null && name === 'society' && value !== null && value !== undefined) {
       getSocietyDetailsById(value).then((societyDetail) => {
         setSocietyDetail(societyDetail);
       });
@@ -63,11 +54,11 @@ const Budget = () => {
 
   const addBudgetDetail = () => {
     axios
-      .post(api.society.CRUD, formData)
+      .post(api.budget.CRUD, formData)
       .then((response) => {
         NotificationManager.success(response.data.message);
         setIsNew(false);
-        //getAllSocieties().then((societyList) => { setSocietyList(societyList); });
+        getAllBudget().then((budgetList) => { setBudgetList(budgetList); });
       })
       .catch((error) => {
         NotificationManager.error(error.response.data.message);
@@ -76,7 +67,7 @@ const Budget = () => {
 
   const updateBudgetDetail = () => {
     axios
-      .post(api.society.CRUD, formData)
+      .post(api.budget.CRUD, formData)
       .then((response) => {
         console.log("response =======>", response.data);
         NotificationManager.success("Society Added Successfully!");
@@ -84,8 +75,8 @@ const Budget = () => {
         //getAllSocieties();
       })
       .catch((error) => {
-        console.log("error ===> ", error);
-        //NotificationManager.error(error.response.data.message);
+        //console.log("error ===> ", error);
+        NotificationManager.error(error.response.data.message);
       });
   };
 
@@ -99,9 +90,9 @@ const Budget = () => {
     <div>
       <ListContainer
         heading={"Budget List"}
-        dataList={societyList}
+        dataList={budgetList}
         addNew={handleState}
-        btnText={"Add New Budget"}
+        btnText={"Add New Budget Component"}
         onRowClick={onRowClick}
       />
       <ModalDialog
@@ -130,6 +121,7 @@ const Budget = () => {
               type="number"
               placeholder="Total Site Unit"
               name="totalSiteUnit"
+              disabled={true}
               value={societyDetail.siteUnitCount}
             />
           </div>
@@ -141,6 +133,7 @@ const Budget = () => {
               type="text"
               placeholder="Site Name"
               name="siteName"
+              disabled={true}
               value={societyDetail.siteName}
             />
           </div>
@@ -150,7 +143,8 @@ const Budget = () => {
               type="text"
               className="form-control"
               placeholder="President Name"
-              name="president"
+              name="presidentName"
+              disabled={true}
               value={societyDetail.presidentName}
             />
           </div>
@@ -168,6 +162,9 @@ const Budget = () => {
               placeholder="Enter Component Name"
               name="componentName"
               value={formData.componentName}
+              onChange={(e) => {
+                handleChange(e);
+              }}
             />
           </div>
         </div >
@@ -175,8 +172,11 @@ const Budget = () => {
           <Textbox
             label="Component Details"
             placeholder="Enter Component Details"
-            name="componentDetails"
-            value={formData.address}
+            name="componentDetail"
+            value={formData.componentDetail}
+            onChange={(e) => {
+              handleChange(e);
+            }}
           />
         </div>
         <div className="row">
@@ -185,16 +185,19 @@ const Budget = () => {
               label="Expenditure"
               placeholder="Enter Expenditure Amount"
               name="expenditureAmount"
-              value={formData.city}
+              value={formData.expenditureAmount}
+              onChange={(e) => {
+                handleChange(e);
+              }}
             />
           </div>
           <div className="col-3">
             <Select
               label="Pay Frequency"
               placeholder="--Select Frequency--"
-              name="expenditureAmount"
+              name="payFrequency"
               data={FrequencyData}
-              value={formData.frequency}
+              value={formData.payFrequency}
               onChange={(e) => {
                 handleChange(e);
               }}
@@ -203,8 +206,8 @@ const Budget = () => {
           <div className="col-6">
             <Textbox
               label="Assigned Agency"
-              placeholder="Enter Expenditure Amount"
-              name="expenditureAmount"
+              placeholder="Enter Assigned Agency"
+              name="assignedAgency"
               value={formData.assignedAgency}
               onChange={(e) => {
                 handleChange(e);

@@ -24,9 +24,10 @@ const api = {
         GET_ALL_DETAILS_BY_ID: baseUrl + "society/",
         CRUD: baseUrl + "society"
     },
-    budgetDetail: {
-        GET: baseUrl + "budgetDetails",
-        CRUD: baseUrl + "budgetDetail"
+    budget: {
+        GET: baseUrl + "budgets",
+        GET_BY_ID: baseUrl + "budget/",
+        CRUD: baseUrl + "budget"
     }
 }
 

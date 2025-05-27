@@ -9,6 +9,7 @@ import { getBuilders, addBuilder } from "./controllers/builderController.js";
 import { getSites, addSite } from "./controllers/siteController.js";
 import { getSocieties, addSociety, getSocietyDetailsById } from "./controllers/societyController.js";
 import { getAllSiteUnits, addSiteUnit, getAllSiteUnitsBySiteId } from "./controllers/siteUnitController.js";
+import { addBudget, getAllBudget, getBudgetBySocietyId } from "./controllers/budgetController.js";
 
 const app = express();
 app.use(cors());
@@ -39,6 +40,11 @@ app.get(apiPath.getSocietyDetailsById, getSocietyDetailsById);
 app.get(apiPath.getAllSiteUnits, getAllSiteUnits);
 app.post(apiPath.addSiteUnit, addSiteUnit);
 app.get(apiPath.getAllSiteUnitsBySiteId, getAllSiteUnitsBySiteId);
+
+/* ------- Budget --------- */
+app.post(apiPath.addBudget, addBudget);
+app.get(apiPath.getAllBudget, getAllBudget);
+app.get(apiPath.getBudgetBySocietyId, getBudgetBySocietyId);
 
 
 app.listen(3001, () => {

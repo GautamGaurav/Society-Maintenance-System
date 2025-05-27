@@ -15,12 +15,12 @@ export const login = (request, response) => {
       } else if (result && result.length > 0) {
         response.send(result);
       } else {
-        response.status(404).send({
+        response.status(500).send({
           message: "User not found!",
         });
       }
     });
   } catch (error) {
-    response.status(404).json({ message: error.message });
+    response.status(500).json({ message: error.message });
   }
 };

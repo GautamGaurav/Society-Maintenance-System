@@ -8,11 +8,13 @@ const SiteOptions = [
 ];
 
 const FrequencyData = [
-    { id: 1, value: "Per Hour" },
-    { id: 2, value: "Per Day" },
-    { id: 3, value: "Per Month" },
-    { id: 4, value: "Per Year" },
-    { id: 5, value: "Contract Base" }
+    { id: "Per Visit", value: "Per Visit" },
+    { id: "Per Hour", value: "Per Hour" },
+    { id: "Per Day", value: "Per Day" },
+    { id: "Per Month", value: "Per Month" },
+    { id: "Per Year", value: "Per Year" },
+    { id: "Contract Base", value: "Contract Base" }
+
 ];
 
 const FloorOptions = [
