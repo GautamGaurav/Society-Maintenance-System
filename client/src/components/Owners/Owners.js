@@ -156,6 +156,7 @@ const Owners = () => {
             <Textbox
               label="Date Of Registry"
               type="date"
+              format="dd/mm/yyyy"
               placeholder="Enter Date Of Registry"
               name="dateOfRegistry"
               onChange={(e) => {
@@ -168,6 +169,7 @@ const Owners = () => {
             <Textbox
               label="Date Of Possession"
               type="date"
+              format="dd/mm/yyyy"
               placeholder="Enter Date of Possession"
               name="dateOfPossession"
               onChange={(e) => {

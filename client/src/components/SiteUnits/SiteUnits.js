@@ -83,6 +83,7 @@ function SiteUnits() {
         onRowClick={onRowClick}
         heading={"Site Unit List"}
         dataList={siteUnitsList}
+        hideColumn={['id']}
         addNew={handleState}
         btnText={"Add New Site Unit"}
       />

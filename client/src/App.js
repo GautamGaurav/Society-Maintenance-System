@@ -14,6 +14,7 @@ import Sites from "./components/Sites/Sites";
 import SiteUnits from "./components/SiteUnits/SiteUnits";
 import Society from "./components/Society/Society";
 import Budget from "./components/Budget/Budget";
+import SocietyBudget from "./components/Budget/SocietyBudget";
 
 function App() {
   return (
@@ -82,6 +83,9 @@ function App() {
 
           <Route exact path="/budget">
             <Budget />
+          </Route>
+          <Route exact path="/budget/society">
+            <SocietyBudget />
           </Route>
 
           <Route exact path="/maintenance">

@@ -58,7 +58,9 @@ const Budget = () => {
       .then((response) => {
         NotificationManager.success(response.data.message);
         setIsNew(false);
-        getAllBudget().then((budgetList) => { setBudgetList(budgetList); });
+        getAllBudget().then((budgetList) => {
+          setBudgetList(budgetList);
+        });
       })
       .catch((error) => {
         NotificationManager.error(error.response.data.message);
@@ -72,17 +74,14 @@ const Budget = () => {
         console.log("response =======>", response.data);
         NotificationManager.success("Society Added Successfully!");
         setIsNew(false);
-        //getAllSocieties();
       })
       .catch((error) => {
-        //console.log("error ===> ", error);
         NotificationManager.error(error.response.data.message);
       });
   };
 
   const onRowClick = (e) => {
-    console.log("Event ==============> ", e.data)
-    setIsNew(true);
+    setIsNew(false);
     setFormData(e.data);
   }
 
@@ -98,7 +97,7 @@ const Budget = () => {
       <ModalDialog
         show={isNew}
         calltoClose={handleState}
-        headerText={"Add New Budget"}
+        headerText={"Add New Budget Component"}
         title={"Budget Detail"}
         onSaveButtonClick={isNew ? addBudgetDetail : updateBudgetDetail}
       >

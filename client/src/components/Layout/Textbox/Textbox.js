@@ -15,6 +15,7 @@ const Textbox = (props) => {
                     onChange={props.onChange}
                     value={props.value}
                     disabled={props.disabled}
+                    format={props.format || 'text'}
                 />
             </div>
         </>

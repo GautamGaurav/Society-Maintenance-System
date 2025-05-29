@@ -84,6 +84,16 @@ const getAllBudget = async () => {
     }
 };
 
+const getBudgetBySocietyId = async (societyId) => {
+    try {
+        const response = await axios.get(api.budget.GET_BY_ID + `${societyId}`);
+        return response?.data || [];
+    } catch (error) {
+        console.log("error ===> ", error);
+        return [];
+    }
+};
+
 export {
     getAllOwners,
     getAllSites,
@@ -92,5 +102,6 @@ export {
     getAllSocieties,
     getAllSocietyById,
     getAllBudget,
+    getBudgetBySocietyId,
     getSocietyDetailsById
 }

@@ -7,7 +7,7 @@ export const getBuilders = (request, response) => {
       if (err) {
         console.log("err ===> ", err);
       } else {
-        response.send(result);
+        response.send(result[0]);
       }
     });
   } catch (error) {

@@ -81,6 +81,7 @@ function Sites() {
         dataList={siteList}
         addNew={handleState}
         btnText={"Add New Site"}
+        hideColumn={['builder id']}
       />
       <ModalDialog
         show={isNew}

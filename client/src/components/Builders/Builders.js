@@ -88,6 +88,7 @@ const Builders = () => {
         dataList={builderList}
         addNew={handleState}
         btnText={"Add New Builder"}
+        hideColumn={['id']}
       />
       <ModalDialog
         show={isNew}
