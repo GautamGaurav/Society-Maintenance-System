@@ -1,5 +1,6 @@
 import db from "../database/config.js";
 import SiteUnitQuery from "../database/siteUnit.js";
+import { mapSiteUnit } from "../utils/mapper.js";
 
 export const getAllSiteUnits = (request, response) => {
   try {
@@ -7,7 +8,9 @@ export const getAllSiteUnits = (request, response) => {
       if (err) {
         console.log("err ===> ", err);
       } else {
-        response.send(result[0]);
+        const rows = Array.isArray(result) ? (result[0] || result) : result;
+        const mapped = (rows || []).map((r) => mapSiteUnit(r));
+        response.json(mapped);
       }
     });
   } catch (error) {
@@ -27,7 +30,9 @@ export const getAllSiteUnitsBySiteId = (request, response) => {
         console.log("err ===> ", err);
         response.status(500).json({ message: 'Error fetching site units for site' });
       } else {
-        response.send(result[0]);
+        const rows = Array.isArray(result) ? (result[0] || result) : result;
+        const mapped = (rows || []).map((r) => mapSiteUnit(r));
+        response.json(mapped);
       }
     });
   } catch (error) {

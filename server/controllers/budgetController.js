@@ -1,5 +1,6 @@
 import db from "../database/config.js";
 import BudgetQuery from "../database/budget.js";
+import { mapObjectKeysToCamel } from "../utils/mapper.js";
 
 export const getAllBudget = async (request, response) => {
   try {
@@ -7,7 +8,9 @@ export const getAllBudget = async (request, response) => {
       if (err) {
         console.log("err ===> ", err);
       } else {
-        response.send(result[0]);
+        const rows = Array.isArray(result) ? (result[0] || result) : result;
+        const mapped = (rows || []).map((r) => mapObjectKeysToCamel(r));
+        response.json(mapped);
       }
     });
   } catch (error) {
@@ -42,7 +45,9 @@ export const getBudgetById = async (request, response) => {
           message: err.message,
         });
       } else {
-        response.send(result);
+        const rows = Array.isArray(result) ? (result[0] || result) : result;
+        const mapped = (rows || []).map((r) => mapObjectKeysToCamel(r));
+        response.json(mapped);
       }
     });
   } catch (error) {
@@ -60,7 +65,9 @@ export const getBudgetBySocietyId = async (request, response) => {
           message: err.message,
         });
       } else {
-        response.send(result[0]);
+        const rows = Array.isArray(result) ? (result[0] || result) : result;
+        const mapped = (rows || []).map((r) => mapObjectKeysToCamel(r));
+        response.json(mapped);
       }
     });
   } catch (error) {

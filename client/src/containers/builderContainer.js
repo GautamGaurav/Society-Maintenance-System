@@ -1,4 +1,4 @@
-import Builders from '../components/Builders/Builders';
+import Builders from '../components/Builders';
 
 
 export default Builders;

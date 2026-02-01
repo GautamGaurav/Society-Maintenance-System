@@ -3,18 +3,17 @@ import { NotificationManager } from "react-notifications";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
-import Login from "./components/Login/Login";
-import Home from "./components/Home/Home";
-import Owners from "./components/Owners/Owners";
-// import Builders from "./components/Builders/Builders";
+import Login from "./components/Login";
+import Home from "./components/Home";
+import Owners from "./components/Owners";
+// import Builders from "./components/Builders";
 import BuilderContainer from './containers/builderContainer';
-import MaintenanceDetails from "./components/MaintenanceDetails/MaintenanceDetails";
+import MaintenanceDetails from "./components/MaintenanceDetails";
 import MainContent from "./components/Layout/MainContent/MainContent";
-import Sites from "./components/Sites/Sites";
-import SiteUnits from "./components/SiteUnits/SiteUnits";
-import Society from "./components/Society/Society";
-import Budget from "./components/Budget/Budget";
-import SocietyBudget from "./components/Budget/SocietyBudget";
+import Sites from "./components/Sites";
+import SiteUnits from "./components/SiteUnits";
+import Society from "./components/Society";
+import Budget, { SocietyBudget } from "./components/Budget";
 
 function App() {
   return (

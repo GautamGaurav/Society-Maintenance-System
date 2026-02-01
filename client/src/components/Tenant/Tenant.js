@@ -3,7 +3,7 @@ import { Link, useHistory, useLocation } from "react-router-dom";
 import { NotificationManager } from "react-notifications";
 import axios from "axios";
 import "./Tenant.css";
-import ListContainer from "../Utils/ListContainer/ListContainer";
+import ListContainer from "../Utils/ListContainer";
 
 function Tenant() {
   const location = useLocation();

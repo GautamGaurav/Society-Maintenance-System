@@ -1,5 +1,6 @@
 import db from "../database/config.js";
 import SiteQuery from "../database/site.js";
+import { mapSite } from "../utils/mapper.js";
 
 export const getSites = (request, response) => {
   try {
@@ -11,7 +12,9 @@ export const getSites = (request, response) => {
           console.log("err ===> ", err);
           response.status(500).json({ message: "Error fetching sites" });
         } else {
-          response.send(result);
+          const rows = Array.isArray(result) ? (result[0] || result) : result;
+          const mapped = (rows || []).map((r) => mapSite(r));
+          response.json(mapped);
         }
       });
     } else {
@@ -20,7 +23,9 @@ export const getSites = (request, response) => {
           console.log("err ===> ", err);
           response.status(500).json({ message: "Error fetching sites" });
         } else {
-          response.send(result[0]);
+          const rows = Array.isArray(result) ? (result[0] || result) : result;
+          const mapped = (rows || []).map((r) => mapSite(r));
+          response.json(mapped);
         }
       });
     }

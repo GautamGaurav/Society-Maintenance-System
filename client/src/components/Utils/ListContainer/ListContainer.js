@@ -1,5 +1,5 @@
 import "./ListContainer.css";
-import ListView from "../ListView/ListView";
+import ListView from "../ListView";
 import { Button } from "../../Layout";
 
 const ListContainer = (props) => {

@@ -1,5 +1,6 @@
 import db from '../database/config.js'
 import OwnerQuery from "../database/owner.js";
+import { mapOwner } from "../utils/mapper.js";
 
 export const getOwners = (request, response) => {
   try {
@@ -10,7 +11,9 @@ export const getOwners = (request, response) => {
           message: err.message,
         });
       } else {
-        response.send(result);
+        const rows = Array.isArray(result) ? (result[0] || result) : result;
+        const mapped = (rows || []).map((r) => mapOwner(r));
+        response.json(mapped);
       }
     });
   } catch (error) {
@@ -43,7 +46,9 @@ export const getOwnerByEmail = (request, response) => {
           message: err.message
         });
       } else {
-        response.send(result);
+        const rows = Array.isArray(result) ? (result[0] || result) : result;
+        const mapped = (rows || []).map((r) => mapOwner(r));
+        response.json(mapped);
       }
     });
   } catch (error) {

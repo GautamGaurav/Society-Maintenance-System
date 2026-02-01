@@ -1,5 +1,6 @@
 import db from "../database/config.js";
 import SocietyQuery from "../database/society.js";
+import { mapSociety } from "../utils/mapper.js";
 
 export const getSocieties = async (request, response) => {
   try {
@@ -7,7 +8,9 @@ export const getSocieties = async (request, response) => {
       if (err) {
         console.log("err ===> ", err);
       } else {
-        response.send(result[0]);
+        const rows = Array.isArray(result) ? (result[0] || result) : result;
+        const mapped = (rows || []).map((r) => mapSociety(r));
+        response.json(mapped);
       }
     });
   } catch (error) {
@@ -41,7 +44,9 @@ export const getSocietyById = async (request, response) => {
           message: "Error Processing Data!",
         });
       } else {
-        response.send(result);
+        const rows = Array.isArray(result) ? (result[0] || result) : result;
+        const mapped = (rows || []).map((r) => mapSociety(r));
+        response.json(mapped);
       }
     });
   } catch (error) {
@@ -60,7 +65,8 @@ export const getSocietyDetailsById = async (request, response) => {
         });
       } else {
         console.log("result ===========> ", result[0][0])
-        response.send(result[0][0]);
+        const item = result && result[0] && result[0][0] ? mapSociety(result[0][0]) : null;
+        response.json(item);
       }
     });
   } catch (error) {

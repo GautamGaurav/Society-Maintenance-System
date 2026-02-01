@@ -1,4 +1,5 @@
 import db from "../database/config.js";
+import { mapUser } from "../utils/mapper.js";
 
 export const login = (request, response) => {
   try {
@@ -13,7 +14,8 @@ export const login = (request, response) => {
           message: "This is an error!",
         });
       } else if (result && result.length > 0) {
-        response.send(result);
+        const mapped = mapUser(result[0]);
+        response.json(mapped);
       } else {
         response.status(500).send({
           message: "User not found!",

@@ -1,5 +1,6 @@
 import db from "../database/config.js";
 import BuilderQuery from "../database/builder.js";
+import { mapBuilder } from "../utils/mapper.js";
 
 export const getBuilders = (request, response) => {
   try {
@@ -7,7 +8,9 @@ export const getBuilders = (request, response) => {
       if (err) {
         console.log("err ===> ", err);
       } else {
-        response.send(result[0]);
+        const rows = Array.isArray(result) ? (result[0] || result) : result;
+        const mapped = (rows || []).map((r) => mapBuilder(r));
+        response.json(mapped);
       }
     });
   } catch (error) {
