@@ -17,9 +17,15 @@ export const getAllSiteUnits = (request, response) => {
 
 export const getAllSiteUnitsBySiteId = (request, response) => {
   try {
-    db.query(SiteUnitQuery.getAllSiteUnitsBySiteId, request.body, (err, result) => {
+    const siteId = request.params?.siteId;
+    if (!siteId) {
+      return response.status(400).json({ message: 'siteId is required' });
+    }
+
+    db.query(SiteUnitQuery.GET_SITE_UNITS_BY_SITE, [siteId], (err, result) => {
       if (err) {
         console.log("err ===> ", err);
+        response.status(500).json({ message: 'Error fetching site units for site' });
       } else {
         response.send(result[0]);
       }

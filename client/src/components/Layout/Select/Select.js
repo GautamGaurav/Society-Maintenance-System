@@ -6,6 +6,7 @@ const Select = (props) => {
                 <select
                     name={props.name}
                     id={props.id}
+                    value={props.value}
                     className={"form-control " + props?.className}
                     onChange={props.onChange}
                     disabled={props.disabled || false}
@@ -25,4 +26,4 @@ const Select = (props) => {
     )
 }
 
-export default Select;
+export default Select; 

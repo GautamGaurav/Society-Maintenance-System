@@ -4,9 +4,9 @@ import { NotificationManager } from "react-notifications";
 import "./SiteUnits.css";
 import ListContainer from "../Utils/ListContainer/ListContainer";
 import ModalDialog from "../Utils/ModalDialog/ModalDialog";
-import { Select, Textbox } from "../Layout";
+import { Select, Textbox, Button } from "../Layout";
 import { SiteOptions, FloorOptions, RoomLayout } from "../../constants/data";
-import { getAllSiteUnits, getAllSites, } from "../../Utils";
+import { getAllSites, getSitesByBuilderId, getAllBuilders, getSiteUnitsBySiteId, getAllSiteUnits } from "../../Utils";
 import { api } from "../../constants/api";
 
 
@@ -15,6 +15,10 @@ function SiteUnits() {
   const [isUpdate, setIsUpdate] = useState(false);
   const [siteUnitsList, setSiteUnitsList] = useState([]);
   const [siteList, setSiteList] = useState([]);
+  const [builderList, setBuilderList] = useState([]);
+  const [filterBuilder, setFilterBuilder] = useState('0');
+  const [filterSite, setFilterSite] = useState('0');
+
   const [formData, setFormData] = useState({
     site: '',
     name: '',
@@ -25,9 +29,39 @@ function SiteUnits() {
   });
 
   useEffect(() => {
-    getAllSiteUnits().then((siteUnits) => { setSiteUnitsList(siteUnits); });
-    getAllSites().then((sites) => { setSiteList(sites); });
+    // load builders only; wait for user to select builder + site to fetch units
+    getAllBuilders().then((builders) => { setBuilderList(builders); });
   }, []);
+
+  useEffect(() => {
+    // when filterBuilder changes, fetch sites for that builder and show all units across those sites
+    if (filterBuilder && filterBuilder !== '0') {
+      getSitesByBuilderId(filterBuilder).then((sites) => {
+        setSiteList(sites);
+
+        // Load all site units and filter those that belong to the fetched sites
+        const siteIds = sites.map(s => s.id || s.siteId || s['site id'] || s.site_id);
+        getAllSiteUnits().then((allUnits) => {
+          const filteredUnits = allUnits.filter(unit => {
+            const unitSite = unit.site || unit['site id'] || unit.site_id || unit.siteId;
+            return siteIds.includes(unitSite);
+          });
+          setSiteUnitsList(filteredUnits);
+        }).catch((err) => {
+          console.log('error fetching all site units', err);
+          setSiteUnitsList([]);
+        });
+
+      });
+    } else {
+      // no builder selected, clear sites and units
+      setSiteList([]);
+      setSiteUnitsList([]);
+    }
+
+    // reset site filter when builder changes
+    setFilterSite('0');
+  }, [filterBuilder]);
 
 
   const handleState = (value) => {
@@ -46,8 +80,12 @@ function SiteUnits() {
     axios
       .post(api.siteUnit.CRUD, formData)
       .then((response) => {
-        getAllSiteUnits().then((siteUnits) => { setSiteUnitsList(siteUnits); });
+        // refresh site list (in case a new site was added elsewhere)
         getAllSites().then((sites) => { setSiteList(sites); });
+        // if a site is currently selected, refresh units for that site
+        if (filterSite && filterSite !== '0') {
+          getSiteUnitsBySiteId(filterSite).then((units) => { setSiteUnitsList(units); });
+        }
         setIsNew(false);
         console.log("response =======>", response.data);
         NotificationManager.success("Site Added Successfully");
@@ -77,16 +115,97 @@ function SiteUnits() {
     setFormData(e.data);
   }
 
+  const handleBuilderFilter = (e) => {
+    const value = e.target.value;
+    setFilterBuilder(value);
+  }
+
+  const handleSiteFilter = (e) => {
+    const value = e.target.value;
+    setFilterSite(value);
+    if (value && value !== '0') {
+      // fetch site units for the selected site
+      getSiteUnitsBySiteId(value).then((units) => {
+        setSiteUnitsList(units);
+      });
+    } else {
+      // no site selected, clear units until a site is chosen
+      setSiteUnitsList([]);
+    }
+  }
+
+  const clearBuilderFilter = () => {
+    setFilterBuilder('0');
+    setFilterSite('0');
+    setSiteList([]);
+    setSiteUnitsList([]);
+  }
+
   return (
     <div>
-      <ListContainer
-        onRowClick={onRowClick}
-        heading={"Site Unit List"}
-        dataList={siteUnitsList}
-        hideColumn={['id']}
-        addNew={handleState}
-        btnText={"Add New Site Unit"}
-      />
+      <div className="row mb-2">
+        <div className="col-4 d-flex align-items-end">
+          <div className="flex-grow-1">
+            <Select
+              placeholder="--Filter by Builder--"
+              label={<h5>Filter Builder</h5>}
+              name="filterBuilder"
+              value={filterBuilder}
+              data={builderList}
+              onChange={handleBuilderFilter}
+            />
+          </div>
+        </div>
+        <div className="col-4 d-flex align-items-end">
+          <div className="flex-grow-1">
+            <Select
+              placeholder="--Select Site--"
+              label={<h5>Filter Site</h5>}
+              name="filterSite"
+              value={filterSite}
+              data={siteList}
+              onChange={handleSiteFilter}
+            />
+          </div>
+          <div className="ms-2">
+            <Button
+              variant="secondary"
+              text="Clear"
+              onClick={clearBuilderFilter}
+            />
+          </div>
+        </div>
+        <div className="col-4 d-flex justify-content-end align-items-end">
+          <Button
+            variant="success"
+            text="Add New Site Unit"
+            onClick={() => handleState(true)}
+          />
+        </div>
+      </div>
+
+      {(!siteUnitsList.length && (filterBuilder === '0' || filterSite === '0')) ? (
+        <div className="row">
+          <div className="border border-light"
+            style={{
+              backgroundColor: '#fff2cc',
+              padding: '10px',
+              borderRadius: '5px',
+              marginLeft: '10px',
+              textAlign: "center"
+            }}>Please select a Builder and Site to view Site Units</div>
+        </div>
+      ) : (
+        <ListContainer
+          onRowClick={onRowClick}
+          heading={"Site Unit List"}
+          dataList={siteUnitsList}
+          hideColumn={['id']}
+          addNew={handleState}
+          showButton={false}
+        />
+      )}
+
       <ModalDialog
         show={isNew}
         calltoClose={handleState}

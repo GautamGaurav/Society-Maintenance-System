@@ -3,13 +3,27 @@ import SiteQuery from "../database/site.js";
 
 export const getSites = (request, response) => {
   try {
-    db.query(SiteQuery.GET_ALL_SITES, (err, result) => {
-      if (err) {
-        console.log("err ===> ", err);
-      } else {
-        response.send(result[0]);
-      }
-    });
+    const builderId = request.query?.builderId;
+
+    if (builderId) {
+      db.query(SiteQuery.SELECT_BY_BUILDER, [builderId], (err, result) => {
+        if (err) {
+          console.log("err ===> ", err);
+          response.status(500).json({ message: "Error fetching sites" });
+        } else {
+          response.send(result);
+        }
+      });
+    } else {
+      db.query(SiteQuery.GET_ALL_SITES, (err, result) => {
+        if (err) {
+          console.log("err ===> ", err);
+          response.status(500).json({ message: "Error fetching sites" });
+        } else {
+          response.send(result[0]);
+        }
+      });
+    }
 
     db.on("end", () => {
       console.log("Data received!");
@@ -17,21 +31,34 @@ export const getSites = (request, response) => {
   } catch (error) {
     response.status(500).json({ message: error.message });
   }
-};
+}; 
 
 export const addSite = (request, response) => {
   const siteData = request.body;
   try {
-    db.query(SiteQuery.insert, siteData, (err, result) => {
-      if (err) {
-        console.log("err ===> ", err);
-        response.status(500).send({
-          message: "Error Processing Data!",
-        });
-      } else {
-        response.send(result);
-      }
-    });
+    // If id is present, perform update
+    if (siteData?.id) {
+      const id = siteData.id;
+      const payload = { ...siteData };
+      delete payload.id;
+      db.query(SiteQuery.UPDATE, [payload, id], (err, result) => {
+        if (err) {
+          console.log("err ===> ", err);
+          response.status(500).send({ message: "Error Updating Site" });
+        } else {
+          response.send({ message: "Site updated successfully" });
+        }
+      });
+    } else {
+      db.query(SiteQuery.INSERT, siteData, (err, result) => {
+        if (err) {
+          console.log("err ===> ", err);
+          response.status(500).send({ message: "Error Adding Site" });
+        } else {
+          response.send({ message: "Site added successfully", insertId: result.insertId });
+        }
+      });
+    }
   } catch (error) {
     response.status(500).json({ message: error.message });
   }

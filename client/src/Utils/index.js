@@ -21,6 +21,26 @@ const getAllSites = async () => {
     }
 };
 
+const getSitesByBuilderId = async (builderId) => {
+    try {
+        const response = await axios.get(api.site.GET, { params: { builderId } });
+        return response.data;
+    } catch (error) {
+        console.log("error ===> ", error);
+        return [];
+    }
+};
+
+const getSiteUnitsBySiteId = async (siteId) => {
+    try {
+        const response = await axios.get(api.siteUnit.GET_ALL_BY_SITE_ID + `${siteId}`);
+        return response.data;
+    } catch (error) {
+        console.log("error ===> ", error);
+        return [];
+    }
+};
+
 const getAllSiteUnits = async () => {
     try {
         const response = await axios.get(api.siteUnit.GET);
@@ -97,8 +117,10 @@ const getBudgetBySocietyId = async (societyId) => {
 export {
     getAllOwners,
     getAllSites,
+    getSitesByBuilderId,
     getAllBuilders,
     getAllSiteUnits,
+    getSiteUnitsBySiteId,
     getAllSocieties,
     getAllSocietyById,
     getAllBudget,
