@@ -11,8 +11,7 @@ import { api } from "../../constants/api";
 
 
 function SiteUnits() {
-  const [isNew, setIsNew] = useState(false);
-  const [isUpdate, setIsUpdate] = useState(false);
+  const [modal, setModal] = useState({ open: false, mode: 'add', item: null });
   const [siteUnitsList, setSiteUnitsList] = useState([]);
   const [siteList, setSiteList] = useState([]);
   const [builderList, setBuilderList] = useState([]);
@@ -40,10 +39,11 @@ function SiteUnits() {
         setSiteList(sites);
 
         // Load all site units and filter those that belong to the fetched sites
-        const siteIds = sites.map(s => s.id || s.siteId || s['site id'] || s.site_id);
+        const siteIds = sites.map(s => s.site);
+
         getAllSiteUnits().then((allUnits) => {
           const filteredUnits = allUnits.filter(unit => {
-            const unitSite = unit.site || unit['site id'] || unit.site_id || unit.siteId;
+            const unitSite = unit.site;
             return siteIds.includes(unitSite);
           });
           setSiteUnitsList(filteredUnits);
@@ -64,10 +64,6 @@ function SiteUnits() {
   }, [filterBuilder]);
 
 
-  const handleState = (value) => {
-    setIsNew(value);
-  };
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -86,7 +82,7 @@ function SiteUnits() {
         if (filterSite && filterSite !== '0') {
           getSiteUnitsBySiteId(filterSite).then((units) => { setSiteUnitsList(units); });
         }
-        setIsNew(false);
+        closeModal();
         console.log("response =======>", response.data);
         NotificationManager.success("Site Added Successfully");
       })
@@ -109,10 +105,29 @@ function SiteUnits() {
       });
   };
 
+  const openAdd = () => {
+    setFormData({
+      site: '',
+      name: '',
+      type: '',
+      floor: '',
+      roomLayout: '',
+      areaSize: ''
+    });
+    setModal({ open: true, mode: 'add', item: null });
+  };
+
+  const openEdit = (item) => {
+    setFormData(item);
+    setModal({ open: true, mode: 'edit', item });
+  };
+
+  const closeModal = () => {
+    setModal({ open: false, mode: 'add', item: null });
+  };
+
   const onRowClick = (e) => {
-    console.log("Event ==============> ", e.data)
-    setIsNew(true);
-    setFormData(e.data);
+    openEdit(e.data);
   }
 
   const handleBuilderFilter = (e) => {
@@ -179,7 +194,7 @@ function SiteUnits() {
           <Button
             variant="success"
             text="Add New Site Unit"
-            onClick={() => handleState(true)}
+            onClick={openAdd}
           />
         </div>
       </div>
@@ -201,17 +216,17 @@ function SiteUnits() {
           heading={"Site Unit List"}
           dataList={siteUnitsList}
           hideColumn={['id']}
-          addNew={handleState}
+          addNew={openAdd}
           showButton={false}
         />
       )}
 
       <ModalDialog
-        show={isNew}
-        calltoClose={handleState}
-        headerText={"Add New Site Unit"}
+        show={modal.open}
+        calltoClose={closeModal}
+        headerText={modal.mode === 'edit' ? "Edit Site Unit" : "Add New Site Unit"}
         title={"Site Details"}
-        onSaveButtonClick={isUpdate ? updateSiteUnit : addSiteUnit}
+        onSaveButtonClick={modal.mode === 'edit' ? updateSiteUnit : addSiteUnit}
       >
         <div className="row">
           <div className="col-6">

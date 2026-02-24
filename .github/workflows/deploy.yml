@@ -1,0 +1,75 @@
+name: Build & Deploy Fullstack App
+
+# Run this workflow on push to main branch
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  setup-and-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Dependencies (Root)
+        run: npm install
+
+      - name: Install Backend Dependencies
+        run: |
+          cd server
+          npm install
+
+      - name: Install Frontend Dependencies
+        run: |
+          cd client
+          npm install
+
+      - name: Build Frontend
+        run: |
+          cd client
+          npm run build
+
+      - name: Prepare Server for Production
+        run: |
+          cd server
+          # copy frontend build to backend (optional)
+          cp -R ../client/build ./public
+
+      - name: Run Server Tests (optional)
+        run: |
+          cd server
+          npm test
+
+      - name: Package Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-artifact
+          path: |
+            server/
+            client/build/
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: setup-and-build
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: app-artifact
+
+      - name: Deploy to Server
+        run: |
+          # Example: SSH and deploy to your own VPS
+          # Replace with your deploy commands
+          echo "Deploying build to production"
+          # scp -r server/ user@yourhost:/path/to/app
+          # ssh user@yourhost "cd /path/to/app && npm ci && pm2 restart app"

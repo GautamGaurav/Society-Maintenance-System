@@ -5,6 +5,7 @@ const SiteQuery = {
   UPDATE: `UPDATE site SET ? WHERE id = ?`,
   DELETE: "",
   GET_ALL_SITES: `CALL GET_ALL_SITES()`,
+  GET_ALL_SITES_BY_BUILDER: `CALL GET_ALL_SITES_BY_BUILDER(?)`,
 };
 
 export default SiteQuery; 

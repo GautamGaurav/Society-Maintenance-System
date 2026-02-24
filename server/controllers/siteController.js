@@ -7,7 +7,7 @@ export const getSites = (request, response) => {
     const builderId = request.query?.builderId;
 
     if (builderId) {
-      db.query(SiteQuery.SELECT_BY_BUILDER, [builderId], (err, result) => {
+      db.query(SiteQuery.GET_ALL_SITES_BY_BUILDER, [builderId], (err, result) => {
         if (err) {
           console.log("err ===> ", err);
           response.status(500).json({ message: "Error fetching sites" });
@@ -36,7 +36,7 @@ export const getSites = (request, response) => {
   } catch (error) {
     response.status(500).json({ message: error.message });
   }
-}; 
+};
 
 export const addSite = (request, response) => {
   const siteData = request.body;

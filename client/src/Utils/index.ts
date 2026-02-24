@@ -6,8 +6,10 @@ import { mapBuilder, mapSite, mapSiteUnit, mapOwner, mapSociety, mapUser } from 
 const getAllBuilders = async (): Promise<Builder[]> => {
   try {
     const response = await axios.get(api.builder.GET);
-    const rows = response?.data || [];
-    return (rows as any).map((r: any) => mapBuilder(r));
+    const rows = Array.isArray(response.data)
+      ? response.data
+      : response.data?.rows || [];
+    return rows.map((r: any) => mapBuilder(r));
   } catch (error) {
     console.log("error ===> ", error);
     return [];
@@ -17,8 +19,10 @@ const getAllBuilders = async (): Promise<Builder[]> => {
 const getAllSites = async (): Promise<Site[]> => {
   try {
     const response = await axios.get(api.site.GET);
-    const rows = response?.data || [];
-    return (rows as any).map((r: any) => mapSite(r));
+    const rows = Array.isArray(response.data)
+      ? response.data
+      : response.data?.rows || [];
+    return rows.map((r: any) => mapSite(r));
   } catch (error) {
     console.log("error ===> ", error);
     return [];
@@ -28,8 +32,10 @@ const getAllSites = async (): Promise<Site[]> => {
 const getSitesByBuilderId = async (builderId: number): Promise<Site[]> => {
   try {
     const response = await axios.get(api.site.GET, { params: { builderId } });
-    const rows = response?.data || [];
-    return (rows as any).map((r: any) => mapSite(r));
+    const rows = Array.isArray(response.data)
+      ? response.data
+      : response.data?.rows || [];
+    return rows.map((r: any) => mapSite(r));
   } catch (error) {
     console.log("error ===> ", error);
     return [];
@@ -39,8 +45,10 @@ const getSitesByBuilderId = async (builderId: number): Promise<Site[]> => {
 const getSiteUnitsBySiteId = async (siteId: number): Promise<SiteUnit[]> => {
   try {
     const response = await axios.get(api.siteUnit.GET_ALL_BY_SITE_ID + `${siteId}`);
-    const rows = response?.data || [];
-    return (rows as any).map((r: any) => mapSiteUnit(r));
+    const rows = Array.isArray(response.data)
+      ? response.data
+      : response.data?.rows || [];
+    return rows.map((r: any) => mapSiteUnit(r));
   } catch (error) {
     console.log("error ===> ", error);
     return [];
@@ -50,8 +58,10 @@ const getSiteUnitsBySiteId = async (siteId: number): Promise<SiteUnit[]> => {
 const getAllSiteUnits = async (): Promise<SiteUnit[]> => {
   try {
     const response = await axios.get(api.siteUnit.GET);
-    const rows = response?.data || [];
-    return (rows as any).map((r: any) => mapSiteUnit(r));
+    const rows = Array.isArray(response.data)
+      ? response.data
+      : response.data?.rows || [];
+    return rows.map((r: any) => mapSiteUnit(r));
   } catch (error) {
     console.log("error ===> ", error);
     return [];
@@ -61,8 +71,10 @@ const getAllSiteUnits = async (): Promise<SiteUnit[]> => {
 const getAllOwners = async (): Promise<Owner[]> => {
   try {
     const response = await axios.get(api.owner.GET);
-    const rows = response?.data || [];
-    return (rows as any).map((r: any) => mapOwner(r));
+    const rows = Array.isArray(response.data)
+      ? response.data
+      : response.data?.rows || [];
+    return rows.map((r: any) => mapOwner(r));
   } catch (error) {
     console.log("error ===> ", error);
     return [];
@@ -72,8 +84,10 @@ const getAllOwners = async (): Promise<Owner[]> => {
 const getAllSocieties = async (): Promise<Society[]> => {
   try {
     const response = await axios.get(api.society.GET);
-    const rows = response?.data || [];
-    return (rows as any).map((r: any) => mapSociety(r));
+    const rows = Array.isArray(response.data)
+      ? response.data
+      : response.data?.rows || [];
+    return rows.map((r: any) => mapSociety(r));
   } catch (error) {
     console.log("error ===> ", error);
     return [];
