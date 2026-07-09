@@ -34,30 +34,43 @@ function Sites() {
       // builder may come in various shapes: object, id, or name
       let builderRaw = row.builder ?? row['builder id'] ?? row.builderId ?? row.builder_id ?? row.builderName ?? row.builder_name ?? '';
 
-      let builderId = '';
+      let builderId = null; // Store as number or null
       let builderName = '';
 
       if (builderRaw && typeof builderRaw === 'object') {
-        builderId = String(builderRaw.id ?? builderRaw.value ?? '') || '';
+        const idVal = builderRaw.id ?? builderRaw.value;
+        builderId = idVal ? Number(idVal) : null;
         builderName = builderRaw.name ?? builderRaw.text ?? builderRaw.value ?? '';
       } else if (builderRaw !== null && builderRaw !== undefined && String(builderRaw).trim() !== '') {
         const rawStr = String(builderRaw).trim();
         if (/^\d+$/.test(rawStr)) {
           // numeric -> treat as id
-          builderId = rawStr;
-          const b = builderList.find(bi => String(bi.id ?? bi.value) === builderId);
+          builderId = Number(rawStr);
+          const b = builderList.find(bi => {
+            const biId = bi.id ?? bi.value;
+            return Number(biId) === builderId;
+          });
           if (b) builderName = b.name ?? b.text ?? b.value ?? '';
         } else {
           // non-numeric -> treat as name
           builderName = rawStr;
-          const b = builderList.find(bi => (String(bi.name ?? bi.text ?? bi.value)).toLowerCase() === builderName.toLowerCase());
-          if (b) builderId = String(b.id ?? b.value);
+          const b = builderList.find(bi => {
+            const biName = String(bi.name ?? bi.text ?? bi.value ?? '');
+            return biName.toLowerCase() === builderName.toLowerCase();
+          });
+          if (b) {
+            const biId = b.id ?? b.value;
+            builderId = Number(biId);
+          }
         }
       }
 
       // if we have id but not name, resolve name from builderList
       if (!builderName && builderId) {
-        const b = builderList.find(bi => String(bi.id ?? bi.value) === builderId);
+        const b = builderList.find(bi => {
+          const biId = bi.id ?? bi.value;
+          return Number(biId) === builderId;
+        });
         if (b) builderName = b.name ?? b.text ?? b.value ?? '';
       }
 
@@ -76,7 +89,7 @@ function Sites() {
       result.id = id;
       result.name = name;
       result.builder = builderName || (builderId ? String(builderId) : ''); // builder shows name if available
-      result.builderId = builderId;
+      result.builderId = builderId; // Store as number for consistent filtering
       result.address = address;
       result.city = city;
       result.state = state;
@@ -141,46 +154,31 @@ function Sites() {
   const handleBuilderFilter = (e) => {
     const value = e.target.value;
     setFilterBuilder(value);
-    // normalize current allSites to ensure builderId and builder fields exist
-    const normalizedAll = normalizeSites(allSites);
-    // console for debugging
-    console.debug('Builder filter selected:', value);
-    console.debug('Sample normalized sites:', normalizedAll.slice(0,5));
 
     if (value && value !== '0') {
-      const builderValue = String(value);
-      // Resolve builder name if available
-      const builderObj = builderList.find(b => String(b.id ?? b.value) === builderValue);
-      const builderName = builderObj ? (builderObj.name ?? builderObj.text ?? builderObj.value ?? '') : '';
+      const builderId = String(value);
+      console.debug('Filtering by builder ID:', builderId);
 
-      // Try local filtering first with multiple possible field matches
-      const localFiltered = normalizedAll.filter(s => {
-        const sBuilderId = s.builderId ? String(s.builderId) : '';
-        const sBuilder = s.builder ? String(s.builder) : '';
-        // s.builder could be a name or id; also check nested object
-        const nestedBuilder = s.builder && typeof s.builder === 'object' ? String(s.builder.id ?? s.builder.value ?? s.builder.name ?? '') : '';
-        return sBuilderId === builderValue || sBuilder === builderValue || sBuilder === builderName || nestedBuilder === builderValue || nestedBuilder === builderName;
-      });
-
-      if (localFiltered && localFiltered.length) {
-        setSiteList(localFiltered);
-        return;
-      }
-
-      // Fallback to server call if local filtering yields nothing
-      getSitesByBuilderId(value).then((sites) => {
-        let normalized = normalizeSites(sites || []);
-        if (!normalized.length) {
-          // final fallback to local filter
-          normalized = localFiltered;
-        }
+      // Use server API for filtering to ensure accurate results
+      getSitesByBuilderId(builderId).then((sites) => {
+        const normalized = normalizeSites(sites || []);
+        console.debug('Filtered sites count:', normalized.length);
         setSiteList(normalized);
       }).catch((err) => {
-        console.log('error fetching sites by builder', err);
-        setSiteList([]);
+        console.error('Error fetching sites by builder', err);
+        // Fallback to local filtering if API fails
+        const normalizedAll = normalizeSites(allSites);
+        const localFiltered = normalizedAll.filter(s => {
+          // Compare by numeric builderId to avoid type mismatches
+          const sBuilderId = s.builderId ? Number(s.builderId) : null;
+          const selectedId = Number(builderId);
+          return sBuilderId === selectedId;
+        });
+        setSiteList(localFiltered.length ? localFiltered : []);
       });
     } else {
-      setSiteList(normalizedAll);
+      // Show all sites
+      setSiteList(allSites);
     }
   };
 
@@ -221,7 +219,9 @@ function Sites() {
 
   const clearBuilderFilter = () => {
     setFilterBuilder('0');
-    setSiteList(allSites);
+    // Re-normalize allSites to ensure builder names are resolved
+    const normalizedAll = normalizeSites(allSites);
+    setSiteList(normalizedAll);
   };
 
 

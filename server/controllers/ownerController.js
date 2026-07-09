@@ -1,57 +1,40 @@
-import db from '../database/config.js'
 import OwnerQuery from "../database/owner.js";
 import { mapOwner } from "../utils/mapper.js";
+import { executeQuery, executeQueryWithResults } from "../utils/dbUtils.js";
 
-export const getOwners = (request, response) => {
+export const getOwners = async (request, response) => {
   try {
-    db.query(OwnerQuery.GET_ALL, (err, result) => {
-      if (err) {
-        console.log("err ===> ", err);
-        return response.status(400).send({
-          message: err.message,
-        });
-      } else {
-        const rows = Array.isArray(result) ? (result[0] || result) : result;
-        const mapped = (rows || []).map((r) => mapOwner(r));
-        response.json(mapped);
-      }
-    });
+    const result = await executeQueryWithResults(OwnerQuery.GET_ALL);
+    const rows = Array.isArray(result) ? (result[0] || result) : result;
+    const mapped = (rows || []).map((r) => mapOwner(r));
+    response.json(mapped);
   } catch (error) {
+    console.log("err ===> ", error);
+    response.status(400).send({
+      message: error.message,
+    });
+  }
+};
+
+export const addOwner = async (request, response) => {
+  try {
+    await executeQuery(OwnerQuery.INSERT, Object.values(request.body));
+    response.json({ message: "Owner added successfully" });
+  } catch (error) {
+    console.log("err ===> ", error);
     response.status(500).json({ message: error.message });
   }
 };
 
-export const addOwner = (request, response) => {
+export const getOwnerByEmail = async (request, response) => {
   try {
-    db.query(OwnerQuery.INSERT, Object.values(request.body), (err, result) => {
-      if (err) {
-        console.log("err ===> ", err);
-        return response.status(400).send({
-          message: err.message
-        });
-      } else {
-        response.send(result);
-      }
-    });
+    const result = await executeQueryWithResults(OwnerQuery.selectOwnerByEmail, request.body);
+    const rows = Array.isArray(result) ? (result[0] || result) : result;
+    const mapped = (rows || []).map((r) => mapOwner(r));
+    response.json(mapped);
   } catch (error) {
-    response.status(500).json({ message: error.message });
-  }
-};
-
-export const getOwnerByEmail = (request, response) => {
-  try {
-    db.query(OwnerQuery.selectOwnerByEmail, request.body, (err, result) => {
-      if (err) {
-        return response.status(400).send({
-          message: err.message
-        });
-      } else {
-        const rows = Array.isArray(result) ? (result[0] || result) : result;
-        const mapped = (rows || []).map((r) => mapOwner(r));
-        response.json(mapped);
-      }
+    response.status(400).send({
+      message: error.message
     });
-  } catch (error) {
-    response.status(500).json({ message: error.message });
   }
 };
